@@ -9,7 +9,7 @@ MCP Blacksmith transforms API specifications into fully functional [MCP (Model C
 
 **You own every line of generated code.** Download it, modify it, deploy it, sell it. No attribution, no royalties, no lock-in.
 
-<Card title="Quickstart" icon="rocket" href="/quickstart" horizontal>
+<Card title="Quickstart" icon="bolt" href="/quickstart" horizontal>
   Generate your first MCP server in under 2 minutes.
 </Card>
 
@@ -20,7 +20,7 @@ The **Model Context Protocol** is an open standard that lets AI agents interact 
 One AI client connects to multiple MCP servers — each wrapping a different API:
 
 ```
-AI Agent (Claude, GPT, etc.)
+AI Agent
   ├── MCP Server: Gmail API
   ├── MCP Server: Stripe API
   ├── MCP Server: GitHub API
@@ -34,21 +34,21 @@ Each MCP server exposes API operations as **tools** that the AI agent can call. 
 - **Developers** who need MCP servers for their APIs without weeks of manual coding
 - **Teams** integrating multiple APIs into AI agent workflows
 - **Companies** wanting to expose their APIs to AI agents securely
-- **Anyone** building with Claude, GPT, Cursor, or other MCP-compatible AI tools
+- **Anyone** building with MCP-compatible AI tools and IDEs
 
 ## What you get
 
 <Columns cols={2}>
-  <Card title="Production-ready code" icon="code">
+  <Card title="Production-ready code" icon="file-code">
     Full Python server with FastMCP framework, Pydantic validation, and typed models.
   </Card>
-  <Card title="Auto-configured auth" icon="lock">
+  <Card title="Auto-configured auth" icon="key">
     OAuth2, API Key, JWT, Bearer, Basic, OIDC, and mTLS — detected from your spec.
   </Card>
-  <Card title="Built-in resilience" icon="shield">
+  <Card title="Built-in resilience" icon="shield-check">
     Circuit breakers, exponential backoff, rate limiting, and multi-layer timeouts.
   </Card>
-  <Card title="Deploy anywhere" icon="cloud">
+  <Card title="Deploy anywhere" icon="server">
     Download the server with all dependencies. Run locally, in Docker, or on any cloud.
   </Card>
 </Columns>
@@ -56,16 +56,16 @@ Each MCP server exposes API operations as **tools** that the AI agent can call. 
 ## Next steps
 
 <Columns cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/quickstart">
+  <Card title="Quickstart" icon="bolt" href="/quickstart">
     Generate your first server in 2 minutes.
   </Card>
-  <Card title="How it works" icon="gears" href="/how-it-works">
+  <Card title="How it works" icon="arrows-spin" href="/how-it-works">
     Understand the generation pipeline.
   </Card>
-  <Card title="Server structure" icon="folder-tree" href="/server/structure">
+  <Card title="Server structure" icon="folder-open" href="/server/structure">
     What's inside a generated server.
   </Card>
-  <Card title="Connect to Claude" icon="message-bot" href="/deployment/claude-desktop">
-    Use your server with Claude Desktop.
+  <Card title="Connect to agents" icon="plug" href="/deployment/connecting-agents">
+    Use your server with any MCP client.
   </Card>
 </Columns>

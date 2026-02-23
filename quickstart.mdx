@@ -66,7 +66,7 @@ INFO: MCP server 'Petstore API' started (transport: stdio)
 
 ## Step 5: Connect to an MCP client
 
-Add your server to your MCP client's configuration. For **Claude Desktop**, edit `claude_desktop_config.json`:
+Add your server to your MCP client's configuration. Most clients use a JSON config file:
 
 ```json
 {
@@ -79,25 +79,25 @@ Add your server to your MCP client's configuration. For **Claude Desktop**, edit
 }
 ```
 
-Restart Claude Desktop. Your API tools are now available to Claude.
+Restart your MCP client. Your API tools are now available to the AI agent.
 
 <Tip>
-  See the full connection guide for [Claude Desktop](/deployment/claude-desktop), [Claude Code](/deployment/claude-code), or [Cursor](/deployment/cursor).
+  See the full guide at [Connecting to AI Agents](/deployment/connecting-agents) for transport options, virtual environments, and troubleshooting.
 </Tip>
 
 ## What's next?
 
 <Columns cols={2}>
-  <Card title="Server structure" icon="folder-tree" href="/server/structure">
+  <Card title="Server structure" icon="folder-open" href="/server/structure">
     Understand what each generated file does.
   </Card>
-  <Card title="Authentication" icon="lock" href="/server/authentication">
+  <Card title="Authentication" icon="key" href="/server/authentication">
     Configure OAuth2, API keys, JWT, and more.
   </Card>
-  <Card title="Security features" icon="shield" href="/server/security">
+  <Card title="Security features" icon="shield-check" href="/server/security">
     Circuit breakers, rate limiting, and retries.
   </Card>
-  <Card title="AI-enhanced passes" icon="wand-magic-sparkles" href="/generation/ai-passes">
+  <Card title="AI-enhanced passes" icon="sparkles" href="/generation/ai-passes">
     Optimize your server with AI curation.
   </Card>
 </Columns>
