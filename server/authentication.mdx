@@ -1,0 +1,138 @@
+---
+title: "Authentication"
+description: "How generated MCP servers handle authentication — OAuth2, API keys, JWT, Bearer tokens, and more."
+---
+
+## Overview
+
+MCP Blacksmith auto-detects authentication requirements from your OpenAPI specification's `securitySchemes` and generates the appropriate handlers. You only need to provide credentials in the `.env` file.
+
+Each operation is mapped to its required authentication scheme. The server automatically injects the correct credentials into every request.
+
+## Supported authentication types
+
+### API Key
+
+Used when the API requires a key passed as a header, query parameter, or cookie.
+
+```bash .env
+API_KEY=your-api-key-here
+```
+
+The generated code reads the key location (header, query, or cookie) and parameter name from the spec. For example, if the spec defines an API key in the `X-API-Key` header, the server automatically sends:
+
+```
+X-API-Key: your-api-key-here
+```
+
+### Bearer Token
+
+Used for APIs that accept a static token in the `Authorization` header.
+
+```bash .env
+BEARER_TOKEN=your-bearer-token
+```
+
+Sends `Authorization: Bearer your-bearer-token` with each request.
+
+### HTTP Basic
+
+Used for username/password authentication.
+
+```bash .env
+BASIC_AUTH_USERNAME=your-username
+BASIC_AUTH_PASSWORD=your-password
+```
+
+Credentials are Base64-encoded and sent as `Authorization: Basic <encoded>`.
+
+### OAuth 2.0
+
+Used for APIs requiring OAuth2 flows (Authorization Code, Client Credentials, Password).
+
+```bash .env
+OAUTH2_CLIENT_ID=your-client-id
+OAUTH2_CLIENT_SECRET=your-client-secret
+OAUTH2_SCOPES=scope1,scope2
+```
+
+**How it works:**
+
+1. On first run, the server opens your browser for authorization
+2. You authorize the application on the API provider's consent page
+3. The server receives the authorization code via a local callback server
+4. Tokens are exchanged and saved to `oauth2_tokens.json`
+5. On subsequent runs, saved tokens are reused
+6. Expired tokens are automatically refreshed
+
+<Tip>
+  Delete `oauth2_tokens.json` to force re-authorization if your tokens become invalid.
+</Tip>
+
+The callback server runs on port `8090` by default. This is configurable in the generated `_auth.py` file.
+
+### OpenID Connect (OIDC)
+
+Extends OAuth2 with ID token validation and automatic discovery.
+
+```bash .env
+OIDC_CLIENT_ID=your-client-id
+OIDC_CLIENT_SECRET=your-client-secret
+OIDC_SCOPES=openid,profile,email
+```
+
+Works the same as OAuth2 with additional:
+- Automatic discovery from the OIDC Discovery endpoint
+- ID token validation
+- Tokens saved to `oidc_tokens.json`
+
+### JWT
+
+Used for APIs that require a signed JSON Web Token.
+
+```bash .env
+JWT_TOKEN=your-pre-signed-jwt
+```
+
+Sends the token as `Authorization: Bearer <jwt>`.
+
+### Mutual TLS (mTLS)
+
+Used for APIs requiring client certificate authentication.
+
+```bash .env
+MTLS_CERT_PATH=/path/to/client-cert.pem
+MTLS_KEY_PATH=/path/to/client-key.pem
+MTLS_CA_CERT_PATH=/path/to/ca-cert.pem
+```
+
+The HTTP client is configured with the client certificate for mutual authentication. If paths are not set, mTLS is disabled and a warning is logged.
+
+## Per-operation authentication
+
+Not every operation uses the same auth. The generated server maps each operation to its required schemes:
+
+```python
+# Generated in _auth.py
+OPERATION_AUTH_MAP = {
+    "list_users": [["oauth2"], ["api_key"]],   # Use oauth2 OR api_key
+    "create_user": [["oauth2"]],                # OAuth2 only
+    "get_public_info": [],                      # No auth required
+}
+```
+
+- **Outer list** = OR — any one of these options works
+- **Inner list** = AND — all schemes in this group are required together
+
+The server automatically selects the first available auth option based on which credentials you've configured.
+
+## Security best practices
+
+<Warning>
+  Never commit your `.env` file to version control. Add it to `.gitignore`.
+</Warning>
+
+- Store credentials in the `.env` file, not in code
+- Use the minimum required scopes for OAuth2/OIDC
+- Rotate API keys and tokens regularly
+- For production deployments, consider using a secrets manager and injecting credentials as environment variables

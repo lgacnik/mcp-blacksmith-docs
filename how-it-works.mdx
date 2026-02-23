@@ -1,0 +1,79 @@
+---
+title: "How It Works"
+description: "Understand the MCP Blacksmith generation pipeline — from OpenAPI spec to running server."
+---
+
+## The generation pipeline
+
+MCP Blacksmith converts an OpenAPI specification into a fully functional MCP server through a multi-stage pipeline:
+
+```
+OpenAPI Spec → Parse & Validate → Extract Operations → Generate Code → Package Server
+```
+
+### 1. Parse and validate
+
+Your OpenAPI specification is parsed and validated for structural correctness. Blacksmith supports:
+
+- **OpenAPI 2.0** (Swagger) — auto-converted to 3.x internally
+- **OpenAPI 3.0.x**
+- **OpenAPI 3.1.x**
+- **OpenAPI 3.2.x**
+- **JSON and YAML** formats
+
+If validation issues are found, they're reported with specific locations and suggested fixes. You can optionally run a [dedicated validation pass](/generation/validation) for deeper analysis.
+
+### 2. Extract operations
+
+Every API operation (e.g., `GET /users`, `POST /orders`) is extracted with its:
+
+- **Parameters** — path, query, header, and cookie parameters with types
+- **Request body** — schema, content type, required fields
+- **Response schemas** — success and error response structures
+- **Authentication requirements** — which security schemes apply to each operation
+- **Metadata** — descriptions, tags, deprecation status
+
+### 3. Generate code
+
+The generator produces a complete Python project:
+
+| File | Purpose |
+|------|---------|
+| `server.py` | MCP server with tool definitions for every operation |
+| `_models.py` | Pydantic models for request/response validation |
+| `_validators.py` | Format validators (dates, emails, UUIDs, etc.) |
+| `_auth.py` | Authentication handlers for each security scheme |
+| `.env` | Environment variables for credentials and configuration |
+| `requirements.txt` | Python dependencies |
+| `Dockerfile` | Production Docker build |
+| `.mcp.json` | MCP client configuration template |
+| `README.md` | Setup and usage instructions |
+| `metadata.json` | Generation metadata and auth mapping |
+
+Each API operation becomes an MCP **tool** — an async function that handles parameter validation, authentication injection, HTTP request execution, and response processing.
+
+### 4. Package and download
+
+The complete server is packaged as a ZIP file. Extract it, install dependencies, configure credentials, and run — no additional code generation or compilation needed.
+
+## Optional: AI-enhanced passes
+
+The base generation is free and produces a fully functional server. For production use, you can optionally run [AI-enhanced passes](/generation/ai-passes) that:
+
+- **Curate parameters** — Remove server-generated fields (timestamps, IDs) that AI agents shouldn't set
+- **Optimize schemas** — Make parameter descriptions LLM-friendly and token-efficient
+- **Filter redundant operations** — Identify and flag duplicate or deprecated endpoints
+
+These passes consume credits and are entirely optional.
+
+## What the generated server does at runtime
+
+When an MCP client (like Claude) calls a tool:
+
+1. **Validate** — Parameters are validated against Pydantic models
+2. **Authenticate** — Correct credentials are injected based on the operation's auth requirements
+3. **Execute** — HTTP request is sent to the target API with retry logic and circuit breaking
+4. **Validate response** — Response is optionally validated against the API's response schema
+5. **Return** — Structured data is returned to the MCP client
+
+All of this happens transparently. The AI agent sees simple tools with typed parameters and gets clean responses.

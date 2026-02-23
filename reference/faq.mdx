@@ -1,0 +1,64 @@
+---
+title: "FAQ"
+description: "Frequently asked questions about MCP Blacksmith."
+---
+
+## Product
+
+<AccordionGroup>
+  <Accordion title="What API specifications are supported?">
+    MCP Blacksmith supports OpenAPI 2.0 (Swagger), 3.0, 3.1, and 3.2 specifications in JSON or YAML format. Most modern APIs provide OpenAPI specs.
+  </Accordion>
+
+  <Accordion title="Can I use the generated code commercially?">
+    Yes. You own all generated code outright. Use it for personal projects, commercial products, client work — no attribution required, no royalties, no restrictions.
+  </Accordion>
+
+  <Accordion title="Where can I host the generated servers?">
+    Anywhere you can run Python 3.11+. Self-host on your infrastructure, deploy to any cloud, run in Docker, or use [MCP Armory](https://mcparmory.com) for managed hosting.
+  </Accordion>
+
+  <Accordion title="What programming language is generated?">
+    Python, using the [FastMCP](https://github.com/jlowin/fastmcp) framework and [Pydantic](https://docs.pydantic.dev) for validation. TypeScript generation is on the roadmap.
+  </Accordion>
+
+  <Accordion title="Which MCP clients are supported?">
+    Any MCP-compatible client, including Claude Desktop, Claude Code, Cursor, and other tools that implement the Model Context Protocol. Generated servers support stdio, SSE, and streamable-http transports.
+  </Accordion>
+</AccordionGroup>
+
+## Pricing
+
+<AccordionGroup>
+  <Accordion title="Is server generation free?">
+    Yes. Base server generation is free with no limits. Generate as many servers as you want. You only pay for optional AI-enhanced passes (parameter curation, description optimization).
+  </Accordion>
+
+  <Accordion title="How do credits work?">
+    Credits are consumed only when using AI-enhanced features. Credit usage depends on the number of operations and parameters being optimized. See [Pricing](https://mcpblacksmith.com/pricing) for details.
+  </Accordion>
+
+  <Accordion title="What happens if I run out of credits?">
+    Free generation always works. Only AI-enhanced passes are blocked when you have insufficient credits. Your existing generated servers remain fully accessible.
+  </Accordion>
+</AccordionGroup>
+
+## Technical
+
+<AccordionGroup>
+  <Accordion title="What authentication types are supported?">
+    API Key, Bearer Token, HTTP Basic, OAuth 2.0 (all flows), OpenID Connect, JWT, and Mutual TLS. Authentication is auto-configured from your OpenAPI spec's security schemes.
+  </Accordion>
+
+  <Accordion title="What security features are included?">
+    Every generated server includes circuit breakers, exponential backoff with retries, rate limiting, multi-layer timeouts, request validation, and optional response validation and sanitization.
+  </Accordion>
+
+  <Accordion title="Can I modify the generated code?">
+    Yes. It's standard Python — edit anything you want. See [Customizing Your Server](/server/customizing).
+  </Accordion>
+
+  <Accordion title="What Python version is required?">
+    Python 3.11 or higher.
+  </Accordion>
+</AccordionGroup>

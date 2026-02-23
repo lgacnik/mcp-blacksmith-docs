@@ -1,0 +1,114 @@
+---
+title: "Security Features"
+description: "Circuit breakers, rate limiting, retries, timeouts, and validation — built into every generated server."
+---
+
+## Overview
+
+Every generated MCP server includes multiple layers of resilience and security, protecting both the AI agent and the target API. All features are configurable via the `.env` file.
+
+## Retry with exponential backoff
+
+Failed requests are automatically retried with increasing delays:
+
+| Attempt | Delay |
+|---------|-------|
+| 1st | Immediate |
+| 2nd | ~2 seconds |
+| 3rd | ~4 seconds |
+
+Retries are triggered on transient errors: HTTP 429 (rate limited), 500, 502, 503, and 504.
+
+```bash .env
+MAX_RETRIES=3
+RETRY_BACKOFF_FACTOR=2.0
+```
+
+Set `MAX_RETRIES=0` to disable retries.
+
+## Circuit breaker
+
+Prevents cascading failures when the target API is down. Instead of repeatedly hitting a failing endpoint, the circuit breaker temporarily blocks requests and returns an error immediately.
+
+**States:**
+- **Closed** (normal) — Requests pass through. Failures are counted.
+- **Open** (blocking) — Requests are blocked immediately. Entered after consecutive failures exceed the threshold.
+- **Half-open** (testing) — After a timeout, a limited number of requests are allowed through to test recovery.
+
+```bash .env
+CIRCUIT_BREAKER_FAILURE_THRESHOLD=5
+CIRCUIT_BREAKER_TIMEOUT_SECONDS=60
+```
+
+## Rate limiting
+
+Prevents your server from overwhelming the target API.
+
+Uses a **token bucket** algorithm — requests consume tokens, tokens regenerate at a configured rate. When the bucket is empty, requests are delayed.
+
+```bash .env
+RATE_LIMIT_REQUESTS_PER_SECOND=10
+```
+
+## Timeouts
+
+Multi-layer timeout configuration prevents hanging requests:
+
+```bash .env
+# Individual HTTP phases
+HTTPX_CONNECT_TIMEOUT=10.0       # Connection establishment
+HTTPX_READ_TIMEOUT=60.0          # Waiting for response
+HTTPX_WRITE_TIMEOUT=30.0         # Sending request body
+HTTPX_POOL_TIMEOUT=5.0           # Acquiring connection from pool
+
+# Overall tool execution
+TOOL_EXECUTION_TIMEOUT=90.0      # Total time for one tool call
+```
+
+## Connection pool
+
+HTTP connections are reused for efficiency:
+
+```bash .env
+CONNECTION_POOL_SIZE=100
+MAX_KEEPALIVE_CONNECTIONS=20
+```
+
+Cookies are disabled across requests for safety in multi-tenant scenarios.
+
+## Input validation
+
+All request parameters are validated using Pydantic models before any HTTP request is made:
+
+- **Type checking** — Correct types enforced (string, integer, boolean, etc.)
+- **Required fields** — Missing required parameters are rejected with clear error messages
+- **Format validation** — Dates, emails, UUIDs, IP addresses validated against 25+ formats
+- **Strict mode** — Unknown/extra fields are rejected
+
+## Response validation
+
+Optionally validate API responses against the OpenAPI response schema:
+
+```bash .env
+RESPONSE_VALIDATION_MODE=warn    # off, warn, or strict
+```
+
+| Mode | Behavior |
+|------|----------|
+| `off` | No response validation (fastest) |
+| `warn` | Validate and log warnings, but return data anyway (default) |
+| `strict` | Block invalid responses — returns error if response doesn't match schema |
+
+## Response sanitization
+
+Optionally redact sensitive fields from API responses before returning them to the AI agent:
+
+```bash .env
+SANITIZATION_LEVEL=DISABLED      # DISABLED, LOW, MEDIUM, or HIGH
+```
+
+| Level | Fields redacted |
+|-------|----------------|
+| LOW | `password`, `token`, `secret`, `private_key` |
+| MEDIUM | + `access_token`, `credentials`, `authorization` |
+| HIGH | + `session_id`, `cookie`, `api_key`, `ip_address` |

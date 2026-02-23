@@ -1,0 +1,153 @@
+---
+title: "Connect to Claude Desktop"
+description: "Step-by-step guide to connecting your generated MCP server to Claude Desktop."
+---
+
+## Prerequisites
+
+- [Claude Desktop](https://claude.ai/download) installed
+- A generated MCP server from Blacksmith, with dependencies installed and credentials configured
+
+## Step 1: Locate your config file
+
+Claude Desktop's MCP configuration file is at:
+
+<Tabs>
+  <Tab title="macOS">
+    ```
+    ~/Library/Application Support/Claude/claude_desktop_config.json
+    ```
+  </Tab>
+  <Tab title="Windows">
+    ```
+    %APPDATA%\Claude\claude_desktop_config.json
+    ```
+  </Tab>
+  <Tab title="Linux">
+    ```
+    ~/.config/Claude/claude_desktop_config.json
+    ```
+  </Tab>
+</Tabs>
+
+If the file doesn't exist, create it.
+
+## Step 2: Add your server
+
+Add your server to the `mcpServers` object. Use the **absolute path** to `server.py`:
+
+```json claude_desktop_config.json
+{
+  "mcpServers": {
+    "my-api": {
+      "command": "python",
+      "args": ["/absolute/path/to/my-api-server/server.py"]
+    }
+  }
+}
+```
+
+<Warning>
+  Use absolute paths, not relative. Claude Desktop does not resolve paths relative to the config file.
+</Warning>
+
+### Using a virtual environment
+
+If you installed dependencies in a virtual environment, point to the Python binary inside it:
+
+```json claude_desktop_config.json
+{
+  "mcpServers": {
+    "my-api": {
+      "command": "/absolute/path/to/my-api-server/.venv/bin/python",
+      "args": ["/absolute/path/to/my-api-server/server.py"]
+    }
+  }
+}
+```
+
+### Using Docker (SSE transport)
+
+If running your server in Docker with SSE transport:
+
+```bash
+docker run -d -p 8000:8000 --env-file .env my-api-mcp
+```
+
+```json claude_desktop_config.json
+{
+  "mcpServers": {
+    "my-api": {
+      "url": "http://localhost:8000/sse"
+    }
+  }
+}
+```
+
+## Step 3: Restart Claude Desktop
+
+Fully quit and reopen Claude Desktop. It reads the config file on startup.
+
+## Step 4: Verify
+
+In a new Claude conversation, you should see your API's tools available. Try asking Claude to use one:
+
+> "List all available pets using the Petstore API"
+
+Claude will call the appropriate MCP tool, and your server handles authentication, request formatting, and error handling transparently.
+
+## Multiple servers
+
+You can connect multiple MCP servers simultaneously:
+
+```json claude_desktop_config.json
+{
+  "mcpServers": {
+    "gmail": {
+      "command": "python",
+      "args": ["/path/to/gmail-server/server.py"]
+    },
+    "github": {
+      "command": "python",
+      "args": ["/path/to/github-server/server.py"]
+    },
+    "stripe": {
+      "command": "python",
+      "args": ["/path/to/stripe-server/server.py"]
+    }
+  }
+}
+```
+
+Each server runs as an independent process. Claude sees all tools from all servers and selects the right one based on context.
+
+## Troubleshooting
+
+### Server doesn't appear in Claude
+
+- Verify the path to `server.py` is absolute and correct
+- Ensure `python` resolves to Python 3.11+ (`python --version`)
+- Check that `requirements.txt` dependencies are installed
+- Restart Claude Desktop completely (quit, not just close the window)
+
+### Tools appear but fail
+
+- Check your `.env` file has the correct credentials
+- Run `python server.py` directly in your terminal to see error output
+- Verify the target API is reachable from your machine
+
+### OAuth2 authorization doesn't complete
+
+- Ensure port 8090 (default callback port) is not blocked
+- Try running `python server.py` in a terminal first to complete the OAuth flow, then connect to Claude Desktop
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Claude Code" icon="terminal" href="/deployment/claude-code">
+    Connect to Claude Code CLI.
+  </Card>
+  <Card title="Cursor" icon="text-size" href="/deployment/cursor">
+    Connect to Cursor IDE.
+  </Card>
+</Columns>

@@ -1,0 +1,63 @@
+---
+title: "Supported OpenAPI Features"
+description: "What OpenAPI features MCP Blacksmith supports, partially supports, or ignores."
+---
+
+## Specification versions
+
+| Version | Support |
+|---------|---------|
+| OpenAPI 2.0 (Swagger) | Auto-converted to 3.x |
+| OpenAPI 3.0.x | Full support |
+| OpenAPI 3.1.x | Full support |
+| OpenAPI 3.2.x | Full support |
+
+## Operations
+
+| Feature | Support |
+|---------|---------|
+| GET, POST, PUT, PATCH, DELETE | Full |
+| HEAD, OPTIONS, TRACE | Extracted but rarely useful as MCP tools |
+| Path parameters | Full |
+| Query parameters | Full |
+| Header parameters | Full |
+| Cookie parameters | Full |
+| Request body (JSON) | Full |
+| Request body (form-data) | Full |
+| Request body (multipart) | Partial — file uploads are type-mapped |
+| Multiple content types | First JSON type preferred |
+
+## Schemas
+
+| Feature | Support |
+|---------|---------|
+| `$ref` references | Full — including nested and circular |
+| `allOf` composition | Full |
+| `oneOf` / `anyOf` | Mapped to union types |
+| `enum` | Full — mapped to `Literal` types |
+| `nullable` | Full — mapped to `X \| None` |
+| Nested objects | Full — generates nested Pydantic models |
+| Arrays | Full — mapped to `list[T]` |
+| Dictionaries | Full — mapped to `dict[str, T]` |
+| `format` validators | 25+ formats (see [Security Features](/server/security)) |
+| `default` values | Full |
+| `readOnly` / `writeOnly` | Respected in request vs. response models |
+
+## Authentication
+
+| Scheme | Support |
+|--------|---------|
+| API Key (header, query, cookie) | Full |
+| HTTP Bearer | Full |
+| HTTP Basic | Full |
+| OAuth 2.0 (all flows) | Full |
+| OpenID Connect | Full |
+| Mutual TLS | Full |
+
+## Not supported
+
+| Feature | Reason |
+|---------|--------|
+| Callbacks / Webhooks | MCP servers are request-driven, not event-driven |
+| Links | Informational only, not actionable in MCP context |
+| XML request/response bodies | JSON only |

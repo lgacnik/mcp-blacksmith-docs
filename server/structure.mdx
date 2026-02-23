@@ -1,0 +1,180 @@
+---
+title: "Server Structure"
+description: "What's inside a generated MCP server — file layout, purpose of each file, and how they work together."
+---
+
+## File layout
+
+A generated MCP server contains the following files:
+
+```
+my-api-server/
+├── server.py           # Main MCP server — tool definitions and request handling
+├── _models.py          # Pydantic models for parameter and response validation
+├── _validators.py      # Format validators (dates, emails, UUIDs, etc.)
+├── _auth.py            # Authentication handlers (if API requires auth)
+├── .env                # Credentials and runtime configuration
+├── requirements.txt    # Python dependencies
+├── Dockerfile          # Production Docker build
+├── .mcp.json           # MCP client configuration template
+├── README.md           # Setup and usage guide
+├── metadata.json       # Generation metadata and auth mapping
+└── spec.json           # Copy of the original OpenAPI specification
+```
+
+<Note>
+  `_auth.py` is only generated if the OpenAPI spec defines security schemes. APIs without authentication skip this file entirely.
+</Note>
+
+## Core files
+
+### `server.py`
+
+The main entry point. Contains:
+
+- **Tool definitions** — One `@mcp.tool()` async function per API operation
+- **HTTP client setup** — Connection pooling, timeouts, mTLS support
+- **Resilience logic** — Retry with exponential backoff, circuit breaker, rate limiting
+- **Authentication injection** — Selects correct auth per operation
+- **Response handling** — JSON parsing, error formatting, optional validation
+- **Transport selection** — stdio, SSE, or streamable-http (selected at runtime)
+
+Each tool function follows this flow:
+
+```
+Validate parameters → Inject auth → Make HTTP request → Validate response → Return data
+```
+
+### `_models.py`
+
+Pydantic models for every operation's parameters and (optionally) responses. Models are generated from the OpenAPI schema definitions and enforce:
+
+- **Type safety** — Correct Python types for each parameter
+- **Required fields** — Missing required parameters are rejected
+- **Format validation** — Dates, emails, UUIDs, etc. are validated against their declared formats
+- **Strict mode** — Unknown fields in requests are rejected (prevents malformed calls)
+
+### `_validators.py`
+
+Shared validation infrastructure with 25+ format validators covering:
+
+| Category | Formats |
+|----------|---------|
+| Date/time | `date-time`, `date`, `time`, `duration` (RFC 3339, ISO 8601) |
+| Identifiers | `uuid`, `uri`, `iri`, `json-pointer` |
+| Network | `ipv4`, `ipv6`, `hostname`, `email` |
+| Numbers | `int32`, `int64`, `float`, `double`, `decimal` |
+| Other | `byte`, `binary`, `regex`, `password` |
+
+Also provides base model classes (`RequestModel`, `ResponseModel`) that all generated models inherit from.
+
+### `_auth.py`
+
+Authentication handler classes, one per security scheme found in your spec. See [Authentication](/server/authentication) for details on each type.
+
+Includes `OPERATION_AUTH_MAP` — a mapping from each operation ID to its required authentication schemes, supporting both OR (use any available) and AND (use all together) logic.
+
+## Configuration files
+
+### `.env`
+
+Runtime configuration split into sections:
+
+```bash .env
+# --- Authentication ---
+API_KEY=your-api-key
+# BEARER_TOKEN=your-token
+# OAUTH2_CLIENT_ID=your-client-id
+# OAUTH2_CLIENT_SECRET=your-client-secret
+
+# --- API Configuration ---
+BASE_URL=https://api.example.com
+
+# --- Timeouts (seconds) ---
+HTTPX_CONNECT_TIMEOUT=10.0
+HTTPX_READ_TIMEOUT=60.0
+HTTPX_WRITE_TIMEOUT=30.0
+HTTPX_POOL_TIMEOUT=5.0
+TOOL_EXECUTION_TIMEOUT=90.0
+
+# --- Connection Pool ---
+CONNECTION_POOL_SIZE=100
+MAX_KEEPALIVE_CONNECTIONS=20
+
+# --- Resilience ---
+MAX_RETRIES=3
+RETRY_BACKOFF_FACTOR=2.0
+CIRCUIT_BREAKER_FAILURE_THRESHOLD=5
+CIRCUIT_BREAKER_TIMEOUT_SECONDS=60
+RATE_LIMIT_REQUESTS_PER_SECOND=10
+
+# --- Validation ---
+RESPONSE_VALIDATION_MODE=warn
+
+# --- Logging ---
+LOG_LEVEL=INFO
+LOG_FORMAT=simple
+```
+
+<Warning>
+  The `.env` file contains sensitive credentials. Never commit it to version control.
+</Warning>
+
+### `requirements.txt`
+
+Auto-detected dependencies based on what the generated code imports:
+
+```txt requirements.txt
+fastmcp>=2.12.0,<3.0.0
+httpx>=0.27.0,<1.0.0
+pydantic>=2.0.0,<3.0.0
+python-dotenv>=1.0.0,<2.0.0
+```
+
+Additional packages are included when needed:
+- `authlib` and `PyJWT` — if OAuth2, OIDC, or JWT auth is used
+- `requests` — if OAuth2 browser-based flow is used
+
+### `.mcp.json`
+
+Pre-configured MCP client configuration template:
+
+```json .mcp.json
+{
+  "mcpServers": {
+    "my-api": {
+      "command": "python",
+      "args": ["server.py"]
+    }
+  }
+}
+```
+
+Copy this into your MCP client's configuration file, adjusting the path to `server.py`.
+
+### `metadata.json`
+
+Generation metadata used by deployment platforms:
+
+```json metadata.json
+{
+  "server_name": "My API",
+  "base_url": "https://api.example.com",
+  "spec_version": "3.0.0",
+  "operations_count": 45,
+  "types_count": 120,
+  "auth_schemes": { ... },
+  "operation_auth_map": { ... }
+}
+```
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Authentication" icon="lock" href="/server/authentication">
+    Configure credentials for each auth type.
+  </Card>
+  <Card title="Security features" icon="shield" href="/server/security">
+    Circuit breakers, rate limiting, retries.
+  </Card>
+</Columns>

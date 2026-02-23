@@ -1,0 +1,83 @@
+---
+title: "Troubleshooting"
+description: "Common issues and how to resolve them."
+---
+
+## Generation issues
+
+### "Spec validation failed"
+
+Your OpenAPI spec has structural issues. Run the [Validation](/generation/validation) check to see specific errors. Common causes:
+
+- Missing `paths` or `info` fields
+- Broken `$ref` references pointing to non-existent schemas
+- Invalid OpenAPI version identifier
+
+### Generation succeeds but some operations are missing
+
+Operations may be skipped if they:
+
+- Have no defined HTTP method
+- Have duplicate operation IDs (the second is renamed with a `_2` suffix)
+- Reference undefined schemas that can't be resolved
+
+Check the generation console output for warnings.
+
+## Runtime issues
+
+### "ModuleNotFoundError"
+
+Dependencies aren't installed. Run:
+
+```bash
+pip install -r requirements.txt
+```
+
+If using a virtual environment, make sure it's activated.
+
+### "Connection refused" or timeout errors
+
+The target API is unreachable. Check:
+
+- `BASE_URL` in `.env` is correct
+- Your network can reach the API (try `curl` or a browser)
+- The API isn't rate-limiting you (check for HTTP 429 responses in logs)
+
+### OAuth2 authorization fails
+
+- Ensure `OAUTH2_CLIENT_ID` and `OAUTH2_CLIENT_SECRET` are correct
+- Check that port 8090 (callback port) is available
+- Some APIs require pre-registered redirect URIs — add `http://localhost:8090/callback` to your app's OAuth settings
+- Delete `oauth2_tokens.json` and try again
+
+### "Rate limit exceeded"
+
+The server's local rate limiter is blocking requests. Increase the limit:
+
+```bash .env
+RATE_LIMIT_REQUESTS_PER_SECOND=20
+```
+
+Or the target API is rate-limiting you — check the API's documentation for limits.
+
+### Circuit breaker is open
+
+The target API has been failing consistently. The circuit breaker blocks requests to prevent cascading failures. Wait for the timeout period (default 60 seconds) or restart the server to reset the circuit breaker state.
+
+## MCP client issues
+
+### Tools don't appear in Claude Desktop
+
+See [Claude Desktop troubleshooting](/deployment/claude-desktop#troubleshooting).
+
+### Tools appear but return errors
+
+Run `python server.py` directly in a terminal to see detailed error output. Common causes:
+
+- Missing or incorrect credentials in `.env`
+- API returning unexpected response format
+- Network issues between your machine and the API
+
+## Still stuck?
+
+[Contact us](https://mcpblacksmith.com/contact) with your error output and we'll help debug.

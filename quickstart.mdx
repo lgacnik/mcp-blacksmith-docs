@@ -1,80 +1,103 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Generate and run your first MCP server in under 2 minutes."
 ---
 
-## Get started in three steps
+## Prerequisites
 
-Get your documentation site running locally and make your first customization.
+- **Python 3.11+** installed on your machine
+- An **OpenAPI specification** for the API you want to wrap (JSON or YAML)
 
-### Step 1: Set up your local environment
+Don't have a spec handy? Use the [Petstore sample spec](https://petstore3.swagger.io/api/v3/openapi.json) to follow along.
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+## Step 1: Generate your server
 
-### Step 2: Deploy your changes
+<Steps>
+  <Step title="Open the dashboard">
+    Go to [mcpblacksmith.com/dashboard](https://mcpblacksmith.com/dashboard) and create a new project.
+  </Step>
+  <Step title="Upload your spec">
+    Drag and drop your OpenAPI spec file (JSON or YAML) into the upload zone. Blacksmith supports OpenAPI 2.0, 3.0, 3.1, and 3.2.
+  </Step>
+  <Step title="Generate">
+    Click **Generate**. Blacksmith analyzes your spec, extracts all operations, builds typed models, configures authentication, and generates the complete server code.
+  </Step>
+  <Step title="Download">
+    Download the generated server as a ZIP file. Extract it to a directory of your choice.
+  </Step>
+</Steps>
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+## Step 2: Install dependencies
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+```bash
+cd my-api-server
+pip install -r requirements.txt
+```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+## Step 3: Configure credentials
 
-### Step 3: Go live
+If your API requires authentication, open the `.env` file and fill in your credentials:
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+```bash .env
+# Example: API Key authentication
+API_KEY=your-api-key-here
 
-## Next steps
+# Example: Bearer token
+BEARER_TOKEN=your-token-here
 
-Now that you have your docs running, explore these key features:
+# Example: OAuth2
+OAUTH2_CLIENT_ID=your-client-id
+OAUTH2_CLIENT_SECRET=your-client-secret
+```
 
-<CardGroup cols={2}>
+The `.env` file is pre-configured with the correct variable names for your API's authentication scheme. See [Authentication](/server/authentication) for details on each auth type.
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+## Step 4: Run the server
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+```bash
+python server.py
+```
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+By default, the server starts with `stdio` transport — the standard for local MCP connections. You'll see output like:
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+```
+INFO: MCP server 'Petstore API' started (transport: stdio)
+```
 
-</CardGroup>
+## Step 5: Connect to an MCP client
 
-<Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
-</Note>
+Add your server to your MCP client's configuration. For **Claude Desktop**, edit `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "petstore": {
+      "command": "python",
+      "args": ["/absolute/path/to/server.py"]
+    }
+  }
+}
+```
+
+Restart Claude Desktop. Your API tools are now available to Claude.
+
+<Tip>
+  See the full connection guide for [Claude Desktop](/deployment/claude-desktop), [Claude Code](/deployment/claude-code), or [Cursor](/deployment/cursor).
+</Tip>
+
+## What's next?
+
+<Columns cols={2}>
+  <Card title="Server structure" icon="folder-tree" href="/server/structure">
+    Understand what each generated file does.
+  </Card>
+  <Card title="Authentication" icon="lock" href="/server/authentication">
+    Configure OAuth2, API keys, JWT, and more.
+  </Card>
+  <Card title="Security features" icon="shield" href="/server/security">
+    Circuit breakers, rate limiting, and retries.
+  </Card>
+  <Card title="AI-enhanced passes" icon="wand-magic-sparkles" href="/generation/ai-passes">
+    Optimize your server with AI curation.
+  </Card>
+</Columns>

@@ -1,0 +1,54 @@
+---
+title: "Connect to Cursor"
+description: "Use your generated MCP server with Cursor IDE."
+---
+
+## Setup
+
+In Cursor, open **Settings** and navigate to the **MCP** section (under Features or Extensions, depending on version).
+
+Add a new MCP server:
+
+- **Name**: Your API name (e.g., "Stripe API")
+- **Command**: `python`
+- **Args**: `/absolute/path/to/my-api-server/server.py`
+
+Or configure via `.cursor/mcp.json` in your project:
+
+```json .cursor/mcp.json
+{
+  "mcpServers": {
+    "my-api": {
+      "command": "python",
+      "args": ["/absolute/path/to/my-api-server/server.py"]
+    }
+  }
+}
+```
+
+### Using a virtual environment
+
+```json .cursor/mcp.json
+{
+  "mcpServers": {
+    "my-api": {
+      "command": "/absolute/path/to/my-api-server/.venv/bin/python",
+      "args": ["/absolute/path/to/my-api-server/server.py"]
+    }
+  }
+}
+```
+
+## Usage
+
+In Cursor's AI chat (Cmd+L / Ctrl+L), your API tools are available. Ask the AI to use them:
+
+> "Use the Stripe API to list recent payments"
+
+Cursor will call the MCP tool and display the response inline.
+
+## Troubleshooting
+
+- Ensure Python 3.11+ is on your PATH or use the absolute path to the Python binary
+- Check the MCP panel in Cursor for connection status and error logs
+- Restart Cursor after changing MCP configuration

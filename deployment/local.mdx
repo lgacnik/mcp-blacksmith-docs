@@ -1,0 +1,58 @@
+---
+title: "Local Development"
+description: "Run your generated MCP server locally for development and testing."
+---
+
+## Running the server
+
+After installing dependencies and configuring `.env`:
+
+```bash
+python server.py
+```
+
+By default, the server starts with **stdio** transport — the standard for local MCP connections.
+
+## Transport options
+
+Select a transport at runtime:
+
+```bash
+# stdio (default) — for direct MCP client connections
+python server.py
+
+# SSE — for network-based connections
+python server.py --transport sse --port 8000
+
+# Streamable HTTP — newer HTTP-based transport
+python server.py --transport streamable-http --port 8000
+```
+
+| Transport | Use case |
+|-----------|----------|
+| **stdio** | Local MCP clients (Claude Desktop, Claude Code, Cursor) |
+| **SSE** | Remote or Docker-based deployments |
+| **streamable-http** | Newer MCP clients that support HTTP streaming |
+
+## Virtual environment
+
+It's recommended to use a virtual environment:
+
+```bash
+cd my-api-server
+python -m venv .venv
+source .venv/bin/activate    # Linux/macOS
+# .venv\Scripts\activate     # Windows
+pip install -r requirements.txt
+python server.py
+```
+
+## Testing tools manually
+
+Run the server and connect an MCP client to test individual tools. Try asking the AI agent to perform operations:
+
+> "List all users"
+> "Create a new order for product X"
+> "Get the status of order #123"
+
+Check the server's terminal output for request logs, errors, and validation warnings.

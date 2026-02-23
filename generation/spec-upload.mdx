@@ -1,0 +1,40 @@
+---
+title: "Spec Upload"
+description: "Supported specification formats and how to upload your OpenAPI spec."
+---
+
+## Supported formats
+
+MCP Blacksmith accepts OpenAPI specifications in:
+
+| Format | Versions | File types |
+|--------|----------|------------|
+| OpenAPI | 2.0 (Swagger), 3.0.x, 3.1.x, 3.2.x | `.json`, `.yaml`, `.yml` |
+
+Swagger 2.0 specs are automatically converted to OpenAPI 3.x internally before generation.
+
+## How to upload
+
+In the [dashboard](https://mcpblacksmith.com/dashboard):
+
+1. Create a new project
+2. Drag and drop your spec file into the upload zone, or click to browse
+3. Blacksmith parses and validates the spec immediately
+
+## Where to find specs
+
+Most APIs publish their OpenAPI specification. Common locations:
+
+- **API documentation pages** — Look for "OpenAPI", "Swagger", or "API Reference" links
+- **Common URL patterns** — `/openapi.json`, `/swagger.json`, `/api-docs`, `/v3/api-docs`
+- **GitHub repositories** — Many companies publish specs in their public repos
+- **SwaggerHub** — Public registry at [swaggerhub.com](https://app.swaggerhub.com/search)
+
+## Spec quality tips
+
+Better specs produce better servers:
+
+- **Include descriptions** on operations and parameters — these become tool descriptions for AI agents
+- **Define security schemes** — Blacksmith generates auth handlers from `securitySchemes`
+- **Use component schemas** — Shared schemas (`$ref`) produce cleaner, deduplicated models
+- **Specify response schemas** — Enables response validation in the generated server
