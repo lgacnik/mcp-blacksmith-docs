@@ -36,6 +36,15 @@ div[class*="chat-assistant"] {
   display: none !important;
 }
 
+/* 7. "Ask assistant" popover on text selection */
+div[class*="SelectionPopover"],
+div[class*="selection-popover"],
+button[class*="SelectionPopover"],
+[data-radix-popper-content-wrapper]:has(button[class*="ask"]),
+div[class*="Popover"]:has(> button:only-child) {
+  display: none !important;
+}
+
 /* ===== Hide "Powered by Mintlify" footer (if present) ===== */
 a[href*="mintlify.com"]:not(nav a),
 div[class*="PoweredBy"],
