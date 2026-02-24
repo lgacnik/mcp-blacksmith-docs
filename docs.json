@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "maple",
+  "theme": "mint",
   "name": "MCP Blacksmith Docs",
   "colors": {
     "primary": "#ff5722",
@@ -92,10 +92,7 @@
     }
   },
   "contextual": {
-    "options": [
-      "copy",
-      "view"
-    ]
+    "options": []
   },
   "footer": {
     "socials": {
