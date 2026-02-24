@@ -45,44 +45,48 @@ html {
   background: #1a1a1a;
 }
 
-/* Hide "Ask AI" button in navbar next to search */
-button[aria-label*="Ask AI"],
-button[aria-label*="AI"],
-a[aria-label*="Ask AI"],
-div[class*="AskAI"],
-div[class*="askAi"],
-div[class*="ask-ai"],
-button[class*="AskAI"],
-button[class*="askAi"],
-button[class*="ask-ai"] {
+/* ===== Hide all Mintlify AI features ===== */
+
+/* 1. "Ask AI" button in navbar (sibling of #search-bar-entry) */
+#search-bar-entry + button,
+#search-bar-entry ~ button:not(#search-bar-entry) {
   display: none !important;
 }
 
-/* Hide Mintlify AI assistant / "Ask a question" chat widget */
-#mintlify-chat,
-#mintlify-assistant,
-[data-testid="chat-widget"],
-[data-testid="assistant"],
-div[class*="Assistant"],
-div[class*="assistant"],
-div[class*="ChatWidget"],
-div[class*="chatWidget"],
-div[class*="AskAI"],
-div[class*="chat-input"],
-div[class*="ChatInput"],
-button[aria-label*="Ask"],
-div[id*="assistant"],
-div[id*="chat"] {
+/* 2. "Ask AI" tooltip on code blocks */
+#ask-ai-code-block-button,
+button[id*="ask-ai"],
+div:has(> #ask-ai-code-block-button) {
   display: none !important;
 }
 
-/* Hide "Powered by Mintlify" footer attribution */
-a[href*="mintlify.com"][class*="powered"],
+/* 3. Floating "Ask a question" chat bar at bottom */
+.chat-assistant-floating-input,
+div[class*="chat-assistant-floating"] {
+  display: none !important;
+}
+
+/* 4. Chat assistant sheet/panel */
+.chat-assistant-sheet,
+div[class*="chat-assistant-sheet"] {
+  display: none !important;
+}
+
+/* 5. Chat assistant textarea */
+#chat-assistant-textarea {
+  display: none !important;
+}
+
+/* 6. Any remaining assistant trigger buttons */
+button[class*="chat-assistant"],
+div[class*="chat-assistant"] {
+  display: none !important;
+}
+
+/* ===== Hide "Powered by Mintlify" footer (if present) ===== */
+a[href*="mintlify.com"]:not(nav a),
 div[class*="PoweredBy"],
 div[class*="poweredBy"],
-a[href*="mintlify.com/preview-request"],
-footer a[href*="mintlify"],
-div[class*="built-with"],
 span[class*="powered"] {
   display: none !important;
 }
