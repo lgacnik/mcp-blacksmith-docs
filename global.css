@@ -45,6 +45,26 @@ html {
   background: #1a1a1a;
 }
 
+/* Firefox legacy scrollbar elements */
+scrollbar[orient="vertical"] {
+  -moz-appearance: none !important;
+  width: 16px !important;
+}
+
+scrollbar[orient="horizontal"] {
+  -moz-appearance: none !important;
+  height: 8px !important;
+}
+
+scrollbar > scrollbarbutton {
+  display: none !important;
+  -moz-appearance: none !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
 /* ===== Hide all Mintlify AI features ===== */
 
 /* 1. "Ask AI" button in navbar (sibling of #search-bar-entry) */
