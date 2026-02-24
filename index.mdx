@@ -1,236 +1,73 @@
 ---
-title: "Icon Clipping Test"
-description: "Testing lock and gear icon variants across Font Awesome styles."
+title: "Introduction"
+description: "MCP Blacksmith generates production-ready MCP servers from OpenAPI specifications in seconds."
 ---
 
-## Lock variants — default (solid)
+## What is MCP Blacksmith?
+
+MCP Blacksmith transforms API specifications into fully functional [MCP (Model Context Protocol)](https://modelcontextprotocol.io) servers. Upload an OpenAPI specification, and get complete Python code — with authentication, security, and validation — ready to deploy anywhere.
+
+**You own every line of generated code.** Download it, modify it, deploy it, sell it. No attribution, no royalties, no lock-in.
+
+<Card title="Quickstart" icon="bolt" href="/quickstart" horizontal>
+  Generate your first MCP server in under 2 minutes.
+</Card>
+
+## What is MCP?
+
+The **Model Context Protocol (MCP)** is an open standard for connecting AI applications to external systems. It provides a standardized way for AI agents and applications to access data sources, tools, and workflows — without building custom integrations for every API.
+
+MCP Blacksmith generates these MCP servers from OpenAPI specifications. Each generated server wraps an API and exposes its operations as **tools** that any MCP-compatible AI client can call:
+
+```
+AI Agent
+  ├── MCP Server: Gmail API
+  ├── MCP Server: Stripe API
+  ├── MCP Server: GitHub API
+  └── MCP Server: Your Internal API
+```
+
+The server handles authentication, request formatting, error handling, and validation transparently — the AI agent sees simple tools with typed parameters and gets clean responses.
+
+## Who is Blacksmith for?
+
+- **Developers** who need MCP servers for their APIs without weeks of manual coding
+- **Teams** integrating multiple APIs into AI agent workflows
+- **Companies** wanting to expose their APIs to AI agents securely
+- **Anyone** building with MCP-compatible AI tools and IDEs
+
+You don't need deep technical expertise to generate MCP servers. All you need is an OpenAPI specification for the API your agent needs access to.
+
+## What you get
 
 <Columns cols={2}>
-  <Card title="lock" icon="lock">
-    Default lock.
+  <Card title="Production-ready code" icon="code">
+    Full Python server with FastMCP framework, Pydantic validation, and typed models.
   </Card>
-  <Card title="lock-open" icon="lock-open">
-    Default lock-open.
+  <Card title="Auto-configured authentication" icon="key" iconType="regular">
+    Extensive support for OAuth2, API Key, JWT, Bearer, Basic, OIDC, and mTLS.
   </Card>
-  <Card title="lock-keyhole" icon="lock-keyhole">
-    Default lock-keyhole.
+  <Card title="Built-in security" icon="shield">
+    Circuit breakers, exponential backoff, rate limiting, and multi-layer timeouts.
   </Card>
-  <Card title="lock-keyhole-open" icon="lock-keyhole-open">
-    Default lock-keyhole-open.
-  </Card>
-  <Card title="unlock" icon="unlock">
-    Default unlock.
-  </Card>
-  <Card title="unlock-keyhole" icon="unlock-keyhole">
-    Default unlock-keyhole.
-  </Card>
-  <Card title="key" icon="key">
-    Default key.
-  </Card>
-  <Card title="shield-keyhole" icon="shield-keyhole">
-    Default shield-keyhole.
+  <Card title="Deploy anywhere" icon="server">
+    Download the server with all dependencies. Run locally, in Docker, or on any cloud.
   </Card>
 </Columns>
 
-## Lock variants — regular
+## Next steps
 
 <Columns cols={2}>
-  <Card title="lock" icon="lock" iconType="regular">
-    Regular lock.
+  <Card title="Quickstart" icon="bolt" href="/quickstart">
+    Generate your first server in 2 minutes.
   </Card>
-  <Card title="lock-open" icon="lock-open" iconType="regular">
-    Regular lock-open.
+  <Card title="How it works" icon="gear-complex" iconType="regular" href="/how-it-works">
+    Understand the generation pipeline.
   </Card>
-  <Card title="lock-keyhole" icon="lock-keyhole" iconType="regular">
-    Regular lock-keyhole.
+  <Card title="Server structure" icon="folder-open" href="/server/structure">
+    What's inside a generated server.
   </Card>
-  <Card title="lock-keyhole-open" icon="lock-keyhole-open" iconType="regular">
-    Regular lock-keyhole-open.
-  </Card>
-  <Card title="unlock" icon="unlock" iconType="regular">
-    Regular unlock.
-  </Card>
-  <Card title="unlock-keyhole" icon="unlock-keyhole" iconType="regular">
-    Regular unlock-keyhole.
-  </Card>
-  <Card title="key" icon="key" iconType="regular">
-    Regular key.
-  </Card>
-  <Card title="shield-keyhole" icon="shield-keyhole" iconType="regular">
-    Regular shield-keyhole.
-  </Card>
-</Columns>
-
-## Lock variants — light
-
-<Columns cols={2}>
-  <Card title="lock" icon="lock" iconType="light">
-    Light lock.
-  </Card>
-  <Card title="lock-open" icon="lock-open" iconType="light">
-    Light lock-open.
-  </Card>
-  <Card title="lock-keyhole" icon="lock-keyhole" iconType="light">
-    Light lock-keyhole.
-  </Card>
-  <Card title="lock-keyhole-open" icon="lock-keyhole-open" iconType="light">
-    Light lock-keyhole-open.
-  </Card>
-  <Card title="unlock" icon="unlock" iconType="light">
-    Light unlock.
-  </Card>
-  <Card title="unlock-keyhole" icon="unlock-keyhole" iconType="light">
-    Light unlock-keyhole.
-  </Card>
-  <Card title="key" icon="key" iconType="light">
-    Light key.
-  </Card>
-  <Card title="shield-keyhole" icon="shield-keyhole" iconType="light">
-    Light shield-keyhole.
-  </Card>
-</Columns>
-
-## Lock variants — thin
-
-<Columns cols={2}>
-  <Card title="lock" icon="lock" iconType="thin">
-    Thin lock.
-  </Card>
-  <Card title="lock-open" icon="lock-open" iconType="thin">
-    Thin lock-open.
-  </Card>
-  <Card title="lock-keyhole" icon="lock-keyhole" iconType="thin">
-    Thin lock-keyhole.
-  </Card>
-  <Card title="lock-keyhole-open" icon="lock-keyhole-open" iconType="thin">
-    Thin lock-keyhole-open.
-  </Card>
-  <Card title="unlock" icon="unlock" iconType="thin">
-    Thin unlock.
-  </Card>
-  <Card title="unlock-keyhole" icon="unlock-keyhole" iconType="thin">
-    Thin unlock-keyhole.
-  </Card>
-  <Card title="key" icon="key" iconType="thin">
-    Thin key.
-  </Card>
-  <Card title="shield-keyhole" icon="shield-keyhole" iconType="thin">
-    Thin shield-keyhole.
-  </Card>
-</Columns>
-
-## Gear/cog variants — default (solid)
-
-<Columns cols={2}>
-  <Card title="gear" icon="gear">
-    Default gear.
-  </Card>
-  <Card title="gears" icon="gears">
-    Default gears.
-  </Card>
-  <Card title="gear-complex" icon="gear-complex">
-    Default gear-complex.
-  </Card>
-  <Card title="gear-code" icon="gear-code">
-    Default gear-code.
-  </Card>
-  <Card title="sliders" icon="sliders">
-    Default sliders.
-  </Card>
-  <Card title="wrench" icon="wrench">
-    Default wrench.
-  </Card>
-  <Card title="screwdriver-wrench" icon="screwdriver-wrench">
-    Default screwdriver-wrench.
-  </Card>
-  <Card title="cog" icon="cog">
-    Default cog (alias for gear).
-  </Card>
-</Columns>
-
-## Gear/cog variants — regular
-
-<Columns cols={2}>
-  <Card title="gear" icon="gear" iconType="regular">
-    Regular gear.
-  </Card>
-  <Card title="gears" icon="gears" iconType="regular">
-    Regular gears.
-  </Card>
-  <Card title="gear-complex" icon="gear-complex" iconType="regular">
-    Regular gear-complex.
-  </Card>
-  <Card title="gear-code" icon="gear-code" iconType="regular">
-    Regular gear-code.
-  </Card>
-  <Card title="sliders" icon="sliders" iconType="regular">
-    Regular sliders.
-  </Card>
-  <Card title="wrench" icon="wrench" iconType="regular">
-    Regular wrench.
-  </Card>
-  <Card title="screwdriver-wrench" icon="screwdriver-wrench" iconType="regular">
-    Regular screwdriver-wrench.
-  </Card>
-  <Card title="cog" icon="cog" iconType="regular">
-    Regular cog.
-  </Card>
-</Columns>
-
-## Gear/cog variants — light
-
-<Columns cols={2}>
-  <Card title="gear" icon="gear" iconType="light">
-    Light gear.
-  </Card>
-  <Card title="gears" icon="gears" iconType="light">
-    Light gears.
-  </Card>
-  <Card title="gear-complex" icon="gear-complex" iconType="light">
-    Light gear-complex.
-  </Card>
-  <Card title="gear-code" icon="gear-code" iconType="light">
-    Light gear-code.
-  </Card>
-  <Card title="sliders" icon="sliders" iconType="light">
-    Light sliders.
-  </Card>
-  <Card title="wrench" icon="wrench" iconType="light">
-    Light wrench.
-  </Card>
-  <Card title="screwdriver-wrench" icon="screwdriver-wrench" iconType="light">
-    Light screwdriver-wrench.
-  </Card>
-  <Card title="cog" icon="cog" iconType="light">
-    Light cog.
-  </Card>
-</Columns>
-
-## Gear/cog variants — thin
-
-<Columns cols={2}>
-  <Card title="gear" icon="gear" iconType="thin">
-    Thin gear.
-  </Card>
-  <Card title="gears" icon="gears" iconType="thin">
-    Thin gears.
-  </Card>
-  <Card title="gear-complex" icon="gear-complex" iconType="thin">
-    Thin gear-complex.
-  </Card>
-  <Card title="gear-code" icon="gear-code" iconType="thin">
-    Thin gear-code.
-  </Card>
-  <Card title="sliders" icon="sliders" iconType="thin">
-    Thin sliders.
-  </Card>
-  <Card title="wrench" icon="wrench" iconType="thin">
-    Thin wrench.
-  </Card>
-  <Card title="screwdriver-wrench" icon="screwdriver-wrench" iconType="thin">
-    Thin screwdriver-wrench.
-  </Card>
-  <Card title="cog" icon="cog" iconType="thin">
-    Thin cog.
+  <Card title="Connect to agents" icon="plug" href="/deployment/connecting-agents">
+    Use your server with any MCP client.
   </Card>
 </Columns>
