@@ -58,6 +58,12 @@ nav [class*="primary"] * {
   border-radius: 0.375rem !important;
 }
 
+/* ===== Hide chevron from "Start Forging" navbar button ===== */
+nav a[href="https://mcpblacksmith.com/dashboard"] svg,
+nav [class*="primary"] svg {
+  display: none !important;
+}
+
 /* ===== Hide "Powered by Mintlify" footer (if present) ===== */
 a[href*="mintlify.com"]:not(nav a),
 div[class*="PoweredBy"],

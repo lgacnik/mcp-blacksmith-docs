@@ -7,7 +7,10 @@ description: "Understand the MCP Blacksmith generation pipeline — from OpenAPI
 
 MCP Blacksmith converts an OpenAPI specification into a fully functional MCP server through a multi-stage pipeline:
 
-**OpenAPI Specification → Parse & Validate → Generate Code → Package Server**
+1. **Parse & Validate** — Verify structural and syntactical specification correctness
+2. **Filter & Enhance** *(optional)* — AI-curate operations and parameters
+3. **Generate Code** — Produce a complete Python project with dependencies
+4. **Package Server** — Bundle into a downloadable ZIP archive
 
 ### 1. Parse and validate
 
@@ -17,7 +20,6 @@ Your OpenAPI specification is parsed and validated for structural correctness. B
 - **OpenAPI 3.0.x**
 - **OpenAPI 3.1.x**
 - **OpenAPI 3.2.x**
-- **JSON and YAML** formats
 
 Specifications are validated for schema correctness, reference integrity, and required fields before generation begins. Issues that would produce broken code block generation and are reported with specific locations and suggested fixes.
 
@@ -27,7 +29,7 @@ You can also run a [dedicated validation pass](/generation/validation) separatel
 
 Operations and their request/response schemas are extracted from the specification. Each API operation (e.g., `GET /users`, `POST /orders`) is mapped to an MCP tool with its parameters, request body, response schemas, and authentication requirements.
 
-Optionally, these operations can be filtered and enhanced using [AI-enhanced passes](/generation/ai-passes). Passes can remove server-generated fields that AI agents shouldn't control, improve parameter descriptions for LLM readability, classify operations by importance, and optimize schemas for token efficiency. This curation step is what separates a raw API wrapper from a production-quality MCP server — it ensures AI agents see only the parameters they should set, with descriptions they can understand.
+Optionally, request schemas can be filtered and enhanced using [enhancement passes](/generation/enhancement-passes). Read-only and server-generated fields are removed, meanwhile authentication-related fields are abstracted from AI agents. Parameter descriptions, examples, and constraints are optimized for LLM readability, and schemas are rewritten for token efficiency. This curation step is what separates a raw API wrapper from a production-quality MCP server — it ensures AI agents see only the parameters they should control, with descriptions, examples, and constraints they can understand.
 
 ### 3. Generate code
 
@@ -55,13 +57,13 @@ The complete server is packaged as a ZIP file. Extract it, install dependencies,
 
 When an MCP client (like Claude) calls a tool:
 
-1. **Validate** — Parameters are validated against Pydantic models
+1. **Validate** — Parameters are validated against Pydantic models. If types, formats, or constraints don't match, the agent receives immediate, context-rich feedback describing exactly what failed — before any request is sent to the API
 2. **Authenticate** — Correct credentials are injected based on the operation's authentication requirements
 3. **Execute** — HTTP request is sent to the target API with retry logic and circuit breaking
 4. **Validate response** — Response is optionally validated against the API's response schema
-5. **Return** — Structured data is returned to the MCP client
+5. **Return** — Structured data is returned to the MCP client. API errors are normalized into a consistent, LLM-readable format regardless of the upstream API's error structure
 
-All of this happens transparently. The AI agent sees simple tools with typed parameters and gets clean responses.
+All of this happens transparently. The AI agent sees simple tools with typed parameters and receives actionable feedback on every outcome.
 
 ## Deployment considerations
 

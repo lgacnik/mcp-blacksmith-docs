@@ -8,7 +8,14 @@ description: "Generate and run your first MCP server in under 2 minutes."
 - **Python 3.11+** installed on your machine
 - An **OpenAPI specification** for the API you want to wrap (JSON or YAML)
 
-Don't have a specification handy? Use the [Petstore sample specification](https://petstore3.swagger.io/api/v3/openapi.json) to follow along.
+Don't have a specification handy? Try one of these:
+
+- **[The Cat API](https://thecatapi.com)** ([specification](https://raw.githubusercontent.com/thatapicompany/apis/main/theCatAPI.com/thecatapi-oas.yaml)) — Cat images, breeds, and facts. 18 endpoints, some public, some require a free API key
+- **[JSONPlaceholder](https://jsonplaceholder.typicode.com)** ([specification](https://raw.githubusercontent.com/sebastienlevert/jsonplaceholder-api/main/openapi.yaml)) — Fake REST API for testing. 5 endpoints, fully public, no authentication required
+
+<Tip>
+  Looking for more APIs? The [APIs.guru OpenAPI Directory](https://apis.guru) maintains thousands of validated OpenAPI specifications from real-world APIs.
+</Tip>
 
 ## Step 1: Generate your server
 
@@ -17,7 +24,10 @@ Don't have a specification handy? Use the [Petstore sample specification](https:
     Go to [mcpblacksmith.com/dashboard](https://mcpblacksmith.com/dashboard) and create a new project.
   </Step>
   <Step title="Upload your specification">
-    Drag and drop your OpenAPI specification file (JSON or YAML) into the upload zone. Blacksmith supports OpenAPI 2.0, 3.0, 3.1, and 3.2.
+    Drag and drop your OpenAPI specification file (JSON or YAML) into the upload zone. Blacksmith supports OpenAPI 2.0 (Swagger), 3.0, 3.1, and 3.2.
+  </Step>
+  <Step title="Configure">
+    Optionally enable *Pass 0: Metadata Filter* to remove read-only and server-generated fields, or *Pass 1–5* (paid) to optimize tool descriptions, examples, and constraints for AI consumption. See [Enhancement Passes](/generation/enhancement-passes) for details.
   </Step>
   <Step title="Generate">
     Click **Generate**. Blacksmith analyzes your specification, extracts all operations, builds typed models, configures authentication, and generates the complete server code.
@@ -50,7 +60,9 @@ OAUTH2_CLIENT_ID=your-client-id
 OAUTH2_CLIENT_SECRET=your-client-secret
 ```
 
-The `.env` file is pre-configured with the correct variable names for your API's authentication scheme. See [Authentication](/server/authentication) for details on each authentication type.
+The `.env` file is pre-configured with the correct variable names for your API's authentication scheme. You only need to configure the credentials for the tools you intend to use. If a tool requires credentials that are not provided, a warning is logged and the request will likely be rejected by the upstream API — unless the endpoint is public and does not require authentication.
+
+See [Authentication](/server/authentication) for details on each authentication type.
 
 ## Step 4: Run the server
 
@@ -61,17 +73,17 @@ python server.py
 By default, the server starts with `stdio` transport — the standard for local MCP connections. You'll see output like:
 
 ```
-INFO: MCP server 'Petstore API' started (transport: stdio)
+INFO: MCP server 'The Cat API' started (transport: stdio)
 ```
 
 ## Step 5: Connect to an MCP client
 
-Add your server to your MCP client's configuration. Most clients use a JSON config file:
+Add your server to your MCP client's configuration. Most clients use a JSON configuration file:
 
 ```json
 {
   "mcpServers": {
-    "petstore": {
+    "the-cat-api": {
       "command": "python",
       "args": ["/absolute/path/to/server.py"]
     }
@@ -79,7 +91,7 @@ Add your server to your MCP client's configuration. Most clients use a JSON conf
 }
 ```
 
-Restart your MCP client. Your API tools are now available to the AI agent.
+Restart your MCP client so the new configuration is picked up. Your API tools are now available to the AI agent.
 
 <Tip>
   See the full guide at [Connecting to AI Agents](/deployment/connecting-agents) for transport options, virtual environments, and troubleshooting.
@@ -97,7 +109,7 @@ Restart your MCP client. Your API tools are now available to the AI agent.
   <Card title="Security features" icon="shield" href="/server/security">
     Circuit breakers, rate limiting, and retries.
   </Card>
-  <Card title="AI-enhanced passes" icon="sparkles" href="/generation/ai-passes">
-    Optimize your server with AI curation.
+  <Card title="Enhancement passes" icon="sparkles" href="/generation/enhancement-passes">
+    Optimize your server with free and AI-driven passes.
   </Card>
 </Columns>

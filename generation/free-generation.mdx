@@ -1,11 +1,11 @@
 ---
 title: "Free Generation"
-description: "What the base generator produces — no credits, no limits."
+description: "What the base generator produces — no credits required."
 ---
 
 ## Always free
 
-Base server generation is **free with no limits**. Generate as many servers as you want, from any OpenAPI specification, with full source code ownership.
+Base server generation is free. Generate servers from any OpenAPI specification with full source code ownership. You only pay for optional AI-driven enhancement passes. See [Pricing](https://mcpblacksmith.com/pricing) for details.
 
 ## What's included
 
@@ -18,15 +18,13 @@ Every generated server includes:
 - **Resilience features** — retries, circuit breaker, rate limiting, multi-layer timeouts
 - **Optional response validation** against the API's response schema
 - **Docker support** with production-ready Dockerfile
-- **MCP client config template** (`.mcp.json`)
+- **MCP client configuration template** (`.mcp.json`)
 - **README** with setup and usage instructions
 
-## What's not included (optional AI passes)
+## What's not included
 
-The base generator works directly from your OpenAPI specification without AI processing. For additional optimization, see [AI-Enhanced Passes](/generation/ai-passes):
+Every feature that uses AI is paid — everything else is free, including Pass 0: Metadata Filter which removes read-only fields and deprecated operations without AI. You can generate fully functional servers with authentication, security, and validation at no cost. Paid passes (1–5) help you build more LLM-friendly and token-aware servers optimized for frequent usage — including parameter curation, description optimization, and token-efficient schema rewriting. See [Enhancement Passes](/generation/enhancement-passes) and [Pricing](https://mcpblacksmith.com/pricing) for details.
 
-- Parameter curation (removing server-generated fields)
-- LLM-friendly description optimization
-- Token-efficient schema rewriting
-
-These are optional, credit-based enhancements for production use.
+<Note>
+  AI-driven passes enhance and filter tools and their parameters, but all information produced remains truthful to the specification. Hard validation enforcements like types, formats, and constraints are never altered by these passes. Whether using AI features or not, generated MCP servers are fully compliant with the OpenAPI specification.
+</Note>

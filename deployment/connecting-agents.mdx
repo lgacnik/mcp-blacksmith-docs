@@ -25,7 +25,7 @@ The client launches your server as a subprocess. No network setup needed.
 
 ### Configuration file
 
-Most MCP clients use a JSON configuration file (commonly `.mcp.json`, `mcp.json`, or a client-specific config file). The structure is standardized:
+Most MCP clients use a JSON configuration file (commonly `.mcp.json`, `mcp.json`, or a client-specific configuration file). The structure is standardized:
 
 ```json
 {
@@ -59,12 +59,12 @@ If you installed dependencies in a virtual environment, point to the Python bina
 }
 ```
 
-### Where clients look for config
+### Where clients look for configuration
 
 Different clients read MCP configuration from different locations. Check your client's documentation for the exact path. Common patterns:
 
 - **Project-level**: `.mcp.json` or `mcp.json` in the project root
-- **Global/user-level**: A config file in the client's settings directory (e.g., `~/.config/<client>/`)
+- **Global/user-level**: A configuration file in the client's settings directory (e.g., `~/.config/<client>/`)
 - **Client settings UI**: Some clients let you add MCP servers through a settings panel
 
 ## Network connection (SSE / HTTP)
@@ -126,7 +126,7 @@ The AI agent sees all tools from all servers and selects the right one based on 
 
 After configuring your client:
 
-1. Restart the client (most clients read config on startup)
+1. Restart the client (most clients read configuration on startup)
 2. Check that your API's tools are listed in the client's tool/MCP panel
 3. Ask the agent to perform an operation: *"List all users using the my-api server"*
 
@@ -139,7 +139,7 @@ If tools don't appear, run `python server.py` directly in a terminal to verify t
 - Verify the path to `server.py` is absolute and correct
 - Ensure `python` resolves to Python 3.11+ (try `python3` if needed)
 - Check that `requirements.txt` dependencies are installed
-- Restart the client completely after changing config
+- Restart the client completely after changing configuration
 
 ### Tools appear but return errors
 

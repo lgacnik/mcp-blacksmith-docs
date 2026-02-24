@@ -6,8 +6,16 @@ description: "Frequently asked questions about MCP Blacksmith."
 ## Product
 
 <AccordionGroup>
+  <Accordion title="What is MCP?">
+    The Model Context Protocol (MCP) is an open standard that enables AI agents to interact with external services. It provides a unified way for AI systems to securely discover and call tools exposed by MCP servers. Learn more at [modelcontextprotocol.io](https://modelcontextprotocol.io).
+  </Accordion>
+
+  <Accordion title="What is MCP Blacksmith?">
+    MCP Blacksmith generates production-ready MCP servers from OpenAPI specifications. Upload a specification, and get complete Python code with authentication, security, and validation — ready to deploy anywhere. See [About](https://mcpblacksmith.com/about) for more.
+  </Accordion>
+
   <Accordion title="What API specifications are supported?">
-    MCP Blacksmith supports OpenAPI 2.0 (Swagger), 3.0, 3.1, and 3.2 specifications in JSON or YAML format. Most modern APIs provide OpenAPI specifications.
+    OpenAPI 2.0 (Swagger), 3.0, 3.1, and 3.2 in JSON or YAML format. Most modern APIs provide OpenAPI specifications, and many legacy APIs can be documented in this format. See [Specification Upload](/generation/spec-upload) for conversion tools and where to find specifications.
   </Accordion>
 
   <Accordion title="Can I use the generated code commercially?">
@@ -15,7 +23,7 @@ description: "Frequently asked questions about MCP Blacksmith."
   </Accordion>
 
   <Accordion title="Where can I host the generated servers?">
-    Anywhere you can run Python 3.11+. Self-host on your infrastructure, deploy to any cloud, run in Docker, or use <a href="https://mcparmory.com" target="_blank" style={{color: 'hsl(199, 100%, 57%)'}}>MCP Armory</a> for managed hosting.
+    Anywhere you can run Python 3.11+. Self-host on your infrastructure, deploy to any cloud, run in Docker, or use <a href="https://mcparmory.com" target="_blank" style={{color: 'hsl(199, 100%, 57%)'}}>MCP Armory</a> for managed hosting. See [Self-Hosting](/deployment/self-hosting) for deployment options.
   </Accordion>
 
   <Accordion title="What programming language is generated?">
@@ -23,7 +31,7 @@ description: "Frequently asked questions about MCP Blacksmith."
   </Accordion>
 
   <Accordion title="Which MCP clients are supported?">
-    Any MCP-compatible client — AI assistants, IDEs with AI features, agent frameworks, and custom applications. Generated servers support stdio, SSE, and streamable-http transports.
+    Any MCP-compatible client — AI assistants, IDEs with AI features, agent frameworks, and custom applications. Generated servers support stdio, SSE, and streamable-http transports. See [Connecting to AI Agents](/deployment/connecting-agents) for setup instructions.
   </Accordion>
 </AccordionGroup>
 
@@ -31,15 +39,19 @@ description: "Frequently asked questions about MCP Blacksmith."
 
 <AccordionGroup>
   <Accordion title="Is server generation free?">
-    Yes. Base server generation is free with no limits. Generate as many servers as you want. You only pay for optional AI-enhanced passes (parameter curation, description optimization).
+    Yes. Base server generation and Pass 0 (Metadata Filter) are free — no credits required. You only pay for AI-driven passes 1–5 (parameter curation, description optimization). See [Pricing](https://mcpblacksmith.com/pricing) for details.
   </Accordion>
 
   <Accordion title="How do credits work?">
-    Credits are consumed only when using AI-enhanced features. Credit usage depends on the number of operations and parameters being optimized. See [Pricing](https://mcpblacksmith.com/pricing) for details.
+    Credits are consumed only when using AI-driven passes (1–5). Credit usage depends on the number of operations and parameters being optimized. Pass 0 is always free. No subscriptions — buy credits when you need them, use them at your own pace. Credits are valid for 1 year. See [Pricing](https://mcpblacksmith.com/pricing) for details.
+  </Accordion>
+
+  <Accordion title="What do enhancement passes do?">
+    Enhancement passes optimize your generated server for AI agent interaction. Pass 0 (free) removes read-only fields and deprecated operations based on metadata. Passes 1–5 (AI-driven) curate parameters, score importance, improve descriptions, and rewrite schemas to be token-efficient. See [Enhancement Passes](/generation/enhancement-passes) for details.
   </Accordion>
 
   <Accordion title="What happens if I run out of credits?">
-    Free generation always works. Only AI-enhanced passes are blocked when you have insufficient credits. Your existing generated servers remain fully accessible.
+    Free generation and Pass 0 always work. Only AI-driven passes (1–5) are blocked when you have insufficient credits. Your existing generated servers remain fully accessible.
   </Accordion>
 </AccordionGroup>
 
@@ -47,11 +59,11 @@ description: "Frequently asked questions about MCP Blacksmith."
 
 <AccordionGroup>
   <Accordion title="What authentication types are supported?">
-    API Key, Bearer Token, HTTP Basic, OAuth 2.0 (all flows), OpenID Connect, JWT, and Mutual TLS. Authentication is auto-configured from your OpenAPI specification's security schemes.
+    API Key, Bearer Token, HTTP Basic, OAuth 2.0 (all flows), OpenID Connect, JWT, and Mutual TLS. Authentication is auto-configured from your OpenAPI specification's security schemes. See [Authentication](/server/authentication) for details.
   </Accordion>
 
   <Accordion title="What security features are included?">
-    Every generated server includes circuit breakers, exponential backoff with retries, rate limiting, multi-layer timeouts, request validation, and optional response validation and sanitization.
+    Every generated server includes bidirectional input/output validation, circuit breakers, exponential backoff with retries, rate limiting, and multi-layer timeouts — protecting both the AI agent and the target API. See [Security](/server/security) for details.
   </Accordion>
 
   <Accordion title="Can I modify the generated code?">
@@ -62,3 +74,7 @@ description: "Frequently asked questions about MCP Blacksmith."
     Python 3.11 or higher.
   </Accordion>
 </AccordionGroup>
+
+<Note>
+  Have more questions? Visit our [FAQ](https://mcpblacksmith.com/faq) or [contact us](https://mcpblacksmith.com/contact).
+</Note>

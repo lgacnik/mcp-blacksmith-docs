@@ -1,0 +1,54 @@
+---
+title: "Enhancement Passes"
+description: "Optional optimization passes that improve your generated server for production use."
+---
+
+## Overview
+
+Enhancement passes analyze your API operations and optimize the generated server for better AI agent interaction. Passes make tools and parameters not only LLM-friendly but also token-aware — reducing the number of tokens consumed by tool definitions while preserving their semantic meaning.
+
+Pass 0 is rule-based and free. Passes 1–5 are AI-driven and consume credits.
+
+## Available passes
+
+### Pass 0: Metadata Filter (free)
+
+Removes read-only and computed fields, plus deprecated operations, based on OpenAPI metadata. This pass does not use AI and is always free.
+
+- Filter parameters — removes read-only and server-generated fields
+- Filter operations — removes deprecated operations
+
+### Pass 1: Field Curator
+
+Filters low-value parameters like pagination controls, debug flags, and redundant fields for cleaner tool interfaces.
+
+### Pass 2: Operation Classifier
+
+Distinguishes core CRUD operations from utility endpoints like health checks and metadata, focusing tools on valuable actions.
+
+### Pass 3: Parameter Scorer
+
+Scores each parameter's importance (0–10) based on functional value and likely usage, filtering those below a configurable threshold.
+
+### Pass 4: Parameter Transformer
+
+Converts complex parameters into user-friendly inputs (email bodies, timestamps, file uploads) with automatic helper functions.
+
+### Pass 5: Tool Enhancer
+
+Improves tool names and descriptions for better discoverability, making operations and parameters more intuitive for AI agents to use.
+
+## How to use
+
+In the [dashboard](https://mcpblacksmith.com/dashboard):
+
+1. Upload your specification and generate the base server (free)
+2. In the Generation tab, enable the passes you want
+3. Configure which operations to optimize (all or selected)
+4. Click Generate — credits are consumed based on operation count for Passes 1–5
+
+## Credits
+
+Passes 1–5 consume credits based on the number of operations and parameters processed. Pass 0 is always free. See [Pricing](https://mcpblacksmith.com/pricing) for details.
+
+Base generation is free and requires no credits. All passes are entirely optional.

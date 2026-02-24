@@ -11,7 +11,11 @@ MCP Blacksmith accepts OpenAPI specifications in:
 |--------|----------|------------|
 | OpenAPI | 2.0 (Swagger), 3.0.x, 3.1.x, 3.2.x | `.json`, `.yaml`, `.yml` |
 
-Swagger 2.0 specifications are automatically converted to OpenAPI 3.x internally before generation.
+Have a Postman Collection or Google Discovery document instead? You can convert them to OpenAPI using [postman-to-openapi](https://joolfe.github.io/postman-to-openapi/) or [google-discovery-to-openapi](https://github.com/stackql/google-discovery-to-openapi), then upload the result.
+
+<Note>
+  Support for additional API specification formats is planned, including GraphQL, gRPC (Protocol Buffers), AsyncAPI, RAML, and API Blueprint.
+</Note>
 
 ## How to upload
 
@@ -28,13 +32,13 @@ Most APIs publish their OpenAPI specification. Common locations:
 - **API documentation pages** — Look for "OpenAPI", "Swagger", or "API Reference" links
 - **Common URL patterns** — `/openapi.json`, `/swagger.json`, `/api-docs`, `/v3/api-docs`
 - **GitHub repositories** — Many companies publish specifications in their public repos
-- **SwaggerHub** — Public registry at [swaggerhub.com](https://app.swaggerhub.com/search)
+- **Public registries** — [SwaggerHub](https://app.swaggerhub.com/search) or [APIs.guru](https://apis.guru)
 
 ## Specification quality tips
 
-Better specifications produce better servers:
+While any valid specification should result in a fully functional server, better specifications produce better servers:
 
-- **Include descriptions** on operations and parameters — these become tool descriptions for AI agents
-- **Define security schemes** — Blacksmith generates authentication handlers from `securitySchemes`
-- **Use component schemas** — Shared schemas (`$ref`) produce cleaner, deduplicated models
-- **Specify response schemas** — Enables response validation in the generated server
+- **Include descriptions** — These become tool descriptions for AI agents
+- **Define security schemes** — Authentication handlers are auto-generated
+- **Use component schemas** — Shared references produce deduplicated models
+- **Specify response schemas** — Enables response validation at runtime

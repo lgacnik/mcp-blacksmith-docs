@@ -41,7 +41,7 @@
             "pages": [
               "generation/spec-upload",
               "generation/free-generation",
-              "generation/ai-passes",
+              "generation/enhancement-passes",
               "generation/validation",
               "generation/linting"
             ]
