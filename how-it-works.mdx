@@ -53,16 +53,6 @@ Each API operation becomes an MCP **tool** — an async function that handles pa
 
 The complete server is packaged as a ZIP file. Extract it, install dependencies, configure credentials, and run — no additional code generation or compilation needed.
 
-## Optional: AI-enhanced passes
-
-The base generation is free and produces a fully functional server. For production use, you can optionally run [AI-enhanced passes](/generation/ai-passes) that:
-
-- **Curate parameters** — Remove server-generated fields (timestamps, IDs) that AI agents shouldn't set
-- **Optimize schemas** — Make parameter descriptions LLM-friendly and token-efficient
-- **Filter redundant operations** — Identify and flag duplicate or deprecated endpoints
-
-These passes consume credits and are entirely optional.
-
 ## What the generated server does at runtime
 
 When an MCP client (like Claude) calls a tool:
@@ -83,4 +73,4 @@ All of this happens transparently. The AI agent sees simple tools with typed par
 
 - **Do not commit `.env` to version control** — it contains sensitive API credentials
 - The server is stateful (credentials, connection pools) and expects a dedicated runtime environment
-- For multi-tenant deployment with shared infrastructure, visit <a href="https://mcparmory.com" style={{color: 'hsl(199, 100%, 57%)'}}>MCP Armory</a>
+- For multi-tenant deployment with shared infrastructure, visit <a href="https://mcparmory.com" target="_blank" style={{color: 'hsl(199, 100%, 57%)', textDecoration: 'none'}}>MCP Armory</a>
