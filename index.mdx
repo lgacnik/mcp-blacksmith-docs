@@ -1,59 +1,236 @@
 ---
-title: "Icon Test"
-description: "Testing which icons get clipped."
+title: "Icon Clipping Test"
+description: "Testing lock and gear icon variants across Font Awesome styles."
 ---
 
-## MCP site icons (known good)
+## Lock variants — default (solid)
 
 <Columns cols={2}>
-  <Card title="server" icon="server">
-    Test text for server icon.
+  <Card title="lock" icon="lock">
+    Default lock.
   </Card>
-  <Card title="computer" icon="computer">
-    Test text for computer icon.
+  <Card title="lock-open" icon="lock-open">
+    Default lock-open.
   </Card>
-  <Card title="book" icon="book">
-    Test text for book icon.
+  <Card title="lock-keyhole" icon="lock-keyhole">
+    Default lock-keyhole.
   </Card>
-  <Card title="outlet" icon="outlet">
-    Test text for outlet icon.
+  <Card title="lock-keyhole-open" icon="lock-keyhole-open">
+    Default lock-keyhole-open.
   </Card>
-  <Card title="grid" icon="grid">
-    Test text for grid icon.
+  <Card title="unlock" icon="unlock">
+    Default unlock.
   </Card>
-  <Card title="bug" icon="bug">
-    Test text for bug icon.
+  <Card title="unlock-keyhole" icon="unlock-keyhole">
+    Default unlock-keyhole.
   </Card>
-  <Card title="comments" icon="comments">
-    Test text for comments icon.
+  <Card title="key" icon="key">
+    Default key.
+  </Card>
+  <Card title="shield-keyhole" icon="shield-keyhole">
+    Default shield-keyhole.
   </Card>
 </Columns>
 
-## Our icons
+## Lock variants — regular
 
 <Columns cols={2}>
-  <Card title="code" icon="code">
-    Test text for code icon.
+  <Card title="lock" icon="lock" iconType="regular">
+    Regular lock.
   </Card>
-  <Card title="lock" icon="lock">
-    Test text for lock icon.
+  <Card title="lock-open" icon="lock-open" iconType="regular">
+    Regular lock-open.
   </Card>
-  <Card title="shield" icon="shield">
-    Test text for shield icon.
+  <Card title="lock-keyhole" icon="lock-keyhole" iconType="regular">
+    Regular lock-keyhole.
   </Card>
-  <Card title="bolt" icon="bolt">
-    Test text for bolt icon.
+  <Card title="lock-keyhole-open" icon="lock-keyhole-open" iconType="regular">
+    Regular lock-keyhole-open.
   </Card>
+  <Card title="unlock" icon="unlock" iconType="regular">
+    Regular unlock.
+  </Card>
+  <Card title="unlock-keyhole" icon="unlock-keyhole" iconType="regular">
+    Regular unlock-keyhole.
+  </Card>
+  <Card title="key" icon="key" iconType="regular">
+    Regular key.
+  </Card>
+  <Card title="shield-keyhole" icon="shield-keyhole" iconType="regular">
+    Regular shield-keyhole.
+  </Card>
+</Columns>
+
+## Lock variants — light
+
+<Columns cols={2}>
+  <Card title="lock" icon="lock" iconType="light">
+    Light lock.
+  </Card>
+  <Card title="lock-open" icon="lock-open" iconType="light">
+    Light lock-open.
+  </Card>
+  <Card title="lock-keyhole" icon="lock-keyhole" iconType="light">
+    Light lock-keyhole.
+  </Card>
+  <Card title="lock-keyhole-open" icon="lock-keyhole-open" iconType="light">
+    Light lock-keyhole-open.
+  </Card>
+  <Card title="unlock" icon="unlock" iconType="light">
+    Light unlock.
+  </Card>
+  <Card title="unlock-keyhole" icon="unlock-keyhole" iconType="light">
+    Light unlock-keyhole.
+  </Card>
+  <Card title="key" icon="key" iconType="light">
+    Light key.
+  </Card>
+  <Card title="shield-keyhole" icon="shield-keyhole" iconType="light">
+    Light shield-keyhole.
+  </Card>
+</Columns>
+
+## Lock variants — thin
+
+<Columns cols={2}>
+  <Card title="lock" icon="lock" iconType="thin">
+    Thin lock.
+  </Card>
+  <Card title="lock-open" icon="lock-open" iconType="thin">
+    Thin lock-open.
+  </Card>
+  <Card title="lock-keyhole" icon="lock-keyhole" iconType="thin">
+    Thin lock-keyhole.
+  </Card>
+  <Card title="lock-keyhole-open" icon="lock-keyhole-open" iconType="thin">
+    Thin lock-keyhole-open.
+  </Card>
+  <Card title="unlock" icon="unlock" iconType="thin">
+    Thin unlock.
+  </Card>
+  <Card title="unlock-keyhole" icon="unlock-keyhole" iconType="thin">
+    Thin unlock-keyhole.
+  </Card>
+  <Card title="key" icon="key" iconType="thin">
+    Thin key.
+  </Card>
+  <Card title="shield-keyhole" icon="shield-keyhole" iconType="thin">
+    Thin shield-keyhole.
+  </Card>
+</Columns>
+
+## Gear/cog variants — default (solid)
+
+<Columns cols={2}>
   <Card title="gear" icon="gear">
-    Test text for gear icon.
+    Default gear.
   </Card>
-  <Card title="folder-open" icon="folder-open">
-    Test text for folder-open icon.
+  <Card title="gears" icon="gears">
+    Default gears.
   </Card>
-  <Card title="plug" icon="plug">
-    Test text for plug icon.
+  <Card title="gear-complex" icon="gear-complex">
+    Default gear-complex.
   </Card>
-  <Card title="sparkles" icon="sparkles">
-    Test text for sparkles icon.
+  <Card title="gear-code" icon="gear-code">
+    Default gear-code.
+  </Card>
+  <Card title="sliders" icon="sliders">
+    Default sliders.
+  </Card>
+  <Card title="wrench" icon="wrench">
+    Default wrench.
+  </Card>
+  <Card title="screwdriver-wrench" icon="screwdriver-wrench">
+    Default screwdriver-wrench.
+  </Card>
+  <Card title="cog" icon="cog">
+    Default cog (alias for gear).
+  </Card>
+</Columns>
+
+## Gear/cog variants — regular
+
+<Columns cols={2}>
+  <Card title="gear" icon="gear" iconType="regular">
+    Regular gear.
+  </Card>
+  <Card title="gears" icon="gears" iconType="regular">
+    Regular gears.
+  </Card>
+  <Card title="gear-complex" icon="gear-complex" iconType="regular">
+    Regular gear-complex.
+  </Card>
+  <Card title="gear-code" icon="gear-code" iconType="regular">
+    Regular gear-code.
+  </Card>
+  <Card title="sliders" icon="sliders" iconType="regular">
+    Regular sliders.
+  </Card>
+  <Card title="wrench" icon="wrench" iconType="regular">
+    Regular wrench.
+  </Card>
+  <Card title="screwdriver-wrench" icon="screwdriver-wrench" iconType="regular">
+    Regular screwdriver-wrench.
+  </Card>
+  <Card title="cog" icon="cog" iconType="regular">
+    Regular cog.
+  </Card>
+</Columns>
+
+## Gear/cog variants — light
+
+<Columns cols={2}>
+  <Card title="gear" icon="gear" iconType="light">
+    Light gear.
+  </Card>
+  <Card title="gears" icon="gears" iconType="light">
+    Light gears.
+  </Card>
+  <Card title="gear-complex" icon="gear-complex" iconType="light">
+    Light gear-complex.
+  </Card>
+  <Card title="gear-code" icon="gear-code" iconType="light">
+    Light gear-code.
+  </Card>
+  <Card title="sliders" icon="sliders" iconType="light">
+    Light sliders.
+  </Card>
+  <Card title="wrench" icon="wrench" iconType="light">
+    Light wrench.
+  </Card>
+  <Card title="screwdriver-wrench" icon="screwdriver-wrench" iconType="light">
+    Light screwdriver-wrench.
+  </Card>
+  <Card title="cog" icon="cog" iconType="light">
+    Light cog.
+  </Card>
+</Columns>
+
+## Gear/cog variants — thin
+
+<Columns cols={2}>
+  <Card title="gear" icon="gear" iconType="thin">
+    Thin gear.
+  </Card>
+  <Card title="gears" icon="gears" iconType="thin">
+    Thin gears.
+  </Card>
+  <Card title="gear-complex" icon="gear-complex" iconType="thin">
+    Thin gear-complex.
+  </Card>
+  <Card title="gear-code" icon="gear-code" iconType="thin">
+    Thin gear-code.
+  </Card>
+  <Card title="sliders" icon="sliders" iconType="thin">
+    Thin sliders.
+  </Card>
+  <Card title="wrench" icon="wrench" iconType="thin">
+    Thin wrench.
+  </Card>
+  <Card title="screwdriver-wrench" icon="screwdriver-wrench" iconType="thin">
+    Thin screwdriver-wrench.
+  </Card>
+  <Card title="cog" icon="cog" iconType="thin">
+    Thin cog.
   </Card>
 </Columns>
