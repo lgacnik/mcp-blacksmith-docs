@@ -91,9 +91,6 @@
       "href": "https://mcpblacksmith.com/dashboard"
     }
   },
-  "chat": {
-    "enabled": false
-  },
   "contextual": {
     "options": []
   },

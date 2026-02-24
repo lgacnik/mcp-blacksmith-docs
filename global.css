@@ -44,3 +44,32 @@ html {
 ::-webkit-scrollbar-corner {
   background: #1a1a1a;
 }
+
+/* Hide Mintlify AI assistant / "Ask a question" chat widget */
+#mintlify-chat,
+#mintlify-assistant,
+[data-testid="chat-widget"],
+[data-testid="assistant"],
+div[class*="Assistant"],
+div[class*="assistant"],
+div[class*="ChatWidget"],
+div[class*="chatWidget"],
+div[class*="AskAI"],
+div[class*="chat-input"],
+div[class*="ChatInput"],
+button[aria-label*="Ask"],
+div[id*="assistant"],
+div[id*="chat"] {
+  display: none !important;
+}
+
+/* Hide "Powered by Mintlify" footer attribution */
+a[href*="mintlify.com"][class*="powered"],
+div[class*="PoweredBy"],
+div[class*="poweredBy"],
+a[href*="mintlify.com/preview-request"],
+footer a[href*="mintlify"],
+div[class*="built-with"],
+span[class*="powered"] {
+  display: none !important;
+}
