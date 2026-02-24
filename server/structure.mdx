@@ -17,9 +17,7 @@ my-api-server/
 ├── requirements.txt    # Python dependencies
 ├── Dockerfile          # Production Docker build
 ├── .mcp.json           # MCP client configuration template
-├── README.md           # Setup and usage guide
-├── metadata.json       # Generation metadata and authentication mapping
-└── spec.json           # Copy of the original OpenAPI specification
+└── README.md           # Setup and usage guide
 ```
 
 <Note>
@@ -151,22 +149,6 @@ Pre-configured MCP client configuration template:
 ```
 
 Copy this into your MCP client's configuration file, adjusting the path to `server.py`.
-
-### `metadata.json`
-
-Generation metadata used by deployment platforms:
-
-```json metadata.json
-{
-  "server_name": "My API",
-  "base_url": "https://api.example.com",
-  "spec_version": "3.0.0",
-  "operations_count": 45,
-  "types_count": 120,
-  "auth_schemes": { ... },
-  "operation_auth_map": { ... }
-}
-```
 
 ## Next steps
 

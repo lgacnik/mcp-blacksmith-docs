@@ -36,12 +36,17 @@ div[class*="chat-assistant"] {
   display: none !important;
 }
 
-/* 7. "Ask assistant" popover on text selection */
+/* 7. "Ask/Add to assistant" popover on text selection */
 div[class*="SelectionPopover"],
 div[class*="selection-popover"],
 button[class*="SelectionPopover"],
-[data-radix-popper-content-wrapper]:has(button[class*="ask"]),
-div[class*="Popover"]:has(> button:only-child) {
+[data-radix-popper-content-wrapper],
+div[class*="Popover"]:has(button),
+div[class*="popover"]:has(button),
+[class*="selection-toolbar"],
+[class*="SelectionToolbar"],
+[class*="add-to-assistant"],
+[class*="AddToAssistant"] {
   display: none !important;
 }
 

@@ -8,30 +8,28 @@ description: "Understand the MCP Blacksmith generation pipeline — from OpenAPI
 MCP Blacksmith converts an OpenAPI specification into a fully functional MCP server through a multi-stage pipeline:
 
 ```
-OpenAPI Specification → Parse & Validate → Extract Operations → Generate Code → Package Server
+OpenAPI Specification → Parse & Validate → Generate Code → Package Server
 ```
 
 ### 1. Parse and validate
 
 Your OpenAPI specification is parsed and validated for structural correctness. Blacksmith supports:
 
-- **OpenAPI 2.0** (Swagger) — auto-converted to 3.x internally
+- **OpenAPI 2.0** (Swagger)
 - **OpenAPI 3.0.x**
 - **OpenAPI 3.1.x**
 - **OpenAPI 3.2.x**
 - **JSON and YAML** formats
 
-If validation issues are found, they're reported with specific locations and suggested fixes. You can optionally run a [dedicated validation pass](/generation/validation) for deeper analysis.
+Specifications are validated for schema correctness, reference integrity, and required fields before generation begins. Issues that would produce broken code block generation and are reported with specific locations and suggested fixes.
 
-### 2. Extract operations
+You can also run a [dedicated validation pass](/generation/validation) separately to inspect your specification in detail. This is optional and non-blocking — results are shown in the Viewer tab of the dashboard.
 
-Every API operation (e.g., `GET /users`, `POST /orders`) is extracted with its:
+### 2. Extract and enrich operations
 
-- **Parameters** — path, query, header, and cookie parameters with types
-- **Request body** — schema, content type, required fields
-- **Response schemas** — success and error response structures
-- **Authentication requirements** — which security schemes apply to each operation
-- **Metadata** — descriptions, tags, deprecation status
+Operations and their request/response schemas are extracted from the specification. Each API operation (e.g., `GET /users`, `POST /orders`) is mapped to an MCP tool with its parameters, request body, response schemas, and authentication requirements.
+
+Optionally, these operations can be filtered and enhanced using [AI-enhanced passes](/generation/ai-passes). Passes can remove server-generated fields that AI agents shouldn't control, improve parameter descriptions for LLM readability, classify operations by importance, and optimize schemas for token efficiency. This curation step is what separates a raw API wrapper from a production-quality MCP server — it ensures AI agents see only the parameters they should set, with descriptions they can understand.
 
 ### 3. Generate code
 
@@ -48,7 +46,6 @@ The generator produces a complete Python project:
 | `Dockerfile` | Production Docker build |
 | `.mcp.json` | MCP client configuration template |
 | `README.md` | Setup and usage instructions |
-| `metadata.json` | Generation metadata and authentication mapping |
 
 Each API operation becomes an MCP **tool** — an async function that handles parameter validation, authentication injection, HTTP request execution, and response processing.
 
@@ -77,3 +74,13 @@ When an MCP client (like Claude) calls a tool:
 5. **Return** — Structured data is returned to the MCP client
 
 All of this happens transparently. The AI agent sees simple tools with typed parameters and gets clean responses.
+
+## Deployment considerations
+
+<Note>
+  Generated servers are designed for **self-hosted, single-tenant** deployment. Each server instance serves one user or application with its own credentials.
+</Note>
+
+- **Do not commit `.env` to version control** — it contains sensitive API credentials
+- The server is stateful (credentials, connection pools) and expects a dedicated runtime environment
+- For multi-tenant deployment with shared infrastructure, visit <a href="https://mcparmory.com" style={{color: 'hsl(199, 100%, 57%)'}}>MCP Armory</a>
