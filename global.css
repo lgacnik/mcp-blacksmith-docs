@@ -45,6 +45,19 @@ html {
   background: #1a1a1a;
 }
 
+/* Hide "Ask AI" button in navbar next to search */
+button[aria-label*="Ask AI"],
+button[aria-label*="AI"],
+a[aria-label*="Ask AI"],
+div[class*="AskAI"],
+div[class*="askAi"],
+div[class*="ask-ai"],
+button[class*="AskAI"],
+button[class*="askAi"],
+button[class*="ask-ai"] {
+  display: none !important;
+}
+
 /* Hide Mintlify AI assistant / "Ask a question" chat widget */
 #mintlify-chat,
 #mintlify-assistant,
