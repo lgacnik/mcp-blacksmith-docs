@@ -71,6 +71,6 @@ All of this happens transparently. The AI agent sees simple tools with typed par
   Generated servers are designed for **self-hosted, single-tenant** deployment. Each server instance serves one user or application with its own credentials.
 </Note>
 
-- **Do not commit `.env` to version control** — it contains sensitive API credentials
-- The server is stateful (credentials, connection pools) and expects a dedicated runtime environment
-- For multi-tenant deployment with shared infrastructure, visit <a href="https://mcparmory.com" target="_blank" style={{color: 'hsl(199, 100%, 57%)', textDecoration: 'none'}}>MCP Armory</a>
+- **Do not commit `.env` to version control** — it may contain sensitive API credentials
+- The server requires its dependencies installed (via `requirements.txt`, either in a virtual environment or globally)
+- For multi-tenant deployment with shared infrastructure, visit [MCP Armory](https://mcparmory.com)
