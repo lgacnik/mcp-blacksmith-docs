@@ -45,6 +45,18 @@ div[class*="Popover"]:has(> button:only-child) {
   display: none !important;
 }
 
+/* ===== Fix card icon clipping ===== */
+[class*="Card"] svg,
+[class*="card"] svg,
+[class*="Card"] [class*="icon"],
+[class*="card"] [class*="icon"] {
+  overflow: visible !important;
+}
+[class*="Card"] svg *,
+[class*="card"] svg * {
+  overflow: visible !important;
+}
+
 /* ===== Hide "Powered by Mintlify" footer (if present) ===== */
 a[href*="mintlify.com"]:not(nav a),
 div[class*="PoweredBy"],
