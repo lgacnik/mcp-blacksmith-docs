@@ -45,16 +45,11 @@ div[class*="Popover"]:has(> button:only-child) {
   display: none !important;
 }
 
-/* ===== Fix card icon clipping ===== */
+/* ===== Fix card icon clipping (scale down to fit viewBox) ===== */
 [class*="Card"] svg,
-[class*="card"] svg,
-[class*="Card"] [class*="icon"],
-[class*="card"] [class*="icon"] {
-  overflow: visible !important;
-}
-[class*="Card"] svg *,
-[class*="card"] svg * {
-  overflow: visible !important;
+[class*="card"] svg {
+  transform: scale(0.85) !important;
+  transform-origin: top left !important;
 }
 
 /* ===== Navbar "Start Forging" button — match landing page style ===== */
