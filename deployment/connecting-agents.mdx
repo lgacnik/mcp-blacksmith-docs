@@ -95,7 +95,11 @@ This is the standard approach for Docker deployments, remote servers, and shared
 
 ## Multiple servers
 
-You can connect multiple MCP servers to a single client. Each server runs independently:
+You can connect multiple MCP servers to a single client. Each server runs independently and securely handles its own API:
+
+<Frame>
+  <img src="/images/security-architecture.png" alt="MCP client connected to multiple MCP servers — each protecting a different API with its own authentication and security layer" />
+</Frame>
 
 ```json
 {
