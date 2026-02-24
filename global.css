@@ -57,6 +57,14 @@ div[class*="Popover"]:has(> button:only-child) {
   overflow: visible !important;
 }
 
+/* ===== Navbar "Start Forging" button — match landing page style ===== */
+nav a[href="https://mcpblacksmith.com/dashboard"],
+nav button:has(+ a[href="https://mcpblacksmith.com/dashboard"]),
+nav [class*="primary"] a,
+nav [class*="primary"] button {
+  border-radius: 0.5rem !important;
+}
+
 /* ===== Hide "Powered by Mintlify" footer (if present) ===== */
 a[href*="mintlify.com"]:not(nav a),
 div[class*="PoweredBy"],
