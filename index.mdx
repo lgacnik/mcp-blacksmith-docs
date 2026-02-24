@@ -5,19 +5,19 @@ description: "MCP Blacksmith generates production-ready MCP servers from OpenAPI
 
 ## What is MCP Blacksmith?
 
-MCP Blacksmith transforms API specifications into fully functional [MCP (Model Context Protocol)](https://modelcontextprotocol.io) servers. Upload an OpenAPI spec, and get complete Python code — with authentication, security, validation, and resilience — ready to deploy anywhere.
+MCP Blacksmith transforms API specifications into fully functional [MCP (Model Context Protocol)](https://modelcontextprotocol.io) servers. Upload an OpenAPI specification, and get complete Python code — with authentication, security, and validation — ready to deploy anywhere.
 
 **You own every line of generated code.** Download it, modify it, deploy it, sell it. No attribution, no royalties, no lock-in.
 
-<Card title="Quickstart" icon="bolt" iconType="sharp-solid" href="/quickstart" horizontal>
+<Card title="Quickstart" icon="bolt" iconType="regular" href="/quickstart" horizontal>
   Generate your first MCP server in under 2 minutes.
 </Card>
 
 ## What is MCP?
 
-The **Model Context Protocol** is an open standard that lets AI agents interact with external services through a unified interface. Instead of building custom integrations for every API, an AI agent connects to MCP servers that handle the complexity of authentication, request formatting, and error handling.
+The **Model Context Protocol (MCP)** is an open standard for connecting AI applications to external systems. It provides a standardized way for AI agents and applications to access data sources, tools, and workflows — without building custom integrations for every API.
 
-One AI client connects to multiple MCP servers — each wrapping a different API:
+MCP Blacksmith generates these MCP servers from OpenAPI specifications. Each generated server wraps an API and exposes its operations as **tools** that any MCP-compatible AI client can call:
 
 ```
 AI Agent
@@ -27,7 +27,7 @@ AI Agent
   └── MCP Server: Your Internal API
 ```
 
-Each MCP server exposes API operations as **tools** that the AI agent can call. The server handles authentication, rate limiting, retries, and validation transparently.
+The server handles authentication, request formatting, error handling, and validation transparently — the AI agent sees simple tools with typed parameters and gets clean responses.
 
 ## Who is Blacksmith for?
 
@@ -36,19 +36,21 @@ Each MCP server exposes API operations as **tools** that the AI agent can call. 
 - **Companies** wanting to expose their APIs to AI agents securely
 - **Anyone** building with MCP-compatible AI tools and IDEs
 
+You don't need deep technical expertise to generate MCP servers. All you need is an OpenAPI specification for the API your agent needs access to.
+
 ## What you get
 
 <Columns cols={2}>
-  <Card title="Production-ready code" icon="code" iconType="sharp-solid">
+  <Card title="Production-ready code" icon="code" iconType="regular">
     Full Python server with FastMCP framework, Pydantic validation, and typed models.
   </Card>
-  <Card title="Auto-configured auth" icon="lock" iconType="sharp-solid">
-    OAuth2, API Key, JWT, Bearer, Basic, OIDC, and mTLS — detected from your spec.
+  <Card title="Auto-configured authentication" icon="lock" iconType="regular">
+    Extensive support for OAuth2, API Key, JWT, Bearer, Basic, OIDC, and mTLS.
   </Card>
-  <Card title="Built-in resilience" icon="shield" iconType="sharp-solid">
+  <Card title="Built-in security" icon="shield" iconType="sharp-solid">
     Circuit breakers, exponential backoff, rate limiting, and multi-layer timeouts.
   </Card>
-  <Card title="Deploy anywhere" icon="server" iconType="sharp-solid">
+  <Card title="Deploy anywhere" icon="server" iconType="light">
     Download the server with all dependencies. Run locally, in Docker, or on any cloud.
   </Card>
 </Columns>
@@ -56,16 +58,16 @@ Each MCP server exposes API operations as **tools** that the AI agent can call. 
 ## Next steps
 
 <Columns cols={2}>
-  <Card title="Quickstart" icon="bolt" iconType="sharp-solid" href="/quickstart">
+  <Card title="Quickstart" icon="bolt" iconType="regular" href="/quickstart">
     Generate your first server in 2 minutes.
   </Card>
-  <Card title="How it works" icon="route" iconType="sharp-solid" href="/how-it-works">
+  <Card title="How it works" icon="gear" iconType="light" href="/how-it-works">
     Understand the generation pipeline.
   </Card>
-  <Card title="Server structure" icon="folder-open" iconType="sharp-solid" href="/server/structure">
+  <Card title="Server structure" icon="folder-open" iconType="light" href="/server/structure">
     What's inside a generated server.
   </Card>
-  <Card title="Connect to agents" icon="plug" iconType="sharp-solid" href="/deployment/connecting-agents">
+  <Card title="Connect to agents" icon="plug" iconType="regular" href="/deployment/connecting-agents">
     Use your server with any MCP client.
   </Card>
 </Columns>

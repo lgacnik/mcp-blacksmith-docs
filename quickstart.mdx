@@ -8,7 +8,7 @@ description: "Generate and run your first MCP server in under 2 minutes."
 - **Python 3.11+** installed on your machine
 - An **OpenAPI specification** for the API you want to wrap (JSON or YAML)
 
-Don't have a spec handy? Use the [Petstore sample spec](https://petstore3.swagger.io/api/v3/openapi.json) to follow along.
+Don't have a specification handy? Use the [Petstore sample specification](https://petstore3.swagger.io/api/v3/openapi.json) to follow along.
 
 ## Step 1: Generate your server
 
@@ -16,11 +16,11 @@ Don't have a spec handy? Use the [Petstore sample spec](https://petstore3.swagge
   <Step title="Open the dashboard">
     Go to [mcpblacksmith.com/dashboard](https://mcpblacksmith.com/dashboard) and create a new project.
   </Step>
-  <Step title="Upload your spec">
-    Drag and drop your OpenAPI spec file (JSON or YAML) into the upload zone. Blacksmith supports OpenAPI 2.0, 3.0, 3.1, and 3.2.
+  <Step title="Upload your specification">
+    Drag and drop your OpenAPI specification file (JSON or YAML) into the upload zone. Blacksmith supports OpenAPI 2.0, 3.0, 3.1, and 3.2.
   </Step>
   <Step title="Generate">
-    Click **Generate**. Blacksmith analyzes your spec, extracts all operations, builds typed models, configures authentication, and generates the complete server code.
+    Click **Generate**. Blacksmith analyzes your specification, extracts all operations, builds typed models, configures authentication, and generates the complete server code.
   </Step>
   <Step title="Download">
     Download the generated server as a ZIP file. Extract it to a directory of your choice.
@@ -50,7 +50,7 @@ OAUTH2_CLIENT_ID=your-client-id
 OAUTH2_CLIENT_SECRET=your-client-secret
 ```
 
-The `.env` file is pre-configured with the correct variable names for your API's authentication scheme. See [Authentication](/server/authentication) for details on each auth type.
+The `.env` file is pre-configured with the correct variable names for your API's authentication scheme. See [Authentication](/server/authentication) for details on each authentication type.
 
 ## Step 4: Run the server
 
@@ -88,16 +88,16 @@ Restart your MCP client. Your API tools are now available to the AI agent.
 ## What's next?
 
 <Columns cols={2}>
-  <Card title="Server structure" icon="folder-open" iconType="sharp-solid" href="/server/structure">
+  <Card title="Server structure" icon="folder-open" iconType="light" href="/server/structure">
     Understand what each generated file does.
   </Card>
-  <Card title="Authentication" icon="lock" iconType="sharp-solid" href="/server/authentication">
+  <Card title="Authentication" icon="lock" iconType="regular" href="/server/authentication">
     Configure OAuth2, API keys, JWT, and more.
   </Card>
   <Card title="Security features" icon="shield" iconType="sharp-solid" href="/server/security">
     Circuit breakers, rate limiting, and retries.
   </Card>
-  <Card title="AI-enhanced passes" icon="sparkles" iconType="sharp-solid" href="/generation/ai-passes">
+  <Card title="AI-enhanced passes" icon="sparkles" iconType="regular" href="/generation/ai-passes">
     Optimize your server with AI curation.
   </Card>
 </Columns>

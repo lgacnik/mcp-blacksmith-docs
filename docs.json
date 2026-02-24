@@ -97,35 +97,7 @@
   "footer": {
     "socials": {
       "linkedin": "https://linkedin.com/company/mcpblacksmith"
-    },
-    "links": [
-      {
-        "header": "Resources",
-        "items": [
-          {
-            "label": "Dashboard",
-            "href": "https://mcpblacksmith.com/dashboard"
-          },
-          {
-            "label": "Contact",
-            "href": "https://mcpblacksmith.com/contact"
-          }
-        ]
-      },
-      {
-        "header": "Legal",
-        "items": [
-          {
-            "label": "Privacy Policy",
-            "href": "https://mcpblacksmith.com/privacy"
-          },
-          {
-            "label": "Terms of Service",
-            "href": "https://mcpblacksmith.com/terms"
-          }
-        ]
-      }
-    ]
+    }
   },
   "seo": {
     "metatags": {

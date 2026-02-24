@@ -1,6 +1,6 @@
 ---
 title: "How It Works"
-description: "Understand the MCP Blacksmith generation pipeline — from OpenAPI spec to running server."
+description: "Understand the MCP Blacksmith generation pipeline — from OpenAPI specification to running server."
 ---
 
 ## The generation pipeline
@@ -8,7 +8,7 @@ description: "Understand the MCP Blacksmith generation pipeline — from OpenAPI
 MCP Blacksmith converts an OpenAPI specification into a fully functional MCP server through a multi-stage pipeline:
 
 ```
-OpenAPI Spec → Parse & Validate → Extract Operations → Generate Code → Package Server
+OpenAPI Specification → Parse & Validate → Extract Operations → Generate Code → Package Server
 ```
 
 ### 1. Parse and validate
@@ -48,7 +48,7 @@ The generator produces a complete Python project:
 | `Dockerfile` | Production Docker build |
 | `.mcp.json` | MCP client configuration template |
 | `README.md` | Setup and usage instructions |
-| `metadata.json` | Generation metadata and auth mapping |
+| `metadata.json` | Generation metadata and authentication mapping |
 
 Each API operation becomes an MCP **tool** — an async function that handles parameter validation, authentication injection, HTTP request execution, and response processing.
 
@@ -71,7 +71,7 @@ These passes consume credits and are entirely optional.
 When an MCP client (like Claude) calls a tool:
 
 1. **Validate** — Parameters are validated against Pydantic models
-2. **Authenticate** — Correct credentials are injected based on the operation's auth requirements
+2. **Authenticate** — Correct credentials are injected based on the operation's authentication requirements
 3. **Execute** — HTTP request is sent to the target API with retry logic and circuit breaking
 4. **Validate response** — Response is optionally validated against the API's response schema
 5. **Return** — Structured data is returned to the MCP client

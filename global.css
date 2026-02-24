@@ -52,3 +52,16 @@ div[class*="poweredBy"],
 span[class*="powered"] {
   display: none !important;
 }
+
+/* ===== Footer copyright text ===== */
+#footer::after {
+  content: "\00a9  2026 MCP Blacksmith. All rights reserved.";
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border-gray-100, rgba(128, 128, 128, 0.2));
+  color: var(--text-gray-700, rgba(156, 163, 175, 0.7));
+  font-size: 0.875rem;
+}

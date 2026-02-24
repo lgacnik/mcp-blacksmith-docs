@@ -19,7 +19,7 @@ Used when the API requires a key passed as a header, query parameter, or cookie.
 API_KEY=your-api-key-here
 ```
 
-The generated code reads the key location (header, query, or cookie) and parameter name from the spec. For example, if the spec defines an API key in the `X-API-Key` header, the server automatically sends:
+The generated code reads the key location (header, query, or cookie) and parameter name from the specification. For example, if the specification defines an API key in the `X-API-Key` header, the server automatically sends:
 
 ```
 X-API-Key: your-api-key-here
@@ -110,21 +110,21 @@ The HTTP client is configured with the client certificate for mutual authenticat
 
 ## Per-operation authentication
 
-Not every operation uses the same auth. The generated server maps each operation to its required schemes:
+Not every operation uses the same authentication. The generated server maps each operation to its required schemes:
 
 ```python
 # Generated in _auth.py
 OPERATION_AUTH_MAP = {
     "list_users": [["oauth2"], ["api_key"]],   # Use oauth2 OR api_key
     "create_user": [["oauth2"]],                # OAuth2 only
-    "get_public_info": [],                      # No auth required
+    "get_public_info": [],                      # No authentication required
 }
 ```
 
 - **Outer list** = OR — any one of these options works
 - **Inner list** = AND — all schemes in this group are required together
 
-The server automatically selects the first available auth option based on which credentials you've configured.
+The server automatically selects the first available authentication option based on which credentials you've configured.
 
 ## Security best practices
 

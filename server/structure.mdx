@@ -12,18 +12,18 @@ my-api-server/
 ├── server.py           # Main MCP server — tool definitions and request handling
 ├── _models.py          # Pydantic models for parameter and response validation
 ├── _validators.py      # Format validators (dates, emails, UUIDs, etc.)
-├── _auth.py            # Authentication handlers (if API requires auth)
+├── _auth.py            # Authentication handlers (if API requires authentication)
 ├── .env                # Credentials and runtime configuration
 ├── requirements.txt    # Python dependencies
 ├── Dockerfile          # Production Docker build
 ├── .mcp.json           # MCP client configuration template
 ├── README.md           # Setup and usage guide
-├── metadata.json       # Generation metadata and auth mapping
+├── metadata.json       # Generation metadata and authentication mapping
 └── spec.json           # Copy of the original OpenAPI specification
 ```
 
 <Note>
-  `_auth.py` is only generated if the OpenAPI spec defines security schemes. APIs without authentication skip this file entirely.
+  `_auth.py` is only generated if the OpenAPI specification defines security schemes. APIs without authentication skip this file entirely.
 </Note>
 
 ## Core files
@@ -35,14 +35,14 @@ The main entry point. Contains:
 - **Tool definitions** — One `@mcp.tool()` async function per API operation
 - **HTTP client setup** — Connection pooling, timeouts, mTLS support
 - **Resilience logic** — Retry with exponential backoff, circuit breaker, rate limiting
-- **Authentication injection** — Selects correct auth per operation
+- **Authentication injection** — Selects correct authentication per operation
 - **Response handling** — JSON parsing, error formatting, optional validation
 - **Transport selection** — stdio, SSE, or streamable-http (selected at runtime)
 
 Each tool function follows this flow:
 
 ```
-Validate parameters → Inject auth → Make HTTP request → Validate response → Return data
+Validate parameters → Inject authentication → Make HTTP request → Validate response → Return data
 ```
 
 ### `_models.py`
@@ -70,7 +70,7 @@ Also provides base model classes (`RequestModel`, `ResponseModel`) that all gene
 
 ### `_auth.py`
 
-Authentication handler classes, one per security scheme found in your spec. See [Authentication](/server/authentication) for details on each type.
+Authentication handler classes, one per security scheme found in your specification. See [Authentication](/server/authentication) for details on each type.
 
 Includes `OPERATION_AUTH_MAP` — a mapping from each operation ID to its required authentication schemes, supporting both OR (use any available) and AND (use all together) logic.
 
@@ -132,7 +132,7 @@ python-dotenv>=1.0.0,<2.0.0
 ```
 
 Additional packages are included when needed:
-- `authlib` and `PyJWT` — if OAuth2, OIDC, or JWT auth is used
+- `authlib` and `PyJWT` — if OAuth2, OIDC, or JWT authentication is used
 - `requests` — if OAuth2 browser-based flow is used
 
 ### `.mcp.json`
@@ -171,8 +171,8 @@ Generation metadata used by deployment platforms:
 ## Next steps
 
 <Columns cols={2}>
-  <Card title="Authentication" icon="lock" iconType="sharp-solid" href="/server/authentication">
-    Configure credentials for each auth type.
+  <Card title="Authentication" icon="lock" iconType="regular" href="/server/authentication">
+    Configure credentials for each authentication type.
   </Card>
   <Card title="Security features" icon="shield" iconType="sharp-solid" href="/server/security">
     Circuit breakers, rate limiting, retries.
