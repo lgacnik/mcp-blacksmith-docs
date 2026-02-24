@@ -45,17 +45,6 @@ div[class*="Popover"]:has(> button:only-child) {
   display: none !important;
 }
 
-/* ===== Fix card icon clipping ===== */
-[class*="Card"] svg,
-[class*="card"] svg {
-  overflow: visible !important;
-}
-
-[class*="Card"] [class*="icon"],
-[class*="card"] [class*="icon"] {
-  overflow: visible !important;
-}
-
 /* ===== Navbar "Start Forging" button — match landing page style ===== */
 nav a[href="https://mcpblacksmith.com/dashboard"],
 nav a[href="https://mcpblacksmith.com/dashboard"] *,
