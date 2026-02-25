@@ -72,6 +72,30 @@ span[class*="powered"] {
   display: none !important;
 }
 
+/* ===== FAQ Accordion — distinguish questions from answers ===== */
+
+/* Question trigger: bold, brand-tinted */
+[data-accordion] > button,
+[class*="AccordionTrigger"],
+[class*="accordion-trigger"],
+details > summary {
+  font-weight: 600 !important;
+  color: var(--colors-primary, #ff5722) !important;
+}
+
+/* Answer content: muted text, left accent border, subtle background */
+[data-accordion] > [role="region"],
+[class*="AccordionContent"],
+[class*="accordion-content"],
+details > :not(summary) {
+  color: var(--text-gray-700, rgba(200, 200, 200, 0.85)) !important;
+  border-left: 2px solid var(--colors-primary, #ff5722) !important;
+  background: rgba(255, 87, 34, 0.04) !important;
+  padding: 0.75rem 1rem !important;
+  margin-top: 0.5rem !important;
+  border-radius: 0 0.375rem 0.375rem 0 !important;
+}
+
 /* ===== Footer copyright text ===== */
 #footer::after {
   content: "\00a9  2026 MCP Blacksmith. All rights reserved.";

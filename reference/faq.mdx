@@ -14,10 +14,6 @@ description: "Frequently asked questions about MCP Blacksmith."
     MCP Blacksmith generates production-ready MCP servers from OpenAPI specifications. Upload a specification, and get complete Python code with authentication, security, and validation — ready to deploy anywhere. See [About](https://mcpblacksmith.com/about) for more.
   </Accordion>
 
-  <Accordion title="What API specifications are supported?">
-    OpenAPI 2.0 (Swagger), 3.0, 3.1, and 3.2 in JSON or YAML format. Most modern APIs provide OpenAPI specifications, and many legacy APIs can be documented in this format. See [Specification Upload](/generation/spec-upload) for conversion tools and where to find specifications.
-  </Accordion>
-
   <Accordion title="Can I use the generated code commercially?">
     Yes. You own all generated code outright. Use it for personal projects, commercial products, client work — no attribution required, no royalties, no restrictions.
   </Accordion>
@@ -35,6 +31,8 @@ description: "Frequently asked questions about MCP Blacksmith."
   </Accordion>
 </AccordionGroup>
 
+For supported specification formats, see [Specification Upload](/generation/spec-upload). For details on authentication, security, and customization, see [Your Generated Server](/server/structure).
+
 ## Pricing
 
 <AccordionGroup>
@@ -46,34 +44,12 @@ description: "Frequently asked questions about MCP Blacksmith."
     Credits are consumed only when using AI-driven passes (1–5). Credit usage depends on the number of operations and parameters being optimized. Pass 0 is always free. No subscriptions — buy credits when you need them, use them at your own pace. Credits are valid for 1 year. See [Pricing](https://mcpblacksmith.com/pricing) for details.
   </Accordion>
 
-  <Accordion title="What do enhancement passes do?">
-    Enhancement passes optimize your generated server for AI agent interaction. Pass 0 (free) removes read-only fields and deprecated operations based on metadata. Passes 1–5 (AI-driven) curate parameters, score importance, improve descriptions, and rewrite schemas to be token-efficient. See [Enhancement Passes](/generation/enhancement-passes) for details.
-  </Accordion>
-
   <Accordion title="What happens if I run out of credits?">
     Free generation and Pass 0 always work. Only AI-driven passes (1–5) are blocked when you have insufficient credits. Your existing generated servers remain fully accessible.
   </Accordion>
 </AccordionGroup>
 
-## Technical
-
-<AccordionGroup>
-  <Accordion title="What authentication types are supported?">
-    API Key, Bearer Token, HTTP Basic, OAuth 2.0 (all flows), OpenID Connect, JWT, and Mutual TLS. Authentication is auto-configured from your OpenAPI specification's security schemes. See [Authentication](/server/authentication) for details.
-  </Accordion>
-
-  <Accordion title="What security features are included?">
-    Every generated server includes bidirectional input/output validation, circuit breakers, exponential backoff with retries, rate limiting, and multi-layer timeouts — protecting both the AI agent and the target API. See [Security](/server/security) for details.
-  </Accordion>
-
-  <Accordion title="Can I modify the generated code?">
-    Yes. It's standard Python — edit anything you want. See [Customizing Your Server](/server/customizing).
-  </Accordion>
-
-  <Accordion title="What Python version is required?">
-    Python 3.11 or higher.
-  </Accordion>
-</AccordionGroup>
+For details on what each pass does, see [Enhancement Passes](/generation/enhancement-passes).
 
 <Note>
   Have more questions? Visit our [FAQ](https://mcpblacksmith.com/faq) or [contact us](https://mcpblacksmith.com/contact).

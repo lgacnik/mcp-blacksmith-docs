@@ -7,7 +7,7 @@ description: "What OpenAPI features MCP Blacksmith supports, partially supports,
 
 | Version | Support |
 |---------|---------|
-| OpenAPI 2.0 (Swagger) | Auto-converted to 3.x |
+| OpenAPI 2.0 (Swagger) | Full support |
 | OpenAPI 3.0.x | Full support |
 | OpenAPI 3.1.x | Full support |
 | OpenAPI 3.2.x | Full support |
@@ -18,10 +18,7 @@ description: "What OpenAPI features MCP Blacksmith supports, partially supports,
 |---------|---------|
 | GET, POST, PUT, PATCH, DELETE | Full |
 | HEAD, OPTIONS, TRACE | Extracted but rarely useful as MCP tools |
-| Path parameters | Full |
-| Query parameters | Full |
-| Header parameters | Full |
-| Cookie parameters | Full |
+| Parameters (path, query, header, cookie) | Full — all locations supported |
 | Request body (JSON) | Full |
 | Request body (form-data) | Full |
 | Request body (multipart) | Partial — file uploads are type-mapped |
@@ -31,16 +28,26 @@ description: "What OpenAPI features MCP Blacksmith supports, partially supports,
 
 | Feature | Support |
 |---------|---------|
-| `$ref` references | Full — including nested and circular |
-| `allOf` composition | Full |
-| `oneOf` / `anyOf` | Mapped to union types |
+| `$ref` references | Full — including nested, circular, and deep chains |
+| `$defs` (JSON Schema 2020-12) | Full — hoisted to components for standard resolution |
+| `allOf` composition | Full — property merging across multiple schemas |
+| `oneOf` / `anyOf` | Mapped to union types with `discriminator` support for Pydantic discriminated unions |
+| `const` | Full — mapped to `Literal[value]` (OAS 3.1) |
 | `enum` | Full — mapped to `Literal` types |
 | `nullable` | Full — mapped to `X \| None` |
+| Type arrays (OAS 3.1) | Full — `"type": ["string", "null"]` mapped to union types |
 | Nested objects | Full — generates nested Pydantic models |
 | Arrays | Full — mapped to `list[T]` |
 | Dictionaries | Full — mapped to `dict[str, T]` |
-| `format` validators | 25+ formats (see [Security Features](/server/security)) |
+| `additionalProperties` | Schema value mapped to `dict[str, ValueType]`; `true`/`false` mapped to `dict[str, Any]` |
+| Circular / recursive schemas | Full — detected and resolved with forward-reference class names |
+| Numeric constraints | `minimum`, `maximum`, `exclusiveMinimum`, `exclusiveMaximum`, `multipleOf` mapped to Pydantic field constraints |
+| String constraints | `minLength`, `maxLength`, `pattern` mapped to Pydantic constraints. Regex patterns validated for engine compatibility |
+| Array constraints | `minItems`, `maxItems` mapped to length constraints on lists |
+| `format` validators | 30+ formats — date/time, identifiers, network, URI, numeric, binary, regex, phone (see [Security Features](/server/security)) |
 | `default` values | Full |
+| `example` / `examples` | Full — preserved in Pydantic `Field` metadata |
+| `deprecated` | Tracked on fields and operations, preserved in metadata |
 | `readOnly` / `writeOnly` | Respected in request vs. response models |
 
 ## Authentication
@@ -61,3 +68,5 @@ description: "What OpenAPI features MCP Blacksmith supports, partially supports,
 | Callbacks / Webhooks | MCP servers are request-driven, not event-driven |
 | Links | Informational only, not actionable in MCP context |
 | XML request/response bodies | JSON only |
+| `oneOf` discriminator tag mapping | `oneOf` unions are supported, but the optional `discriminator.mapping` feature (aliasing variant tags to schema references) is not. Standard `oneOf` with or without a `propertyName` discriminator works normally |
+| Multi-file specifications | Specifications must be a single file. Multi-file bundles (split across `$ref`-linked files) are not yet accepted — bundle them into one file before uploading |

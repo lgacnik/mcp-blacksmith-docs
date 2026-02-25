@@ -41,9 +41,7 @@
             "pages": [
               "generation/spec-upload",
               "generation/free-generation",
-              "generation/enhancement-passes",
-              "generation/validation",
-              "generation/linting"
+              "generation/enhancement-passes"
             ]
           },
           {

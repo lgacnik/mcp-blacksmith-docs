@@ -7,7 +7,7 @@ description: "Common issues and how to resolve them."
 
 ### "Specification validation failed"
 
-Your OpenAPI specification has structural issues. Run the [Validation](/generation/validation) check to see specific errors. Common causes:
+Your OpenAPI specification has structural issues. Run the Validation check in the dashboard to see specific errors. Common causes:
 
 - Missing `paths` or `info` fields
 - Broken `$ref` references pointing to non-existent schemas
@@ -43,22 +43,36 @@ The target API is unreachable. Check:
 - Your network can reach the API (try `curl` or a browser)
 - The API isn't rate-limiting you (check for HTTP 429 responses in logs)
 
-### OAuth2 authorization fails
+### Authentication errors (401 / 403)
 
-- Ensure `OAUTH2_CLIENT_ID` and `OAUTH2_CLIENT_SECRET` are correct
-- Check that port 8090 (callback port) is available
-- Some APIs require pre-registered redirect URIs — add `http://localhost:8090/callback` to your app's OAuth settings
-- Delete `oauth2_tokens.json` and try again
+The most common cause is missing or incorrect credentials in your `.env` file. The generated server reads credentials from environment variables — if they're empty or wrong, requests will be rejected by the target API.
+
+- Open the `.env` file and verify all credential fields are filled in with valid values
+- Make sure the variable names match what the generated code expects (they're pre-configured — just fill in the values)
+- For API Key or Bearer authentication, confirm the key/token is active and not expired
+- See [Authentication](/server/authentication) for `.env` examples for each authentication type
+
+**For OAuth2 / OIDC specifically:**
+
+- Ensure `OAUTH2_CLIENT_ID` and `OAUTH2_CLIENT_SECRET` are correct and belong to an active OAuth application
+- Verify the API is enabled in your provider's developer console (e.g., Google Cloud Console, Azure Portal)
+- Select valid scopes for your use case and provide them in `.env` as a comma-separated list (e.g., `OAUTH2_SCOPES=read,write`)
+- Some APIs require pre-registered redirect URIs — add `http://localhost:8090/callback` to your OAuth application's allowed redirect URIs
+- Check that port 8090 (callback port) is available on your machine
+- Delete `oauth2_tokens.json` to force re-authorization if tokens become invalid
 
 ### "Rate limit exceeded"
 
-The server's local rate limiter is blocking requests. Increase the limit:
+This can come from two sources:
+
+**Local rate limiter** — The generated server includes an optional local rate limiter that caps outgoing requests per second. This is disabled by default. If you enabled it during generation (Generation tab → Config → Advanced settings → Security: Enable Rate Limiting), you can increase the limit or disable it:
 
 ```bash .env
-RATE_LIMIT_REQUESTS_PER_SECOND=20
+RATE_LIMIT_REQUESTS_PER_SECOND=20    # increase the limit
+# RATE_LIMIT_REQUESTS_PER_SECOND=0   # or disable entirely
 ```
 
-Or the target API is rate-limiting you — check the API's documentation for limits.
+**Target API rate limiting** — The upstream API is rejecting your requests (HTTP 429). Check the API's documentation for rate limits and reduce your request frequency.
 
 ### Circuit breaker is open
 
