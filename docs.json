@@ -49,8 +49,7 @@
             "pages": [
               "server/structure",
               "server/authentication",
-              "server/security",
-              "server/customizing"
+              "server/security"
             ]
           },
           {

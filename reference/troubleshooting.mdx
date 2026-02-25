@@ -65,11 +65,16 @@ The most common cause is missing or incorrect credentials in your `.env` file. T
 
 This can come from two sources:
 
-**Local rate limiter** — The generated server includes an optional local rate limiter that caps outgoing requests per second. This is disabled by default. If you enabled it during generation (Generation tab → Config → Advanced settings → Security: Enable Rate Limiting), you can increase the limit or disable it:
+**Local rate limiter** — The generated server includes an optional local rate limiter that caps outgoing requests per second. This is disabled by default. If you enabled it during generation (Generation tab → Config → Advanced settings → Security: Enable Rate Limiting), you can adjust the limit in `.env` or disable it at runtime:
 
 ```bash .env
-RATE_LIMIT_REQUESTS_PER_SECOND=20    # increase the limit
-# RATE_LIMIT_REQUESTS_PER_SECOND=0   # or disable entirely
+RATE_LIMIT_REQUESTS_PER_SECOND=20    # adjust the limit (default: 10)
+```
+
+To disable rate limiting at runtime, start the server with the `--rate-limiting disabled` flag:
+
+```bash
+python server.py --rate-limiting disabled
 ```
 
 **Target API rate limiting** — The upstream API is rejecting your requests (HTTP 429). Check the API's documentation for rate limits and reduce your request frequency.
