@@ -96,6 +96,29 @@ details > :not(summary) {
   border-radius: 0 0.375rem 0.375rem 0 !important;
 }
 
+/* ===== OAS compliance tables — narrow Field/Support, wide Behavior ===== */
+.oas-compliance-table table {
+  table-layout: fixed;
+  width: 100%;
+}
+.oas-compliance-table table th:nth-child(1),
+.oas-compliance-table table td:nth-child(1) {
+  width: 22%;
+  white-space: nowrap;
+}
+.oas-compliance-table table th:nth-child(2),
+.oas-compliance-table table td:nth-child(2) {
+  width: 14%;
+  text-align: center;
+}
+.oas-compliance-table table th:nth-child(3),
+.oas-compliance-table table td:nth-child(3) {
+  width: 64%;
+}
+.oas-compliance-table table code {
+  white-space: nowrap;
+}
+
 /* ===== Footer copyright text ===== */
 #footer::after {
   content: "\00a9  2026 MCP Blacksmith. All rights reserved.";

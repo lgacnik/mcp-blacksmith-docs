@@ -64,6 +64,14 @@
             "group": "Reference",
             "pages": [
               "reference/supported-features",
+              {
+                "group": "OpenAPI Compliance",
+                "pages": [
+                  "reference/oas-3-0",
+                  "reference/oas-3-1",
+                  "reference/oas-3-2"
+                ]
+              },
               "reference/troubleshooting",
               "reference/faq"
             ]

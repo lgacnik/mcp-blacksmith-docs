@@ -1,0 +1,377 @@
+---
+title: "OpenAPI 3.0"
+description: "Compliance reference for OpenAPI Specification 3.0.0–3.0.4."
+---
+
+Full compliance reference for [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.4.md) (covers all patch versions 3.0.0–3.0.4).
+
+<Info>
+**Swagger 2.0** specs are automatically converted to OAS 3.0 before generation.
+</Info>
+
+<div className="oas-compliance-table">
+
+### Data Types
+
+OAS 3.0 defines primitive data types based on JSON Schema with `format` modifiers.
+
+| Type / Format | Support | Behavior |
+|---------------|---------|----------|
+| `integer` / `int32` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `int` with runtime overflow validation |
+| `integer` / `int64` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `int` with runtime overflow validation |
+| `number` / `float` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `float` |
+| `number` / `double` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `float` |
+| `string` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `str` |
+| `string` / `byte` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `str` with Base64 encoding validation |
+| `string` / `binary` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `bytes` with binary validation |
+| `boolean` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `bool` |
+| `string` / `date` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `str` with RFC 3339 full-date validation |
+| `string` / `date-time` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `str` with RFC 3339 date-time validation |
+| `string` / `password` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `str`; no special validation (UI hint only per spec) |
+
+#### Extended Formats
+
+MCP Blacksmith supports 21+ additional format strings with runtime validators. These come from JSON Schema standard formats and common API conventions:
+
+| Format | Support | Behavior |
+|--------|---------|----------|
+| `uint32` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unsigned 32-bit range validation (protobuf/gRPC convention) |
+| `uint64` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unsigned 64-bit range validation (protobuf/gRPC convention) |
+| `time` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC-compliant time validation |
+| `duration` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | ISO 8601 duration validation |
+| `date-time-rfc-2822` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 2822 date-time validation |
+| `date-time-rfc1123` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 1123 date-time validation |
+| `unix-time` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unix timestamp range validation |
+| `email` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 5322 email validation |
+| `hostname` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 1123 hostname validation |
+| `ipv4` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Dotted-decimal IPv4 validation |
+| `ipv6` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | IPv6 address validation |
+| `uri` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3986 URI validation |
+| `uri-reference` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3986 URI-reference validation |
+| `uri-template` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 6570 URI template validation |
+| `iri` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3987 IRI validation |
+| `iri-reference` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3987 IRI-reference validation |
+| `uuid` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | UUID format validation |
+| `json-pointer` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | JSON Pointer format validation |
+| `regex` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Regular expression validation |
+| `decimal` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Decimal number regex validation |
+| `phone-number` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | E.164 phone number validation |
+| `timestamp` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Alias for `unix-time` |
+| `url` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Alias for `uri` |
+
+Unknown format strings are preserved as metadata hints without runtime validation.
+
+### OpenAPI Object (Root)
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `openapi` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used for version detection |
+| `info` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Title used as server name fallback; description and version used in generated server metadata |
+| `servers` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Full three-level cascade supported: root → `BASE_URL`, path-item/operation → per-tool overrides |
+| `paths` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Primary source for MCP tool generation |
+| `components` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | All relevant component types processed |
+| `security` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Global security requirements applied to all operations |
+
+### Info Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `title` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used as fallback server name when no override provided |
+| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used as generated server description |
+| `termsOfService` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Rendered in generated server docstring and README |
+| `contact` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Contact name, email, URL rendered in server docstring and README |
+| `license` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | License name and URL rendered in server docstring and README |
+| `version` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used in generated server metadata |
+
+### Server Object
+
+All three server levels are supported (`operation > pathItem > root`). The first entry at each level is used; you can override any resolved URL via `SERVER_URL_*` environment variables.
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `url` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Resolved with variable default substitution; trailing slashes stripped. At root level, becomes `BASE_URL`. At path-item/operation level, stored as per-tool override when it differs from root |
+| `variables` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Defaults substituted into URL at all three levels; root-level variables additionally exposed as `SERVER_*` env vars with runtime URL construction |
+
+#### Server Variable Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `enum` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Documented as allowed values in `.env` comments (root-level variables) |
+| `default` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Substituted into server URL; used as env var default value (root-level variables) |
+| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Rendered as `.env` comment (root-level variables) |
+
+<Note>
+Only `servers[0]` is used at each level. Multiple server entries (e.g., production vs sandbox) are accepted but alternates beyond the first are not exposed. Users can override any resolved URL via the corresponding `SERVER_URL_*` or `BASE_URL` environment variable.
+</Note>
+
+### Paths Object
+
+| Feature | Support | Behavior |
+|---------|---------|----------|
+| `/{path}` entries | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | All path entries processed for MCP tool generation |
+| Path templating | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Template variables (e.g., `/users/{id}`) become path parameters on generated tools |
+
+### Path Item Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `$ref` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Path item references resolved |
+| `get` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates an MCP tool |
+| `put` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates an MCP tool |
+| `post` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates an MCP tool |
+| `delete` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates an MCP tool |
+| `options` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates an MCP tool |
+| `head` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates an MCP tool |
+| `patch` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates an MCP tool |
+| `trace` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates an MCP tool |
+| `servers` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Per-path server override applied to all operations under this path item |
+| `parameters` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Inherited by all operations; overridden by operation-level parameters with same name+location |
+
+### Operation Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `summary` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used as MCP tool description |
+| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used as extended tool description |
+| `operationId` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Primary tool name identifier; auto-synthesized from method + path when missing |
+| `parameters` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates tool function parameters |
+| `requestBody` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Body schema fields become tool parameters |
+| `responses` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Response schemas used for return type models |
+| `tags` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Rendered as comments in generated server code; used for operation grouping in metadata.json |
+| `deprecated` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Deprecated operations optionally filtered out during generation |
+| `security` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Per-operation auth requirements override global security |
+| `servers` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Per-operation server override; takes priority over path-item and root servers |
+| `callbacks` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not supported. Planned for a future release |
+
+### Parameter Object
+
+#### Core Fields
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `name` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used as parameter identifier; collision-safe renaming applied when names conflict across locations |
+| `in` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | All four locations supported: `path`, `query`, `header`, `cookie` |
+| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used in parameter documentation |
+| `required` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Controls whether parameter has a default value; always `true` for path params |
+| `deprecated` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Deprecated parameters optionally filtered out during generation |
+| `allowEmptyValue` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed (flagged NOT RECOMMENDED since OAS 3.0.2) |
+
+#### Serialization Fields
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `style` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Read for query and path parameters; non-default styles generate serialization transforms |
+| `explode` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Read for query and path parameters; non-default values generate serialization transforms |
+| `schema` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Defines parameter type annotation |
+| `example` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Emitted in generated `Field(examples=[...])` |
+| `examples` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Named Example Objects read and emitted in `Field(examples=[...])`. When both `example` and `examples` present, `examples` takes priority |
+| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Supported for all locations. Content-encoded values are JSON-serialized for `application/json` and `+json` media types. Non-JSON encodings pass through as-is |
+| `allowReserved` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not supported. httpx always percent-encodes query params; most servers decode transparently |
+
+#### Serialization Style Values
+
+| Style | Support | Behavior |
+|-------|---------|----------|
+| `matrix` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Path params: `;name=value` serialization for primitives, arrays, and objects with explode control |
+| `label` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Path params: `.value` serialization for primitives, arrays, and objects with explode control |
+| `form` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Default for query/cookie; `explode: false` generates comma-joined serialization |
+| `simple` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Default for path/header; primitives pass through, arrays/objects comma-joined |
+| `spaceDelimited` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Query params: space-joined serialization for arrays |
+| `pipeDelimited` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Query params: pipe-joined serialization for arrays |
+| `deepObject` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Query params: `key[subkey]=value` serialization for objects |
+
+### Request Body Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used as docstring on generated body model classes |
+| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Content type selected by priority: `application/json` → `application/xml` → `multipart/form-data` → `*/*` → first available. Each tool uses the correct HTTP encoding for its content type |
+| `required` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | When `false`, all body parameters become optional. When `true`, optionality follows the schema's `required` array |
+
+### Media Type Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `schema` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Defines the type of request/response bodies |
+| `example` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | For flat body schemas, emitted in `Field(examples=[...])`. For multi-property schemas, property-level examples are used instead |
+| `examples` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Same as `example`. Named Example Objects normalized to list format. `externalValue` not fetched |
+| `encoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed. Per-property serialization for form and multipart bodies |
+
+<Note>
+Media type range matching (e.g., `application/*` per RFC 7231) is not implemented. Content type keys are matched literally.
+</Note>
+
+#### Encoding Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `contentType` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Per-field media type override for multipart parts |
+| `headers` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Additional headers per multipart part |
+| `style` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Serialization style for form-encoded fields |
+| `explode` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Explode flag for form-encoded fields |
+| `allowReserved` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Reserved character encoding control |
+
+<Note>
+The Encoding Object is not supported. Generated servers send form and multipart bodies using standard encoding — per-property overrides (`contentType`, `headers`, `style`) are rarely needed in practice.
+</Note>
+
+### Responses
+
+| Feature | Support | Behavior |
+|---------|---------|----------|
+| Status codes | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Response schemas used for return type models |
+| `default` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Supported but not semantically distinguished as fallback |
+| `1XX`, `2XX`, etc. | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Range codes accepted but no semantic range interpretation |
+
+#### Response Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used as class docstring on generated response model classes |
+| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Schema used for response model generation |
+| `headers` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed. MCP tools return structured data, not raw HTTP responses |
+| `links` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed. Operation chaining is handled by the AI agent |
+
+### Schema Object
+
+#### JSON Schema Keywords
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `title` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used as class name for generated model classes |
+| `multipleOf` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(multiple_of=...)` |
+| `maximum` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(le=...)` |
+| `exclusiveMaximum` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | When `true`, combined with `maximum` to produce `Field(lt=...)` |
+| `minimum` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(ge=...)` |
+| `exclusiveMinimum` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | When `true`, combined with `minimum` to produce `Field(gt=...)` |
+| `maxLength` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(max_length=...)` |
+| `minLength` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(min_length=...)` |
+| `pattern` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(pattern=...)`; incompatible regex patterns silently dropped |
+| `maxItems` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(max_length=...)` on list fields |
+| `minItems` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(min_length=...)` on list fields |
+| `uniqueItems` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Runtime uniqueness validation; handles unhashable items via equality comparison |
+| `maxProperties` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(max_length=...)` on dict fields |
+| `minProperties` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(min_length=...)` on dict fields |
+| `required` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Controls field optionality in generated models |
+| `enum` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Literal["a", "b", ...]` type annotation |
+| `type` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to Python type; omitted `type` inferred from `properties` or composition keywords |
+| `allOf` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Merges schemas into parent class |
+| `anyOf` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Union[A, B, ...]` type annotation |
+| `items` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `list[ItemType]` annotation |
+| `properties` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates typed Pydantic model fields |
+| `additionalProperties` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Boolean or schema. `true` → permissive model, `false` → strict model, schema → `dict[str, ValueType]` |
+| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(description=...)` |
+| `format` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | 25+ formats with runtime validation; unknown formats preserved as metadata |
+| `default` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(default=...)` with type-aware coercion |
+| `oneOf` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Generates `Union[A, B, ...]`. Exclusivity not enforced without explicit `discriminator` |
+| `not` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Only `not: {required: [...]}` mutual exclusivity pattern handled |
+
+#### OAS Extension Keywords
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `nullable` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Produces `T \| None` type annotation with `exclude_none` serialization |
+| `discriminator` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(discriminator="field")` when viable; validates all variants |
+| `readOnly` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Read-only parameters optionally filtered out during generation |
+| `writeOnly` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Write-only parameters kept (request-only fields) |
+| `example` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Converted to `Field(examples=[...])` format |
+| `deprecated` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Deprecated parameters and operations optionally filtered out during generation |
+
+#### Discriminator Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `propertyName` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Validated against all variants; generates `Field(discriminator=...)` |
+| `mapping` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed. Union variants are built from the `oneOf`/`anyOf` array directly |
+
+### Components Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `schemas` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Primary source for generated Pydantic model classes |
+| `responses` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Referenced via `$ref` from operations; generates response models |
+| `parameters` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Referenced via `$ref` from operations; generates tool parameters |
+| `requestBodies` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Referenced via `$ref` from operations; generates request body models |
+| `securitySchemes` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | All referenced security schemes generate corresponding auth classes |
+| `headers` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed. Request-side headers use `in: header` parameters instead |
+| `links` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed |
+| `callbacks` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not supported. Planned for a future release |
+
+### Reference Object
+
+| Feature | Support | Behavior |
+|---------|---------|----------|
+| Local `$ref` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Full JSON Pointer resolution (`#/...`) within the spec |
+| External `$ref` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | External file/URL references not resolved. Planned for multi-file bundle support |
+
+<Note>
+In OAS 3.0, sibling properties alongside `$ref` should be ignored. MCP Blacksmith implements OAS 3.1 superset behavior — select siblings (`description`, `summary`, `default`, `deprecated`, `readOnly`, `writeOnly`) are honored alongside `$ref`.
+</Note>
+
+### Security Scheme Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `type` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | All four types: `apiKey`, `http`, `oauth2`, `openIdConnect` |
+| `name` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | API key parameter name used in generated auth configuration |
+| `in` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | All three locations: `query`, `header`, `cookie` |
+| `scheme` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `basic` → BasicAuth; `bearer` → BearerTokenAuth; other schemes → generic bearer fallback |
+| `bearerFormat` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | When `"JWT"`, generates a dedicated JWT auth class with algorithm/token configuration |
+| `flows` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | All four OAuth2 flows supported |
+| `openIdConnectUrl` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used in generated OpenID Connect auth configuration |
+
+#### OAuth Flows Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `implicit` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Supported (lowest priority among flows) |
+| `password` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Supported (third priority) |
+| `clientCredentials` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Supported (second priority) |
+| `authorizationCode` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Supported (highest priority; preferred when available) |
+
+#### OAuth Flow Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `authorizationUrl` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Captured in auth configuration |
+| `tokenUrl` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Captured in auth configuration |
+| `refreshUrl` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Captured in auth configuration |
+| `scopes` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Per-operation scopes applied to generated auth configuration |
+
+#### Security Requirement Object
+
+| Feature | Support | Behavior |
+|---------|---------|----------|
+| OR logic | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Each array entry is an OR alternative, sorted by security: `mutualTLS > oauth2 > openIdConnect > http > apiKey` |
+| AND logic | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Multiple schemes within a single entry treated as AND |
+| Empty (`[]`) | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Recognized as "no auth required" |
+| Global | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Default `security` applied to all operations |
+| Per-operation | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Operation-level `security` overrides global |
+
+### Example Object
+
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `value` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Inline and `$ref` both supported; emitted in `Field(examples=[...])` |
+| `externalValue` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | External example URLs not fetched |
+
+### Specification Extensions
+
+| Feature | Support | Behavior |
+|---------|---------|----------|
+| `x-*` extension fields | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Ignored during generation. Their presence does not cause errors |
+
+### Additional Generator Capabilities
+
+Features that go beyond per-field processing of the OAS 3.0 spec:
+
+| Feature | Support | Behavior |
+|---------|---------|----------|
+| Circular `$ref` handling | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Self-references, mutual references, and deep chains all detected and handled with forward references |
+| Inline schema discovery | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unnamed schemas within request/response bodies automatically become generated classes |
+| Parameter name collisions | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Same-name params across locations get collision-safe renaming |
+| Multiple OAuth2 merging | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Identical-scope schemes merged into a single auth class |
+| Content type negotiation | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Multiple media types with different schemas generate separate tools. Identical schemas use highest-priority type |
+| Strict/Permissive models | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Models with `additionalProperties: false` or `unevaluatedProperties: false` use strict mode (`extra='forbid'`); all others use permissive (`extra='allow'`) |
+
+</div>
