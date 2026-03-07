@@ -12,20 +12,20 @@ This page covers new and changed features in [OpenAPI 3.2](https://github.com/OA
 | Field | Support | Behavior |
 |-------|---------|----------|
 | `openapi` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `"3.2.x"` accepted |
-| `$self` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Document's canonical URI. Appears as "Specification Source" in generated server docstring and metadata.json |
+| `$self` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Document's canonical URI. Appears as "Specification Source" in generated server docstring |
 
 ### Server Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `name` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Server host identifier. Appears as "Server" in generated server docstring and metadata.json |
+| `name` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Server host identifier. Appears as "Server" in generated server docstring |
 
 ### Path Item Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `query` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | HTTP QUERY method (IETF draft-ietf-httpbis-safe-method-w-body). Generates an MCP tool identical to other HTTP methods — supports request bodies, parameters, security, and server URL overrides. When `operationId` is absent, auto-generated name uses `query_` prefix (e.g., `query_search`) |
-| `additionalOperations` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Map of arbitrary HTTP method strings (e.g., COPY, MOVE, LOCK, PROPFIND) to Operation Objects. Each entry generates an MCP tool with the method string sent as-is (uppercased). Path-level `parameters` apply to all entries. Supports request bodies, response models, security, and server URL overrides |
+| `query` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | HTTP QUERY method. Generates an MCP tool identical to other HTTP methods. When `operationId` is absent, auto-generated name uses `query_` prefix (e.g., `query_search`) |
+| `additionalOperations` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Map of arbitrary HTTP method strings (e.g., COPY, MOVE, LOCK, PROPFIND) to Operation Objects. Each entry generates an MCP tool with the method string sent as-is (uppercased) |
 
 ### Parameter Object
 
@@ -33,41 +33,37 @@ This page covers new and changed features in [OpenAPI 3.2](https://github.com/OA
 
 | Location | Support | Behavior |
 |----------|---------|----------|
-| `querystring` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Treats the entire URL query string as a single parameter value, specified via `content` with a media type. Supported: `application/x-www-form-urlencoded`, `application/json` / `*+json`, `text/plain` / `text/*`. Unsupported media types fall back to `application/x-www-form-urlencoded`. MUST NOT coexist with `in: "query"` parameters; at most one per operation |
+| `querystring` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Entire URL query string as a single parameter value, specified via `content` with a media type. Supported: `application/x-www-form-urlencoded`, `application/json` / `*+json`, `text/plain` / `text/*`. Unsupported media types fall back to `application/x-www-form-urlencoded` |
 
 #### New Serialization Style
 
 | Style | Support | Behavior |
 |-------|---------|----------|
-| `cookie` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 6265-compliant cookie serialization. Name-value pairs separated by `; `, no percent-encoding. Supports primitives, arrays, and objects with explode control. Default `explode` is `true`. Default `style` for `in: cookie` remains `form` for backward compatibility |
+| `cookie` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 6265-compliant cookie serialization. Name-value pairs separated by `; `, no percent-encoding. Supports primitives, arrays, and objects with explode control |
 
 #### Changed Field Types
 
-| Change | Support | Behavior |
-|--------|---------|----------|
-| `content` map values now allow Reference Object | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `$ref` values in `content` maps (Parameter, Request Body, Response, Header) are resolved transparently. Works with `components/mediaTypes`, `components/headers`, and any local JSON Pointer target |
+| Field | Support | Behavior |
+|-------|---------|----------|
+| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Map values now allow Reference Objects. `$ref` values in `content` maps are resolved transparently |
 
 ### Request Body Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Type changed to `Map[string, Media Type Object \| Reference Object]`. `$ref` values resolved transparently |
+| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Map values now accept Reference Objects. `$ref` values resolved transparently |
 
 ### Media Type Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `itemSchema` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Schema for each item in a sequential media type (JSONL, NDJSON, JSON-SEQ, SSE, multipart/mixed). Planned for future webhook/streaming support |
-| `prefixEncoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Positional Encoding Objects for multipart types. Planned for future webhook/streaming support |
-| `itemEncoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Per-item Encoding Object for multipart arrays. Planned for future webhook/streaming support |
-
-<Note>
-`encoding` MUST NOT be present if `prefixEncoding` or `itemEncoding` are present, and vice versa.
-</Note>
+| `itemSchema` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Schema for each item in sequential media types. Planned for future streaming support |
+| `prefixEncoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Positional Encoding Objects for multipart types. Planned for future streaming support |
+| `itemEncoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Per-item Encoding Object for multipart arrays. Planned for future streaming support |
 
 #### Sequential Media Types
 
-OAS 3.2 formalizes how sequential/streaming media types are modeled. These are treated as arrays in the JSON Schema data model; `itemSchema` describes each element. Planned for future webhook/streaming support.
+OAS 3.2 formalizes sequential/streaming media types. Planned for future streaming support.
 
 | Media Type | Support | Behavior |
 |------------|---------|----------|
@@ -83,8 +79,8 @@ OAS 3.2 formalizes how sequential/streaming media types are modeled. These are t
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | No longer REQUIRED (was REQUIRED in 3.0/3.1). Absent descriptions handled gracefully |
-| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Type changed to `Map[string, Media Type Object \| Reference Object]`. `$ref` values resolved transparently |
+| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | No longer REQUIRED. Absent descriptions handled gracefully |
+| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Map values now accept Reference Objects. `$ref` values resolved transparently |
 
 ### Schema Object
 
@@ -96,28 +92,28 @@ No changes from 3.1. See [OAS 3.1 Schema Object](/reference/oas-3-1#schema-objec
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `propertyName` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | 3.2 change: the discriminating property MAY now be optional (was implicitly required in 3.0/3.1). When optional, `defaultMapping` MUST be present |
+| `propertyName` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | The discriminating property MAY now be optional. When optional, `defaultMapping` must be present |
 | `defaultMapping` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Fallback schema when the discriminating property is absent or unmapped |
 
 ### Components Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `pathItems` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Reusable Path Item Objects via `$ref` from `paths`. Path-level parameters, sibling overrides, and multiple paths referencing the same pathItem all work correctly |
-| `mediaTypes` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Reusable Media Type Objects via `$ref` from `content` maps. Referenced objects are resolved and inlined transparently |
+| `pathItems` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Reusable Path Item Objects via `$ref` from `paths` |
+| `mediaTypes` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Reusable Media Type Objects via `$ref` from `content` maps |
 
 ### Security Scheme Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `deprecated` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Supported on Operations and Parameters: deprecated items are deprioritized during tool selection. On Schema Object properties: preserved. On Security Schemes: not supported |
-| `oauth2MetadataUrl` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | URL to OAuth 2.0 Authorization Server Metadata (RFC 8414) for runtime endpoint discovery |
+| `deprecated` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Supported on Operations and Parameters. Not yet supported on Security Schemes |
+| `oauth2MetadataUrl` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | OAuth 2.0 Authorization Server Metadata URL (RFC 8414) |
 
 #### OAuth Flows Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `deviceAuthorization` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | OAuth 2.0 Device Authorization Grant (RFC 8628). Generated server requests a device code, displays user instructions, and polls the token endpoint with proper error handling per RFC 8628 §3.5 |
+| `deviceAuthorization` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | OAuth 2.0 Device Authorization Grant (RFC 8628). Generated server handles device code flow with user instructions and token polling |
 
 #### OAuth Flow Object
 
@@ -129,31 +125,31 @@ No changes from 3.1. See [OAS 3.1 Schema Object](/reference/oas-3-1#schema-objec
 
 | Feature | Support | Behavior |
 |---------|---------|----------|
-| URI-based references | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Property names can now be URIs of Security Scheme Objects, enabling cross-document security scheme references. Planned for multi-file specification bundle support |
+| URI-based references | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Cross-document security scheme references via URIs. Planned for multi-file specification support |
 
 ### Example Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `value` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Deprecated in 3.2 for non-JSON serialization targets. Fully functional for all content types |
-| `dataValue` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | OAS 3.2 replacement for `value`. Structured example data, valid per the relevant Schema Object. Mutually exclusive with `value` |
-| `serializedValue` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Wire-format string of the example. When `value`/`dataValue` are absent: JSON strings are deserialized and used; non-JSON formats silently skipped |
+| `value` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Deprecated in 3.2 in favor of `dataValue`. Still fully functional |
+| `dataValue` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Structured example data. Mutually exclusive with `value` |
+| `serializedValue` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Wire-format string of the example. JSON strings are deserialized and used; non-JSON formats not processed |
 
 ### Tag Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `parent` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Tags with `parent` are resolved to hierarchical slash-separated paths (e.g., tag `refunds` with `parent: payments` becomes `payments/refunds`). Parent chains of any depth with cycle detection. Resolved paths appear in tool comments and metadata.json |
-| `kind` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Classification string (e.g., `nav`, `lifecycle`, `badge`). Rendered alongside tags in tool comments as `tag (kind)` and exposed in metadata.json |
-| `summary` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Short summary for display purposes — tag names are self-explanatory |
+| `parent` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Resolved to hierarchical paths (e.g., tag `refunds` with `parent: payments` becomes `payments/refunds`). Parent chains of any depth with cycle detection |
+| `kind` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Classification string (e.g., `nav`, `lifecycle`, `badge`). Rendered alongside tags in tool comments as `tag (kind)` |
+| `summary` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed |
 
 ### Encoding Object
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `encoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Nested Encoding Objects for recursive encoding in nested multipart content |
-| `prefixEncoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Positional encoding for multipart (analogous to `prefixItems`) |
-| `itemEncoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Per-item encoding for multipart arrays (analogous to `items`) |
+| `encoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Nested Encoding Objects for multipart content |
+| `prefixEncoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Positional encoding for multipart |
+| `itemEncoding` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Per-item encoding for multipart arrays |
 
 <Note>
 The Encoding Object is not supported. Generated servers send form and multipart bodies using standard encoding — per-property overrides (`contentType`, `headers`, `style`) are rarely needed in practice.

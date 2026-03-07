@@ -3,7 +3,7 @@ title: "OpenAPI 3.1"
 description: "Compliance reference for new and changed features in OpenAPI 3.1 (JSON Schema 2020-12 alignment)."
 ---
 
-This page covers new and changed features in [OpenAPI 3.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.1.md) (3.1.0--3.1.2) relative to [OAS 3.0](/reference/oas-3-0). Only deltas are documented --- for base feature coverage, see the OAS 3.0 page.
+This page covers new and changed features in [OpenAPI 3.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.1.md) (3.1.0–3.1.2) relative to [OAS 3.0](/reference/oas-3-0). Only deltas are documented — for base feature coverage, see the [OAS 3.0](/reference/oas-3-0) page.
 
 <div className="oas-compliance-table">
 
@@ -14,20 +14,18 @@ OAS 3.1 aligns data types with JSON Schema Draft 2020-12. The primitive format t
 | Field | Support | Behavior |
 |-------|---------|----------|
 | `type` as array | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `["string", "null"]` maps to `str \| None`, `["string", "integer"]` maps to `str \| int`. Nullable detection works with type arrays for correct `exclude_none` handling |
-| `contentEncoding` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `base64`/`base64url` generates `format: byte` validation. `base16`/`base32` stored as metadata. Raw value surfaced in `json_schema_extra` for LLM visibility |
-| `contentMediaType` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Surfaced in `json_schema_extra` alongside `contentEncoding` and `format` |
-| `type: "null"` standalone | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Maps to `None` type annotation. Rarely used outside type arrays |
+| `contentEncoding` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `base64`/`base64url` generates `format: byte` validation. `base16`/`base32` stored as metadata. Raw value surfaced in `Field(json_schema_extra=...)` for LLM visibility |
+| `contentMediaType` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Surfaced in `Field(json_schema_extra=...)` alongside `contentEncoding` and `format` |
+| `type: "null"` standalone | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `None` type annotation |
 | `contentSchema` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Schema of decoded content. Not processed |
 
 ### OpenAPI Object (Root)
 
-Two new fields; `paths` is no longer required.
-
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `paths` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | No longer required --- spec must contain at least one of `paths`, `components`, or `webhooks`. Specs without `paths` produce no tools |
+| `paths` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Specification must contain at least one of `paths`, `components`, or `webhooks`. Specifications without `paths` produce no tools |
 | `jsonSchemaDialect` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Standard OAS 3.1 dialect assumed. Custom JSON Schema dialects not supported |
-| `webhooks` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not yet supported |
+| `webhooks` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not supported. Planned for a future release |
 
 ### Info Object
 
@@ -45,26 +43,9 @@ New `identifier` field for SPDX license expressions.
 |-------|---------|----------|
 | `identifier` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | SPDX license expression (e.g., `"Apache-2.0"`); mutually exclusive with `url`. Rendered in generated server docstring and README. Takes precedence over `url` when present |
 
-### Unchanged Sections
-
-<Note>
-The following sections have no field-level changes from OAS 3.0:
-
-- [Server Object](/reference/oas-3-0#server-object) --- no changes
-- [Paths Object](/reference/oas-3-0#paths-object) --- `paths` no longer required at root (see OpenAPI Object above), but no field-level changes
-- [Path Item Object](/reference/oas-3-0#path-item-object) --- now additionally usable in `webhooks` and `components/pathItems`, but no field-level changes
-- [Operation Object](/reference/oas-3-0#operation-object) --- no changes
-- [Parameter Object](/reference/oas-3-0#parameter-object) --- `schema` now accepts JSON Schema 2020-12 (see Schema Object below), but no field-level changes
-- [Request Body Object](/reference/oas-3-0#request-body-object) --- no changes
-- [Media Type Object](/reference/oas-3-0#media-type-object) --- file uploads now use `contentEncoding`/`contentMediaType` instead of `format: binary/byte`; both syntaxes produce identical generated output
-- [Responses](/reference/oas-3-0#responses) --- no changes
-- [Example Object](/reference/oas-3-0#example-object) --- no changes
-- [Discriminator Object](/reference/oas-3-0#discriminator-object) --- no changes (now additionally supports `x-*` extension properties)
-</Note>
-
 ### Schema Object
 
-The Schema Object is now a superset of JSON Schema Draft 2020-12 (was Draft 4 with OAS-specific deviations in 3.0). This is the largest change in OAS 3.1.
+The Schema Object is now a superset of JSON Schema Draft 2020-12.
 
 #### Changed Keywords
 
@@ -86,16 +67,16 @@ The Schema Object is now a superset of JSON Schema Draft 2020-12 (was Draft 4 wi
 | `if` / `then` / `else` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `@model_validator` with conditional logic. When `if` matches, `then` constraints enforced; otherwise `else` constraints |
 | `dependentRequired` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `@model_validator` enforcing "if field X present, fields Y and Z required" |
 | `const` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Literal[value]` type annotation |
-| `dependentSchemas` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed |
+| `dependentSchemas` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Not processed. Referenced schemas within are discovered for model generation, but conditional application is not enforced |
 
 ##### Array
 
 | Field | Support | Behavior |
 |-------|---------|----------|
 | `prefixItems` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `tuple[T1, T2, ...]` for fixed-position arrays. With `items: false` produces a fixed-length tuple. With an `items` schema falls back to `list[Union]` |
-| `contains` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `AfterValidator` that validates at least one item matches the subschema. Supported patterns: `const`, `enum`, `pattern`, numeric range, string length. Complex subschemas silently skipped |
-| `minContains` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Minimum matching count (default 1). `minContains: 0` with no `maxContains` is a no-op |
-| `maxContains` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maximum matching count (default unlimited) |
+| `contains` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `AfterValidator` that validates at least one item matches the subschema. Supported patterns: `const`, `enum`, `pattern`, numeric range, string length. Complex subschemas not processed |
+| `minContains` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Enforced via `AfterValidator` — counts matching items and raises `ValueError` when below the threshold (default 1) |
+| `maxContains` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Enforced via `AfterValidator` — counts matching items and raises `ValueError` when above the threshold |
 
 ##### Object
 
@@ -104,7 +85,7 @@ The Schema Object is now a superset of JSON Schema Draft 2020-12 (was Draft 4 wi
 | `propertyNames` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `AfterValidator` validating all dict keys. Supported: `const`, `enum`, `pattern`, `minLength`/`maxLength`. `{"type": "string"}` is a no-op |
 | `unevaluatedProperties` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Composition-aware `additionalProperties`. `false` produces a strict model, `true`/schema produces a permissive model. Takes precedence over `additionalProperties`. Sub-schema validation on extras not enforced |
 | `unevaluatedItems` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `false` with `prefixItems` produces a fixed-length `tuple[T1, T2, ...]`. Same effect as `items: false` at code generation level |
-| `patternProperties` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Standalone usage maps to `dict[str, T]` with regex patterns in `json_schema_extra`. When combined with `properties`, named fields are generated but regex-keyed extras are not surfaced as parameters |
+| `patternProperties` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Standalone usage maps to `dict[str, T]` with regex patterns in `Field(json_schema_extra=...)`. When combined with `properties`, named fields are generated but regex-keyed extras are not surfaced as parameters |
 
 ##### Schema Identity / Reference
 
@@ -114,7 +95,7 @@ The Schema Object is now a superset of JSON Schema Draft 2020-12 (was Draft 4 wi
 | `$anchor` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `$ref: "#myAnchor"` resolved to standard JSON Pointer references |
 | `$defs` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Definitions are hoisted into `components/schemas` with collision-safe renaming. All `$defs` references rewritten to standard JSON Pointers |
 | `$dynamicRef` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | `$dynamicRef: "#name"` resolved by matching `$dynamicAnchor: "name"` within the same document. Full dynamic scoping not implemented |
-| `$dynamicAnchor` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Same limitation as `$dynamicRef` --- duplicate names use first-seen rather than dynamic scoping precedence |
+| `$dynamicAnchor` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Same limitation as `$dynamicRef` — duplicate names use first-seen rather than dynamic scoping precedence |
 | `$vocabulary` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Meta-schema keyword. Not applicable to code generation |
 | `$comment` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Human-readable comment. No runtime effect |
 | `$schema` | <Icon icon="xmark" iconType="solid" color="#dc2626" size={20} /> | Per-schema dialect declaration |
