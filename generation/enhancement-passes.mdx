@@ -105,7 +105,7 @@ When multiple operations end up with the same enhanced name (common in large API
 <img src="/images/enhancer-details.png" alt="Enhancer example — showing enhanced operation name, description, and parameter metadata" style={{borderRadius: '0.5rem', marginTop: '1rem'}} />
 
 <Note>
-This pass only enhances names and descriptions. It does not modify parameter types, constraints, or any other validation properties defined in the specification.
+This pass only enhances names and descriptions. It does not modify parameter types, constraints, or any other validation properties defined in the specification. Enhanced names are aliased so that HTTP requests deliver the original upstream API names, while tools expose LLM-friendly names.
 </Note>
 
 ## How to use
