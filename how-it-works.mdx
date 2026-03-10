@@ -14,7 +14,7 @@ MCP Blacksmith converts an OpenAPI specification into a fully functional MCP ser
 
 ### 1. Parse and validate
 
-Your OpenAPI specification is parsed and validated for structural correctness. Blacksmith supports:
+Your OpenAPI specification is parsed and validated for structural correctness. MCP Blacksmith supports:
 
 - **OpenAPI 2.0** (Swagger)
 - **OpenAPI 3.0.x**
@@ -43,6 +43,7 @@ The generator produces a complete Python project:
 | `_auth.py` | Authentication handlers for each security scheme |
 | `.env` | Environment variables for credentials and configuration |
 | `requirements.txt` | Python dependencies |
+| `LICENSE` | MIT license for generated code |
 | `Dockerfile` | Production Docker build |
 | `.mcp.json` | MCP client configuration template |
 | `README.md` | Setup and usage instructions |

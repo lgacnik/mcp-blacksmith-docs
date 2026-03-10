@@ -1,0 +1,45 @@
+---
+title: "Linting"
+description: "Lint your generated server to verify deployment readiness and catch any issues before going live."
+---
+
+## Overview
+
+After generation, the **Linting** tab lets you run static analysis on your generated server code to verify it's deployment-ready. Linting catches syntax errors, type issues, and code quality problems before you deploy.
+
+## How to lint
+
+In the [dashboard](https://mcpblacksmith.com/dashboard):
+
+1. Generate your server
+2. Navigate to the **Linting** tab
+3. Run the available linters against your generated code
+4. Review results and address any findings
+
+## Available linters
+
+All linters are optional — run any combination based on your needs:
+
+| Linter | Purpose |
+|--------|---------|
+| **AST** | Syntax validation — parses the generated code and catches syntax errors |
+| **[Ruff](https://docs.astral.sh/ruff/)** | Code linting — checks for unused variables, unreachable code, and style issues |
+| **Import** | Import validation — verifies all imports resolve correctly |
+| **[Pyright](https://github.com/microsoft/pyright)** | Type checking — validates type annotations and catches type mismatches |
+| **[Pydantic](https://docs.pydantic.dev)** | Model validation — verifies generated Pydantic models are well-formed |
+
+## Why it matters
+
+Linting your generated server before deployment gives you confidence that the code is structurally sound. While MCP Blacksmith generates production-ready code, the combination of diverse OpenAPI specifications and evolving generator capabilities means edge cases can surface.
+
+We recommend running linters when possible — especially before deploying to production or integrating into CI/CD pipelines.
+
+## Reporting issues
+
+MCP Blacksmith is actively evolving. If you encounter linting errors in your generated server, we'd appreciate hearing about them. Reporting issues helps us improve the generator for everyone:
+
+- Use the [contact form](https://mcpblacksmith.com/contact) to report linting errors
+- Include the linter output and, if possible, the specification that produced the issue
+- Reports are triaged as bug fixes or improvement tickets
+
+Your feedback directly contributes to generator quality — every reported edge case is one fewer issue for the next user.

@@ -23,7 +23,7 @@ In the [dashboard](https://mcpblacksmith.com/dashboard):
 
 1. Create a new project
 2. Drag and drop your specification file into the upload zone, or click to browse
-3. Blacksmith parses and validates the specification immediately
+3. MCP Blacksmith parses and validates the specification immediately
 
 ## Where to find specifications
 
@@ -39,6 +39,6 @@ Most APIs publish their OpenAPI specification. Common locations:
 While any valid specification should result in a fully functional server, better specifications produce better servers:
 
 - **Include descriptions** — These become tool descriptions for AI agents
-- **Define security schemes** — Authentication handlers are auto-generated
-- **Use component schemas** — Shared references produce deduplicated models
-- **Specify response schemas** — Enables response validation at runtime
+- **Define [security schemes](/reference/oas-3-0#security-scheme-object)** — Authentication handlers are auto-generated
+- **Use [component schemas](/reference/oas-3-0#components-object)** — Shared references produce deduplicated models
+- **Specify [response schemas](/reference/oas-3-0#responses)** — Enables response validation at runtime

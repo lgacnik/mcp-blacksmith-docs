@@ -7,36 +7,106 @@ description: "Optional optimization passes that improve your generated server fo
 
 Enhancement passes analyze your API operations and optimize the generated server for better AI agent interaction. Passes make tools and parameters not only LLM-friendly but also token-aware — reducing the number of tokens consumed by tool definitions while preserving their semantic meaning.
 
-Pass 0 is rule-based and free. Passes 1–5 are AI-driven and consume credits.
+The Metadata Filter is rule-based and always free. The remaining three passes are AI-driven and consume credits.
 
-## Available passes
+### Model selection
 
-### Pass 0: Metadata Filter
+AI-driven passes use Anthropic's Claude models, which consistently outperform other providers when processing OpenAPI specifications and code-like formats. A more capable model produces better results across all passes — we recommend **Claude Sonnet 4.6** for the best balance of quality and speed. Model selection is configurable in the Generation tab.
 
-Removes read-only and computed fields, plus deprecated operations, based on OpenAPI metadata. This pass does not use AI and is always free.
+Additional models from other providers may be introduced in the future once we confirm stable behavior across the full pass pipeline.
 
-- Filter parameters — removes read-only and server-generated fields
-- Filter operations — removes deprecated operations
+## Metadata Filter
 
-### Pass 1: Field Curator
+Removes parameters and operations that are provably irrelevant for API requests, using only OpenAPI specification metadata — no heuristics, no keyword matching.
 
-Filters low-value parameters like pagination controls, debug flags, and redundant fields for cleaner tool interfaces.
+**What it removes:**
 
-### Pass 2: Operation Classifier
+- **Read-only parameters** (`readOnly: true`) — response-only fields like server-generated IDs, computed counts, and timestamps that cannot be set in requests
+- **Explicitly non-writable parameters** (`writeOnly: false`) — fields marked as response-only
+- **Deprecated parameters** (`deprecated: true`) — outdated fields the API provider has flagged for removal
+- **Deprecated operations** (`deprecated: true`) — entire endpoints the API provider has flagged for removal
 
-Distinguishes core CRUD operations from utility endpoints like health checks and metadata, focusing tools on valuable actions.
+**Why it matters:** Many APIs carry dozens of read-only fields in their request schemas (creation timestamps, internal IDs, computed aggregates). Without this filter, AI agents see these as valid inputs and waste tokens trying to populate fields the API will ignore.
 
-### Pass 3: Parameter Scorer
+<img src="/images/metadata-filter-details.png" alt="Metadata Filter example — showing excluded read-only and deprecated parameters per operation" style={{borderRadius: '0.5rem', marginTop: '1rem'}} />
 
-Scores each parameter's importance (0–10) based on functional value and likely usage, filtering those below a configurable threshold.
+## Parameter Filter
 
-### Pass 4: Parameter Transformer
+Identifies and removes parameters that add noise to tool definitions without providing value for typical API usage. Runs in two phases.
 
-Converts complex parameters into user-friendly inputs (email bodies, timestamps, file uploads) with automatic helper functions.
+**Phase 1 — Field Curation:**
 
-### Pass 5: Tool Enhancer
+An LLM analyzes each operation's parameters and identifies low-value fields such as:
 
-Improves tool names and descriptions for better discoverability, making operations and parameters more intuitive for AI agents to use.
+- **Server-generated fields** — internal IDs, ETags, and metadata the API manages automatically
+- **Computed and derived fields** — byte sizes, message counts, content snippets that the server calculates
+- **Response structure controls** — field masks, expand directives, and view selectors that control response shape rather than request content
+- **Server-managed timestamps** — creation, modification, and deletion timestamps that the API sets automatically
+
+The filter is biased toward preserving path parameters, user-editable content (names, titles, descriptions), user preferences (timezone, language), behavioral controls (dry-run, notification settings), and filtering, pagination, and sorting parameters.
+
+**Phase 2 — Mutual Exclusion:**
+
+A second LLM pass detects redundant parameter representations within the same operation:
+
+- **Hierarchical duplicates** — when both a complete object (`body::message`) and its individual fields (`body::message::subject`, `body::message::body`) are exposed, the simpler representation is kept
+- **Duplicate identifiers** — the same identifier appearing in multiple locations (path, query, body), resolved by priority: path > body > query
+- **Alternative encodings** — plaintext kept over base64 variants; direct content kept over URL pointers
+
+**Why it matters:** Real-world APIs may expose 20–40 parameters per operation or even more, most of which are irrelevant for typical use. Reducing this to the essential set means fewer tokens in tool definitions, less confusion for AI agents, and more focused API calls.
+
+<img src="/images/parameter-filter-details.png" alt="Parameter Filter example — showing excluded parameters with AI-generated reasoning" style={{borderRadius: '0.5rem', marginTop: '1rem'}} />
+
+## Parameter Consolidator
+
+Identifies complex, non-LLM-friendly parameter representations and replaces them with simpler alternatives backed by auto-generated helper functions. Runs in two phases.
+
+**Phase 1 — Transformation Analysis:**
+
+An LLM evaluates each parameter and transforms it when the representation is too complex for an LLM to reliably construct. Transformations include:
+
+- **Decompose** — a single complex parameter is split into multiple simpler ones. For example, a parameter expecting RFC 2822 email format with base64 encoding is replaced with separate fields (to, subject, body, cc, bcc) and a helper function (`build_rfc2822_message`) handles assembly and encoding.
+- **Compose** — multiple related parameters are merged into a single, simpler one (less common, but applies when several parameters combine to form a structured value).
+- **Complex DSL rewriting** — a parameter expecting a query language with operators (AND, OR, NOT, parentheses) is replaced with individual filter fields and a helper function builds the query string.
+
+A single tool may have multiple transformations if it contains several complex parameters. Each transformation generates its own helper function.
+
+Parameters that are typically not transformed: timestamps, standard formats (UUIDs, emails, URLs, hex colors), simple primitives, enums, pagination controls, and opaque binary data.
+
+**Phase 2 — Consolidation:**
+
+When the same parameter appears across multiple operations (eg. `body::message::raw` in both `create_draft` and `send_message`), the consolidator ensures consistent transformations — same helper function, same decomposed fields, same behavior everywhere.
+
+**Why it matters:** Without this pass, an AI agent asked to "send an email" would need to construct an RFC 2822 formatted string, base64url-encode it, and pass it as a single opaque parameter. With this pass, the agent simply provides `to`, `subject`, and `body` — the generated helper function handles the rest.
+
+<img src="/images/parameter-consolidator-details.png" alt="Parameter Consolidator example — showing a complex parameter decomposed into simple fields with a helper function" style={{borderRadius: '0.5rem', marginTop: '1rem'}} />
+
+<Note>
+While modern LLMs are capable of crafting complex parameter content such as DSL queries and base64-encoded payloads, doing so on every request adds repetitive token consumption and latency. Offloading these structural tasks to the MCP server via helper functions saves both time and tokens across repeated tool invocations.
+</Note>
+
+## Enhancer
+
+Improves tool names, descriptions, and parameter metadata for better discoverability and usability by AI agents. Resolves duplicate operation names across the API.
+
+**What it enhances:**
+
+- **Operation names** — converted to action-oriented `verb_noun` patterns. API-specific prefixes are removed, and related operations use consistent nouns (eg. all message operations use `_message` rather than mixing `_msg`, `_mail`, `_email`)
+- **Operation descriptions** — rewritten to clearly describe what the tool does, including key constraints and expected behavior in 1–2 sentences
+- **Parameter names** — renamed to `snake_case` when ambiguous or unclear, preserving well-named parameters as-is
+- **Parameter descriptions** — enriched with context, valid ranges, expected formats (ISO 8601, comma-separated), and constraint information
+
+**Deduplication:**
+
+When multiple operations end up with the same enhanced name (common in large APIs), the enhancer resolves conflicts by adding contextual suffixes — for example, three `get_message` operations become `get_message`, `get_message_thread`, and `get_message_event`.
+
+**Why it matters:** OpenAPI specifications often contain developer-focused, cryptic, or low-quality descriptions and parameter names that poorly characterize their purpose. Operation IDs may be machine-generated identifiers like `gmail.users.messages.send` or `drives_v3_files_copy`. The Enhancer rewrites these into clear, action-oriented names and rich descriptions that AI agents can reliably interpret — leading to better tool selection and correct parameter usage on the first attempt.
+
+<img src="/images/enhancer-details.png" alt="Enhancer example — showing enhanced operation name, description, and parameter metadata" style={{borderRadius: '0.5rem', marginTop: '1rem'}} />
+
+<Note>
+This pass only enhances names and descriptions. It does not modify parameter types, constraints, or any other validation properties defined in the specification.
+</Note>
 
 ## How to use
 
@@ -45,10 +115,10 @@ In the [dashboard](https://mcpblacksmith.com/dashboard):
 1. Upload your specification and generate the base server (free)
 2. In the Generation tab, enable the passes you want
 3. Configure which operations to optimize (all or selected)
-4. Click Generate — credits are consumed based on operation count for Passes 1–5
+4. Click Generate — credits are consumed based on operation count for the AI-driven passes
 
 ## Credits
 
-Passes 1–5 consume credits based on the number of operations and parameters processed. Pass 0 is always free. See [Pricing](https://mcpblacksmith.com/pricing) for details.
+The Parameter Filter, Parameter Consolidator, and Enhancer consume credits based on the number of operations and parameters processed. The Metadata Filter is always free. See [Pricing](https://mcpblacksmith.com/pricing) for details.
 
 Base generation is free and requires no credits. All passes are entirely optional.

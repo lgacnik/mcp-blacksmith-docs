@@ -32,16 +32,18 @@
             "group": "Getting Started",
             "pages": [
               "index",
-              "how-it-works",
-              "quickstart"
+              "quickstart",
+              "how-it-works"
             ]
           },
           {
             "group": "Generation",
             "pages": [
               "generation/spec-upload",
-              "generation/free-generation",
-              "generation/enhancement-passes"
+              "generation/validation",
+              "generation/generation",
+              "generation/enhancement-passes",
+              "generation/linting"
             ]
           },
           {
@@ -63,7 +65,6 @@
           {
             "group": "Reference",
             "pages": [
-              "reference/supported-features",
               {
                 "group": "OpenAPI Compliance",
                 "pages": [

@@ -5,9 +5,9 @@ description: "How generated MCP servers handle authentication — OAuth2, API ke
 
 ## Overview
 
-MCP Blacksmith auto-detects authentication requirements from your OpenAPI specification's `securitySchemes` and generates the appropriate handlers. You only need to provide credentials in the `.env` file.
+MCP Blacksmith auto-detects authentication requirements from your OpenAPI specification's [`securitySchemes`](/reference/oas-3-0#security-scheme-object) and generates the appropriate handlers. You only need to provide credentials in the `.env` file.
 
-Each operation is mapped to its required authentication scheme. The server automatically injects the correct credentials into every request.
+Each operation is mapped to its required authentication scheme via the [Security Requirement](/reference/oas-3-0#security-requirement) object. The server automatically injects the correct credentials into every request.
 
 ## Supported authentication types
 
@@ -48,7 +48,7 @@ Credentials are Base64-encoded and sent as `Authorization: Basic <encoded>`.
 
 ### OAuth 2.0
 
-Used for APIs requiring OAuth2 flows (Authorization Code, Client Credentials, Password).
+Used for APIs requiring [OAuth2 flows](/reference/oas-3-0#oauth2-flows) (Authorization Code, Client Credentials, Password).
 
 ```bash .env
 OAUTH2_CLIENT_ID=your-client-id
@@ -65,9 +65,9 @@ OAUTH2_SCOPES=scope1,scope2
 5. On subsequent runs, saved tokens are reused
 6. Expired tokens are automatically refreshed
 
-<Tip>
+<Note>
   Delete `oauth2_tokens.json` to force re-authorization if your tokens become invalid.
-</Tip>
+</Note>
 
 The callback server runs on port `8090` by default. This is configurable in the generated `_auth.py` file.
 
@@ -98,7 +98,7 @@ Sends the token as `Authorization: Bearer <jwt>`.
 
 ### Mutual TLS (mTLS)
 
-Used for APIs requiring client certificate authentication.
+Used for APIs requiring client certificate authentication. See [mutualTLS in OAS 3.1](/reference/oas-3-1#security-scheme-object) for specification details.
 
 ```bash .env
 MTLS_CERT_PATH=/path/to/client-cert.pem
@@ -134,5 +134,5 @@ The server automatically selects the first available authentication option based
 
 - Store credentials in the `.env` file, not in code
 - Use the minimum required scopes for OAuth2/OIDC
-- Rotate API keys and tokens regularly
-- For production deployments, consider using a secrets manager and injecting credentials as environment variables
+- Replace API keys and tokens periodically
+- For multi-tenant deployments, add proper isolation and credentials management — or let us handle it with <a href="https://mcparmory.com" target="_blank" style={{color: 'hsl(199, 100%, 57%)'}}>MCP Armory</a>

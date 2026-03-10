@@ -15,13 +15,14 @@ my-api-server/
 ├── _auth.py            # Authentication handlers (if API requires authentication)
 ├── .env                # Credentials and runtime configuration
 ├── requirements.txt    # Python dependencies
+├── LICENSE             # MIT license for generated code
 ├── Dockerfile          # Production Docker build
 ├── .mcp.json           # MCP client configuration template
 └── README.md           # Setup and usage guide
 ```
 
 <Note>
-  `_auth.py` is only generated if the OpenAPI specification defines security schemes. APIs without authentication skip this file entirely.
+  `_auth.py` is only generated if the OpenAPI specification defines [security schemes](/reference/oas-3-0#security-scheme-object). APIs without authentication skip this file entirely.
 </Note>
 
 ## Core files
@@ -45,7 +46,7 @@ Validate parameters → Inject authentication → Make HTTP request → Validate
 
 ### `_models.py`
 
-Pydantic models for every operation's parameters and (optionally) responses. Models are generated from the OpenAPI schema definitions and enforce:
+Pydantic models for every operation's parameters and (optionally) responses. Models are generated from the OpenAPI [schema definitions](/reference/oas-3-0#schema-object) and enforce:
 
 - **Type safety** — Correct Python types for each parameter
 - **Required fields** — Missing required parameters are rejected
@@ -54,7 +55,7 @@ Pydantic models for every operation's parameters and (optionally) responses. Mod
 
 ### `_validators.py`
 
-Shared validation infrastructure with 25+ format validators covering:
+Shared validation infrastructure with [25+ format validators](/reference/oas-3-0#data-types) covering:
 
 | Category | Formats |
 |----------|---------|
@@ -64,7 +65,7 @@ Shared validation infrastructure with 25+ format validators covering:
 | Numbers | `int32`, `int64`, `float`, `double`, `decimal` |
 | Other | `byte`, `binary`, `regex`, `password` |
 
-Also provides base model classes (`RequestModel`, `ResponseModel`) that all generated models inherit from.
+Also provides base model classes (`StrictModel`, `PermissiveModel`) that all generated models inherit from. See [Strict/Permissive models](/reference/oas-3-0#additional-generator-capabilities) for details.
 
 ### `_auth.py`
 
