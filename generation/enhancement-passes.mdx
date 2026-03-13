@@ -85,7 +85,7 @@ When the same parameter appears across multiple operations (eg. `body::message::
 While modern LLMs are capable of crafting complex parameter content such as DSL queries and base64-encoded payloads, doing so on every request adds repetitive token consumption and latency. Offloading these structural tasks to the MCP server via helper functions saves both time and tokens across repeated tool invocations.
 </Note>
 
-## Enhancer
+## Tool Enhancer
 
 Improves tool names, descriptions, and parameter metadata for better discoverability and usability by AI agents. Resolves duplicate operation names across the API.
 
@@ -98,11 +98,11 @@ Improves tool names, descriptions, and parameter metadata for better discoverabi
 
 **Deduplication:**
 
-When multiple operations end up with the same enhanced name (common in large APIs), the enhancer resolves conflicts by adding contextual suffixes — for example, three `get_message` operations become `get_message`, `get_message_thread`, and `get_message_event`.
+When multiple operations end up with the same enhanced name (common in large APIs), the Tool Enhancer resolves conflicts by adding contextual suffixes — for example, three `get_message` operations become `get_message`, `get_message_thread`, and `get_message_event`.
 
-**Why it matters:** OpenAPI specifications often contain developer-focused, cryptic, or low-quality descriptions and parameter names that poorly characterize their purpose. Operation IDs may be machine-generated identifiers like `gmail.users.messages.send` or `drives_v3_files_copy`. The Enhancer rewrites these into clear, action-oriented names and rich descriptions that AI agents can reliably interpret — leading to better tool selection and correct parameter usage on the first attempt.
+**Why it matters:** OpenAPI specifications often contain developer-focused, cryptic, or low-quality descriptions and parameter names that poorly characterize their purpose. Operation IDs may be machine-generated identifiers like `gmail.users.messages.send` or `drives_v3_files_copy`. The Tool Enhancer rewrites these into clear, action-oriented names and rich descriptions that AI agents can reliably interpret — leading to better tool selection and correct parameter usage on the first attempt.
 
-<img src="/images/enhancer-details.png" alt="Enhancer example — showing enhanced operation name, description, and parameter metadata" style={{borderRadius: '0.5rem', marginTop: '1rem'}} />
+<img src="/images/enhancer-details.png" alt="Tool Enhancer example — showing enhanced operation name, description, and parameter metadata" style={{borderRadius: '0.5rem', marginTop: '1rem'}} />
 
 <Note>
 This pass only enhances names and descriptions. It does not modify parameter types, constraints, or any other validation properties defined in the specification. Enhanced names are aliased so that HTTP requests deliver the original upstream API names, while tools expose LLM-friendly names.
@@ -119,6 +119,6 @@ In the [dashboard](https://mcpblacksmith.com/dashboard):
 
 ## Credits
 
-The Parameter Filter, Parameter Consolidator, and Enhancer consume credits based on the number of operations and parameters processed. The Metadata Filter is always free. See [Pricing](https://mcpblacksmith.com/pricing) for details.
+The Parameter Filter, Parameter Consolidator, and Tool Enhancer consume credits based on the number of operations and parameters processed. The Metadata Filter is always free. See [Pricing](https://mcpblacksmith.com/pricing) for details.
 
 Base generation is free and requires no credits. All passes are entirely optional.
