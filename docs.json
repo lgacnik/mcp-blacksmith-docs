@@ -37,7 +37,7 @@
             ]
           },
           {
-            "group": "Generation",
+            "group": "Generator",
             "pages": [
               "generation/spec-upload",
               "generation/validation",
