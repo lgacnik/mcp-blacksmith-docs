@@ -57,9 +57,30 @@ The most common cause is missing or incorrect credentials in your `.env` file. T
 - Ensure `OAUTH2_CLIENT_ID` and `OAUTH2_CLIENT_SECRET` are correct and belong to an active OAuth application
 - Verify the API is enabled in your provider's developer console (e.g., Google Cloud Console, Azure Portal)
 - Select valid scopes for your use case and provide them in `.env` as a comma-separated list (e.g., `OAUTH2_SCOPES=read,write`)
-- Some APIs require pre-registered redirect URIs — add `http://localhost:8090/callback` to your OAuth application's allowed redirect URIs
-- Check that port 8090 (callback port) is available on your machine
 - Delete `oauth2_tokens.json` to force re-authorization if tokens become invalid
+
+**OAuth2 callback port (authorization code and implicit flows):**
+
+The server starts a temporary local HTTP server to receive the OAuth callback during authorization. This requires the callback port to be free and the redirect URI to match between your server and OAuth provider.
+
+1. **Check the port is free** — the default callback port is `8080` (configured via `OAUTH2_CALLBACK_PORT` in `.env`). If another process is using this port, the authorization flow fails silently and requests go out unauthenticated. Check with:
+
+```bash
+# Linux / macOS
+lsof -i :8080
+# or
+ss -tlnp | grep 8080
+```
+
+If the port is occupied, either stop the conflicting process or change `OAUTH2_CALLBACK_PORT` in `.env` to a free port.
+
+2. **Redirect URI must match** — your OAuth provider's allowed redirect URIs must include `http://localhost:<port>/callback` where `<port>` matches `OAUTH2_CALLBACK_PORT` in `.env`. For example, with the default port:
+
+```
+http://localhost:8080/callback
+```
+
+Add this to your OAuth application's redirect URIs in the provider's developer console (e.g., Google Cloud Console → Credentials → OAuth 2.0 Client → Authorized redirect URIs).
 
 ### "Rate limit exceeded"
 

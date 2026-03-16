@@ -33,19 +33,31 @@ OAS 3.0 defines primitive data types based on JSON Schema with `format` modifier
 
 #### Extended Formats
 
-MCP Blacksmith supports 21+ additional format strings with runtime validators. These come from JSON Schema standard formats and common API conventions:
+MCP Blacksmith supports all 49 formats defined in the [OAS Format Registry](https://spec.openapis.org/registry/format/) with runtime validators, plus additional formats commonly found in real-world API specifications. See the [OAS 3.2 Format Registry](/reference/oas-3-2#oas-format-registry) section for the full registry breakdown.
+
+The following formats extend beyond what is defined in the OAS 3.0 base [Data Types](#data-types) table above:
 
 | Format | Support | Behavior |
 |--------|---------|----------|
+| `int8` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Signed 8-bit range validation (-128 to 127) |
+| `int16` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Signed 16-bit range validation (-32,768 to 32,767) |
+| `uint8` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unsigned 8-bit range validation (0 to 255) |
+| `uint16` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unsigned 16-bit range validation (0 to 65,535) |
 | `uint32` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unsigned 32-bit range validation (protobuf/gRPC convention) |
 | `uint64` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unsigned 64-bit range validation (protobuf/gRPC convention) |
-| `time` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC-compliant time validation |
+| `double-int` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Integer storable in IEEE 754 double without precision loss (±2^53-1) |
+| `decimal` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Arbitrary-precision decimal validation |
+| `decimal128` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | IEEE 754 decimal128 validation (≤34 significant digits) |
+| `time` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3339 time validation |
 | `duration` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | ISO 8601 duration validation |
-| `date-time-rfc-2822` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 2822 date-time validation |
-| `date-time-rfc1123` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 1123 date-time validation |
-| `unix-time` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unix timestamp range validation |
+| `date-time-local` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3339 date-time without timezone |
+| `time-local` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3339 time without timezone |
+| `http-date` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 7231 HTTP-date (IMF-fixdate, RFC 850, asctime) |
+| `unixtime` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unix timestamp range validation |
 | `email` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 5322 email validation |
+| `idn-email` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 6531 internationalized email validation |
 | `hostname` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 1123 hostname validation |
+| `idn-hostname` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 5890 internationalized hostname validation |
 | `ipv4` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Dotted-decimal IPv4 validation |
 | `ipv6` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | IPv6 address validation |
 | `uri` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3986 URI validation |
@@ -54,9 +66,30 @@ MCP Blacksmith supports 21+ additional format strings with runtime validators. T
 | `iri` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3987 IRI validation |
 | `iri-reference` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 3987 IRI-reference validation |
 | `uuid` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | UUID format validation |
-| `json-pointer` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | JSON Pointer format validation |
+| `json-pointer` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 6901 JSON Pointer validation |
+| `relative-json-pointer` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Relative JSON Pointer validation |
 | `regex` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Regular expression validation |
-| `decimal` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Decimal number regex validation |
+| `commonmark` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | CommonMark-formatted text (string type check) |
+| `html` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | HTML-formatted text (string type check) |
+| `char` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Single character validation |
+| `media-range` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 9110 media-range validation (e.g., `text/html`, `*/*`) |
+| `base64url` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | URL-safe Base64 validation (alias for `byte`) |
+| `sf-integer` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 8941 Structured Fields integer (±15 digits) |
+| `sf-decimal` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 8941 Structured Fields decimal (12+3 digits) |
+| `sf-string` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 8941 Structured Fields string (printable ASCII) |
+| `sf-token` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 8941 Structured Fields token |
+| `sf-boolean` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 8941 Structured Fields boolean (`?0` / `?1`) |
+| `sf-binary` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 8941 Structured Fields binary (`:base64:`) |
+
+#### Custom Formats (not in OAS registry)
+
+These additional formats are not part of the OAS Format Registry but are commonly found in real-world API specifications:
+
+| Format | Support | Behavior |
+|--------|---------|----------|
+| `unix-time` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Unix timestamp range validation (alias: `unixtime` is the registry name) |
+| `date-time-rfc-2822` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 2822 date-time validation |
+| `date-time-rfc1123` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | RFC 1123 date-time validation |
 | `phone-number` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | E.164 phone number validation |
 | `timestamp` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Alias for `unix-time` |
 | `url` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Alias for `uri` |
@@ -263,7 +296,7 @@ The Encoding Object is not supported. Generated servers send form and multipart 
 | `properties` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Each property becomes a typed field on the generated Pydantic model |
 | `additionalProperties` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Boolean or schema. `true` → permissive model, `false` → strict model, schema → `dict[str, ValueType]` |
 | `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(description=...)` |
-| `format` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | 25+ formats generate runtime validators; unknown formats kept as metadata for AI visibility |
+| `format` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | All 49 [OAS Format Registry](https://spec.openapis.org/registry/format/) formats plus custom extensions generate runtime validators; unknown formats kept as metadata for AI visibility |
 | `default` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(default=...)` with type-aware coercion |
 | `oneOf` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Generates `Union[A, B, ...]`. Exclusivity not enforced without explicit `discriminator` |
 | `not` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Only `not: {required: [...]}` mutual exclusivity pattern handled |

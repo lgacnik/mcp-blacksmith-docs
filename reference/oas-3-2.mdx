@@ -82,6 +82,23 @@ OAS 3.2 formalizes sequential/streaming media types. Planned for future streamin
 | `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | No longer REQUIRED. Absent descriptions handled gracefully |
 | `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Map values now accept Reference Objects. `$ref` values resolved transparently |
 
+### OAS Format Registry
+
+OAS 3.2 introduced the [OAS Format Registry](https://spec.openapis.org/registry/format/) — a canonical list of 49 format values for use with the `format` keyword. MCP Blacksmith supports all 49 registry formats with runtime validators.
+
+| Category | Formats | Support |
+|----------|---------|---------|
+| Integer | `int8`, `int16`, `int32`, `int64`, `uint8`, `uint16`, `uint32`, `uint64`, `double-int` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> |
+| Number | `float`, `double`, `decimal`, `decimal128` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> |
+| Binary/encoding | `byte`, `binary`, `base64url` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> |
+| Date/time | `date`, `date-time`, `time`, `duration`, `date-time-local`, `time-local`, `http-date`, `unixtime` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> |
+| String/text | `password`, `commonmark`, `html`, `char`, `regex` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> |
+| Email/hostname | `email`, `idn-email`, `hostname`, `idn-hostname` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> |
+| Network/identifiers | `ipv4`, `ipv6`, `uri`, `uri-reference`, `uri-template`, `iri`, `iri-reference`, `uuid`, `json-pointer`, `relative-json-pointer`, `media-range` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> |
+| Structured Fields (RFC 8941) | `sf-integer`, `sf-decimal`, `sf-string`, `sf-token`, `sf-boolean`, `sf-binary` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> |
+
+For detailed behavior of each format, see the [Extended Formats](/reference/oas-3-0#extended-formats) table on the OAS 3.0 page. MCP Blacksmith also supports [custom formats](/reference/oas-3-0#custom-formats-not-in-oas-registry) not in the registry for common API conventions.
+
 ### Schema Object
 
 <Note>

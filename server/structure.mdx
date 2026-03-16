@@ -11,7 +11,7 @@ A generated MCP server contains the following files:
 my-api-server/
 ├── server.py           # Main MCP server — tool definitions and request handling
 ├── _models.py          # Pydantic models for parameter and response validation
-├── _validators.py      # Format validators (dates, emails, UUIDs, etc.)
+├── _validators.py      # 50+ format validators (full OAS Format Registry coverage)
 ├── _auth.py            # Authentication handlers (if API requires authentication)
 ├── .env                # Credentials and runtime configuration
 ├── requirements.txt    # Python dependencies
@@ -55,15 +55,18 @@ Pydantic models for every operation's parameters and (optionally) responses. Mod
 
 ### `_validators.py`
 
-Shared validation infrastructure with [25+ format validators](/reference/oas-3-0#data-types) covering:
+Shared validation infrastructure with [50+ format validators](/reference/oas-3-0#extended-formats) covering all 49 [OAS Format Registry](https://spec.openapis.org/registry/format/) formats plus custom extensions:
 
 | Category | Formats |
 |----------|---------|
-| Date/time | `date-time`, `date`, `time`, `duration` (RFC 3339, ISO 8601) |
-| Identifiers | `uuid`, `uri`, `iri`, `json-pointer` |
-| Network | `ipv4`, `ipv6`, `hostname`, `email` |
-| Numbers | `int32`, `int64`, `float`, `double`, `decimal` |
-| Other | `byte`, `binary`, `regex`, `password` |
+| Integer | `int8`, `int16`, `int32`, `int64`, `uint8`, `uint16`, `uint32`, `uint64`, `double-int` |
+| Number | `float`, `double`, `decimal`, `decimal128` |
+| Date/time | `date-time`, `date`, `time`, `duration`, `date-time-local`, `time-local`, `http-date`, `unixtime` |
+| Identifiers | `uuid`, `uri`, `iri`, `json-pointer`, `relative-json-pointer`, `media-range` |
+| Network | `ipv4`, `ipv6`, `hostname`, `idn-hostname`, `email`, `idn-email` |
+| Text | `commonmark`, `html`, `char`, `regex`, `password` |
+| Structured Fields | `sf-integer`, `sf-decimal`, `sf-string`, `sf-token`, `sf-boolean`, `sf-binary` |
+| Encoding | `byte`, `binary`, `base64url` |
 
 Also provides base model classes (`StrictModel`, `PermissiveModel`) that all generated models inherit from. See [Strict/Permissive models](/reference/oas-3-0#additional-generator-capabilities) for details.
 

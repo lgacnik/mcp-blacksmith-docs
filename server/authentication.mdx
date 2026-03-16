@@ -69,7 +69,7 @@ OAUTH2_SCOPES=scope1,scope2
   Delete `oauth2_tokens.json` to force re-authorization if your tokens become invalid.
 </Note>
 
-The callback server runs on port `8090` by default. This is configurable in the generated `_auth.py` file.
+The callback server runs on port `8080` by default. Change `OAUTH2_CALLBACK_PORT` in `.env` if needed — make sure the matching redirect URI (`http://localhost:<port>/callback`) is registered in your OAuth provider's developer console.
 
 ### OpenID Connect (OIDC)
 
