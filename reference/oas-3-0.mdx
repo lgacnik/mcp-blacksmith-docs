@@ -305,12 +305,16 @@ The Encoding Object is not supported. Generated servers send form and multipart 
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `nullable` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Produces `T \| None` type annotation with `exclude_none` serialization |
+| `nullable` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Produces `T \| None` type annotation. Parameters accept `None` values but explicit `null` cannot be sent to the upstream API |
 | `discriminator` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Generates `Field(discriminator="field")` when viable; validates all variants |
 | `readOnly` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Read-only parameters optionally filtered out during generation |
 | `writeOnly` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Write-only parameters kept (request-only fields) |
 | `example` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Converted to `Field(examples=[...])` format |
 | `deprecated` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Deprecated parameters and operations optionally filtered out during generation |
+
+<Note>
+Nullable type annotations (`T | None`) are generated correctly, but explicit `null` values cannot be sent to the upstream API. The MCP protocol implementation does not distinguish between an omitted parameter and one explicitly set to `null` — both arrive as `None` in the tool function. This is an MCP ecosystem limitation, not a generation issue.
+</Note>
 
 #### Discriminator Object
 

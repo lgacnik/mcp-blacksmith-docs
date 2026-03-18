@@ -13,7 +13,7 @@ OAS 3.1 aligns data types with JSON Schema Draft 2020-12. The primitive format t
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `type` as array | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `["string", "null"]` maps to `str \| None`, `["string", "integer"]` maps to `str \| int`. Nullable detection works with type arrays for correct `exclude_none` handling |
+| `type` as array | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `["string", "null"]` maps to `str \| None`, `["string", "integer"]` maps to `str \| int` |
 | `contentEncoding` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `base64`/`base64url` generates `format: byte` validation. `base16`/`base32` stored as metadata. Raw value surfaced in `Field(json_schema_extra=...)` for LLM visibility |
 | `contentMediaType` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Surfaced in `Field(json_schema_extra=...)` alongside `contentEncoding` and `format` |
 | `type: "null"` standalone | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Maps to `None` type annotation |
@@ -56,7 +56,7 @@ The Schema Object is now a superset of JSON Schema Draft 2020-12.
 | `type` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Can now be a string or array. `["string", "null"]` maps to `str \| None`, `["string", "integer"]` maps to `str \| int` |
 | `example` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Deprecated in 3.1 in favor of `examples`. Both forms are read and emitted in generated `Field(examples=[...])` |
 | `$ref` siblings | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | `$ref` can now coexist with sibling keywords. Generated output merges `description`, `summary`, `default`, `deprecated`, `readOnly`, `writeOnly` from siblings |
-| `nullable` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Removed in 3.1, replaced by type arrays. Both forms produce identical `T \| None` output |
+| `nullable` | <Icon icon="triangle-exclamation" iconType="solid" color="#eab308" size={18} /> | Removed in 3.1, replaced by type arrays. Both forms produce identical `T \| None` type annotation. See [nullable limitation](/reference/oas-3-0#oas-extension-keywords) |
 
 #### New JSON Schema 2020-12 Keywords
 
