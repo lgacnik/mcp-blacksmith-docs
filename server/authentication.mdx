@@ -71,6 +71,20 @@ OAUTH2_SCOPES=scope1,scope2
 
 The callback server runs on port `8080` by default. Change `OAUTH2_CALLBACK_PORT` in `.env` if needed — make sure the matching redirect URI (`http://localhost:<port>/callback`) is registered in your OAuth provider's developer console.
 
+#### Flow selection
+
+When an OpenAPI specification defines multiple OAuth2 flows on the same security scheme, the generator picks a single flow based on security strength:
+
+1. **Authorization Code** — most secure; requires user authorization via browser redirect
+2. **Client Credentials** — server-to-server; no user interaction
+3. **Device Authorization** — for headless/CLI devices (OAS 3.2+)
+4. **Password** — legacy; sends credentials directly
+5. **Implicit** — deprecated in OAuth 2.1; least secure
+
+The generated `.env` and authentication class reflect only the selected flow. For example, a specification offering both `authorizationCode` and `implicit` flows will generate an Authorization Code handler — the implicit flow is discarded.
+
+If you need a different flow than the one selected, you can override the authentication configuration in the generation dashboard before generating your server.
+
 ### OpenID Connect (OIDC)
 
 Extends OAuth2 with ID token validation and automatic discovery.

@@ -79,7 +79,7 @@ OAS 3.2 formalizes sequential/streaming media types. Planned for future streamin
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | No longer REQUIRED. Absent descriptions handled gracefully |
+| `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Absent descriptions handled gracefully |
 | `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Map values now accept Reference Objects. `$ref` values resolved transparently |
 
 ### OAS Format Registry
@@ -136,7 +136,7 @@ No changes from 3.1. See [OAS 3.1 Schema Object](/reference/oas-3-1#schema-objec
 
 | Field | Support | Behavior |
 |-------|---------|----------|
-| `deviceAuthorizationUrl` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | REQUIRED for `deviceAuthorization` flow. Used as the device authorization endpoint |
+| `deviceAuthorizationUrl` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Required for `deviceAuthorization` flow. Used as the device authorization endpoint |
 
 #### Security Requirement Object
 

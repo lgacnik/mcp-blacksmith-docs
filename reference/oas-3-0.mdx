@@ -364,6 +364,12 @@ In OAS 3.0, sibling properties alongside `$ref` should be ignored. MCP Blacksmit
 | `clientCredentials` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Supported (second priority) |
 | `authorizationCode` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Supported (highest priority; preferred when available) |
 
+[OAS 3.2](/reference/oas-3-2#oauth-flows-object) adds a fifth flow, `deviceAuthorization`, which slots between `clientCredentials` and `password` in the priority order.
+
+<Note>
+When a specification defines multiple OAuth2 flows on the same security scheme, the generator selects **one flow** based on security priority: `authorizationCode` > `clientCredentials` > `deviceAuthorization` > `password` > `implicit`. This ensures the server always uses the most secure available grant type. See [Flow Selection](/server/authentication#flow-selection) for details.
+</Note>
+
 #### OAuth Flow Object
 
 | Field | Support | Behavior |
