@@ -220,7 +220,7 @@ Only `servers[0]` is used at each level. Multiple server entries (e.g., producti
 | Field | Support | Behavior |
 |-------|---------|----------|
 | `description` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Used as docstring on generated body model classes |
-| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Content type selected by priority: `application/json` → `application/xml` → `multipart/form-data` → `*/*` → first available. Each tool uses the correct HTTP encoding for its content type |
+| `content` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | Content type selected by priority: `application/json` → `application/x-www-form-urlencoded` → `multipart/form-data` → `application/xml` → `*/*` → first available. Each tool uses the correct HTTP encoding for its content type |
 | `required` | <Icon icon="check" iconType="solid" color="#16a34a" size={20} /> | When `false`, all body parameters become optional. When `true`, optionality follows the schema's `required` array |
 
 ### Media Type Object
